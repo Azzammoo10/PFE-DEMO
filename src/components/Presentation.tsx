@@ -17,6 +17,7 @@ import TechStackSlide from './slides/TechStackSlide';
 import DemoDlpSlide from './slides/DemoDlpSlide';
 import ZeroTrustSlide from './slides/ZeroTrustSlide';
 import ResultsSlide from './slides/ResultsSlide';
+import MobileBlocker from './MobileBlocker';
 
 export type SlideProps = { n: number; total: number };
 export type Slide = { section: string; title: string; component: (p: SlideProps) => ReactElement };
@@ -396,6 +397,7 @@ export default function Presentation() {
 
   return (
     <main className="stage" style={{ perspective: '1600px' }}>
+      <MobileBlocker />
       <AnimatePresence mode="wait" custom={{ direction, isSameSection }}>
         <motion.div
           key={index}

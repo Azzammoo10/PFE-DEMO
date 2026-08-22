@@ -44,24 +44,23 @@ export default function ResultsSlide({ n }: SlideProps) {
   ];
   return (
     <Shell section="PERSPECTIVES" title="Perspectives d'évolution" n={n}>
-      <div className="impact-layout">
-        {cards.map(([title, metric, sub, list, Icon], i) => (
-          <motion.div className="impact-card" key={title} custom={i} initial="hidden" animate="visible" variants={popIn}>
-            <Icon size={38}/>
-            <h3>{title}</h3>
-            <strong>{metric}</strong>
-            <em>{sub}</em>
-            {list.map((x: string) => (
-              <p key={x} style={{ margin: '6px 0', fontSize: '0.85vw', display: 'flex', gap: '6px', alignItems: 'start' }}>
-                <CheckCircle2 size={14} style={{ flexShrink: 0, marginTop: '2px', color: '#0b5cab' }}/> {x}
-              </p>
-            ))}
-          </motion.div>
-        ))}
+      <div style={{ display: 'flex', flexDirection: 'column', height: '100%', justifyContent: 'center', padding: '0.5vw 0' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.4vw', width: '100%', alignItems: 'stretch' }}>
+          {cards.map(([title, metric, sub, list, Icon], i) => (
+            <motion.div className="impact-card" key={title} custom={i} initial="hidden" animate="visible" variants={popIn} style={{ height: 'auto', minHeight: '26vw' }}>
+              <Icon size={38}/>
+              <h3>{title}</h3>
+              <strong>{metric}</strong>
+              <em>{sub}</em>
+              {list.map((x: string) => (
+                <p key={x} style={{ margin: '6px 0', fontSize: '0.82vw', display: 'flex', gap: '6px', alignItems: 'start' }}>
+                  <CheckCircle2 size={14} style={{ flexShrink: 0, marginTop: '2px', color: '#0b5cab' }}/> {x}
+                </p>
+              ))}
+            </motion.div>
+          ))}
+        </div>
       </div>
-      <motion.div className="impact-bottom emsi-thanks" custom={4} initial="hidden" animate="visible" variants={fadeUp} style={{ marginTop: '1.5vw' }}>
-        <Trophy/> Un grand merci à l’EMSI, à l&apos;équipe AXA GBS ainsi qu&apos;aux membres du jury pour leur encadrement et leur attention.
-      </motion.div>
     </Shell>
   );
 }

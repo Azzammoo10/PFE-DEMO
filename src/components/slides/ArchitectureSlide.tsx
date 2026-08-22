@@ -163,19 +163,6 @@ export default function ArchitectureSlide({ n }: SlideProps) {
     return 'PARTIE 5/5 — MONITORING TOOL';
   };
 
-  const getPromptHint = () => {
-    if (subStep === 1) return 'Suivant : ⬇️ Infrastructure';
-    if (subStep === 2) return '⬇️ LabelGuard | ⬆️ Logique';
-    if (subStep === 3) return '⬇️ OneTrust | ⬆️ Infrastructure';
-    if (subStep === 4) return '⬇️ Monitoring Tool | ⬆️ LabelGuard';
-    return 'Retour : ⬆️ OneTrust';
-  };
-
-  const nextView = () => {
-    setSlideDirection(1);
-    setSubStep((prev) => (prev < 5 ? (prev + 1) as 1 | 2 | 3 | 4 | 5 : 1));
-  };
-
   return (
     <Shell
       section="CONCEPTION"
@@ -186,11 +173,11 @@ export default function ArchitectureSlide({ n }: SlideProps) {
     >
       <div className="w-full h-full flex flex-col items-center justify-between relative overflow-hidden p-0">
         
-        {/* Top Control Bar with Sub-step Badges and Keyboard Hint */}
+        {/* Top Control Bar with Sub-step Badge */}
         <div style={{
           display: 'flex',
           alignItems: 'center',
-          justifyContent: 'space-between',
+          justifyContent: 'flex-start',
           width: '100%',
           marginBottom: '0.2vw',
           zIndex: 20
@@ -214,41 +201,6 @@ export default function ArchitectureSlide({ n }: SlideProps) {
             {subStep === 4 && <Sparkles style={{ width: '0.8vw', height: '0.8vw', color: '#00008f' }} />}
             {subStep === 5 && <Activity style={{ width: '0.8vw', height: '0.8vw', color: '#00008f' }} />}
             <span>{getSubTitle()}</span>
-          </div>
-
-          {/* Key Navigation Hint + Arrow Indicator */}
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.5vw',
-            background: '#f1f5f9',
-            borderRadius: '999px',
-            padding: '0.15vw 0.5vw',
-            border: '1px solid #cbd6e7'
-          }}>
-            <button
-              onClick={nextView}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.3vw',
-                background: '#ffffff',
-                border: '1px solid #cbd6e7',
-                borderRadius: '999px',
-                padding: '0.18vw 0.55vw',
-                fontSize: '0.64vw',
-                fontWeight: 800,
-                color: '#00008f',
-                cursor: 'pointer',
-                boxShadow: '0 2px 5px rgba(0,0,0,0.03)'
-              }}
-            >
-              {subStep < 5 ? <ArrowDown style={{ width: '0.7vw', height: '0.7vw', color: '#00008f' }} /> : <ArrowUp style={{ width: '0.7vw', height: '0.7vw', color: '#00008f' }} />}
-              <span>{getPromptHint()}</span>
-            </button>
-            <span style={{ fontSize: '0.64vw', fontWeight: 900, color: '#334155', paddingRight: '0.3vw' }}>
-              {subStep} / 5
-            </span>
           </div>
         </div>
 

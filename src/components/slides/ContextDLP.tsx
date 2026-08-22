@@ -1,12 +1,30 @@
 'use client';
 
 import { Shield, Eye, AlertCircle, FileText, Search, Laptop } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion, type Variants } from 'framer-motion';
 import { useSyncExternalStore } from 'react';
 import { Shell, popIn, draw } from '../Presentation';
 import type { SlideProps } from '../Presentation';
 
 const emptySubscribe = () => () => { };
+const INITIAL_DELAY = 1.15; // Attendre la fin de l'overlay "CONTEXTE" (1.15s)
+
+const stageCardVariant: Variants = {
+  hidden: { opacity: 0, scale: 0.9, y: 20, filter: 'blur(4px)' },
+  visible: (idx: number) => ({
+    opacity: 1,
+    scale: 1,
+    y: 0,
+    filter: 'blur(0px)',
+    transition: {
+      delay: INITIAL_DELAY + 0.3 + idx * 0.18,
+      duration: 0.55,
+      type: 'spring',
+      stiffness: 140,
+      damping: 18
+    }
+  })
+};
 
 export default function ContextDLP({ n }: SlideProps) {
   const isMounted = useSyncExternalStore(
@@ -22,8 +40,7 @@ export default function ContextDLP({ n }: SlideProps) {
       color: '#00008f',
       bgColor: 'rgba(0, 0, 143, 0.04)',
       slideDir: -30,
-      cardDelay: 0.7,
-      arrowDelay: 3 // custom index for left arrow drawing
+      cardDelay: INITIAL_DELAY + 0.1,
     },
     {
       text: "Détecter et protéger les données sur tous les canaux et appareils",
@@ -31,54 +48,53 @@ export default function ContextDLP({ n }: SlideProps) {
       color: '#00008f',
       bgColor: 'rgba(0, 0, 143, 0.04)',
       slideDir: 30,
-      cardDelay: 1.2,
-      arrowDelay: 9 // custom index for right arrow drawing
+      cardDelay: INITIAL_DELAY + 0.25,
     },
   ];
 
   const stages = [
     {
       id: 'surveiller',
+      stepNum: '01',
+      badgeText: '01 • DÉPART',
+      isStart: true,
       title: 'Surveiller',
       desc: 'Flux en temps réel',
       icon: Eye,
       gridArea: '1 / 1 / 2 / 2',
-      cardDelay: 1.6,
-      pathDelay: 21, // Custom index for draw variant
-      showPath: true,
       pathD: "M 90,45 Q 150,25 210,45"
     },
     {
       id: 'detecter',
+      stepNum: '02',
+      badgeText: '02 • ÉTAPE 2',
+      isStart: false,
       title: 'Détecter',
       desc: 'Classification active',
       icon: Search,
       gridArea: '1 / 3 / 2 / 4',
-      cardDelay: 2.1,
-      pathDelay: 26,
-      showPath: true,
       pathD: "M 230,85 Q 245,120 230,155"
     },
     {
       id: 'repondre',
+      stepNum: '03',
+      badgeText: '03 • ÉTAPE 3',
+      isStart: false,
       title: 'Répondre',
       desc: 'Blocage et alertes',
       icon: AlertCircle,
       gridArea: '3 / 3 / 4 / 4',
-      cardDelay: 2.6,
-      pathDelay: 31,
-      showPath: true,
       pathD: "M 210,195 Q 150,215 90,195"
     },
     {
       id: 'analyser',
+      stepNum: '04',
+      badgeText: '04 • ÉTAPE 4',
+      isStart: false,
       title: 'Analyser',
       desc: 'Rapports et audit',
       icon: FileText,
       gridArea: '3 / 1 / 4 / 2',
-      cardDelay: 3.1,
-      pathDelay: 36,
-      showPath: true,
       pathD: "M 70,155 Q 55,120 70,85"
     },
   ];
@@ -89,7 +105,7 @@ export default function ContextDLP({ n }: SlideProps) {
     visible: {
       y: 0,
       opacity: 1,
-      transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] as const }
+      transition: { delay: INITIAL_DELAY, duration: 0.5, ease: [0.16, 1, 0.3, 1] as const }
     }
   };
 
@@ -105,10 +121,34 @@ export default function ContextDLP({ n }: SlideProps) {
       n={n}
       dense
     >
+      {/* Styles CSS pour la boucle d'animation continue parfaitement synchronisée avec le point voyageur */}
+      <style>{`
+        @keyframes stagePulse0 {
+          0%, 14%, 90%, 100% { border-color: #0b66d5; box-shadow: 0 0 20px rgba(11,102,213,0.38); transform: scale(1.05); }
+          22%, 82% { border-color: #cbd6e7; box-shadow: 0 4px 12px rgba(7,27,63,0.04); transform: scale(1); }
+        }
+        @keyframes stagePulse1 {
+          0%, 15%, 40%, 100% { border-color: #cbd6e7; box-shadow: 0 4px 12px rgba(7,27,63,0.04); transform: scale(1); }
+          22%, 33% { border-color: #0b66d5; box-shadow: 0 0 20px rgba(11,102,213,0.38); transform: scale(1.05); }
+        }
+        @keyframes stagePulse2 {
+          0%, 40%, 65%, 100% { border-color: #cbd6e7; box-shadow: 0 4px 12px rgba(7,27,63,0.04); transform: scale(1); }
+          47%, 58% { border-color: #0b66d5; box-shadow: 0 0 20px rgba(11,102,213,0.38); transform: scale(1.05); }
+        }
+        @keyframes stagePulse3 {
+          0%, 65%, 90%, 100% { border-color: #cbd6e7; box-shadow: 0 4px 12px rgba(7,27,63,0.04); transform: scale(1); }
+          72%, 83% { border-color: #0b66d5; box-shadow: 0 0 20px rgba(11,102,213,0.38); transform: scale(1.05); }
+        }
+        .stage-glow-0 { animation: stagePulse0 4s 2.2s infinite ease-in-out; }
+        .stage-glow-1 { animation: stagePulse1 4s 2.2s infinite ease-in-out; }
+        .stage-glow-2 { animation: stagePulse2 4s 2.2s infinite ease-in-out; }
+        .stage-glow-3 { animation: stagePulse3 4s 2.2s infinite ease-in-out; }
+      `}</style>
+
       <div style={{
         display: 'flex',
         flexDirection: 'column',
-        gap: '1.2vw',
+        gap: '1vw',
         height: '100%',
         justifyContent: 'space-between',
         padding: '0 1vw',
@@ -122,19 +162,19 @@ export default function ContextDLP({ n }: SlideProps) {
             animate="visible"
             variants={titleVariants}
           >
-            <h3 style={{ margin: 0, fontSize: '1.5vw', fontWeight: 500, color: '#1e293b' }}>
+            <h3 style={{ margin: 0, fontSize: '1.4vw', fontWeight: 500, color: '#1e293b' }}>
               La{' '}
               <motion.span
-                animate={{ color: ['#1e293b', '#00008f'] }}
-                transition={{ delay: 0.5, duration: 0.4 }}
+                animate={{ color: ['#1e293b', '#0b66d5'] }}
+                transition={{ delay: INITIAL_DELAY + 0.3, duration: 0.4 }}
                 style={{ fontWeight: 900 }}
               >
                 Prévention
               </motion.span>{' '}
               des{' '}
               <motion.span
-                animate={{ color: ['#1e293b', '#00008f'] }}
-                transition={{ delay: 0.5, duration: 0.4 }}
+                animate={{ color: ['#1e293b', '#0b66d5'] }}
+                transition={{ delay: INITIAL_DELAY + 0.3, duration: 0.4 }}
                 style={{ fontWeight: 900 }}
               >
                 Pertes de données
@@ -144,13 +184,13 @@ export default function ContextDLP({ n }: SlideProps) {
           </motion.div>
         </div>
 
-        {/* Callouts Row with drawing arrows pointing directly to the subtitle words */}
+        {/* Callouts Row with drawing arrows */}
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2vw', width: '92%', margin: '0 auto', position: 'relative' }}>
 
           <svg
             style={{
               position: 'absolute',
-              top: '-3.1vw', // Adjusted to span exactly from cards to the subtitle words
+              top: '-3.1vw',
               left: 0,
               width: '100%',
               height: '3.1vw',
@@ -171,34 +211,34 @@ export default function ContextDLP({ n }: SlideProps) {
                 markerHeight="7"
                 orient="auto-start-reverse"
               >
-                <path d="M 0 1.5 L 9 5 L 0 8.5 z" fill="#00008f" />
+                <path d="M 0 1.5 L 9 5 L 0 8.5 z" fill="#0b66d5" />
               </marker>
             </defs>
 
-            {/* Left curved arrow pointing to "Prévention" (centered around 37% x) */}
+            {/* Left curved arrow */}
             <motion.path
               d="M 25,100 C 25,20 37,20 37,5"
               fill="none"
-              stroke="#00008f"
-              strokeWidth="0.3"
+              stroke="#0b66d5"
+              strokeWidth="0.35"
               strokeDasharray="2.5 2.5"
               markerEnd="url(#subtitle-arrow)"
               variants={draw}
-              custom={3}
+              custom={Math.floor((INITIAL_DELAY + 0.2) * 10)}
               initial="hidden"
               animate="visible"
             />
 
-            {/* Right curved arrow pointing to "Pertes de données" (centered around 63% x) */}
+            {/* Right curved arrow */}
             <motion.path
               d="M 75,100 C 75,20 63,20 63,5"
               fill="none"
-              stroke="#00008f"
-              strokeWidth="0.3"
+              stroke="#0b66d5"
+              strokeWidth="0.35"
               strokeDasharray="2.5 2.5"
               markerEnd="url(#subtitle-arrow)"
               variants={draw}
-              custom={9}
+              custom={Math.floor((INITIAL_DELAY + 0.3) * 10)}
               initial="hidden"
               animate="visible"
             />
@@ -211,34 +251,34 @@ export default function ContextDLP({ n }: SlideProps) {
                 key={idx}
                 initial={{ opacity: 0, x: item.slideDir }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6, delay: item.cardDelay, ease: [0.16, 1, 0.3, 1] }}
+                transition={{ duration: 0.55, delay: item.cardDelay, ease: [0.16, 1, 0.3, 1] }}
                 style={{
-                  background: item.bgColor,
-                  border: `1.5px solid ${item.color}33`,
+                  background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
+                  border: '1.5px solid rgba(11, 102, 213, 0.2)',
                   borderRadius: '12px',
-                  padding: '0.9vw 1.3vw',
+                  padding: '0.8vw 1.2vw',
                   display: 'flex',
                   alignItems: 'center',
                   gap: '1vw',
-                  boxShadow: '0 4px 12px rgba(0,0,143,0.02)',
+                  boxShadow: '0 4px 12px rgba(11, 102, 213, 0.04)',
                   position: 'relative',
                 }}
               >
                 <div style={{
-                  background: '#fff',
+                  background: 'rgba(11, 102, 213, 0.08)',
                   borderRadius: '50%',
                   width: '2.2vw',
                   height: '2.2vw',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  color: item.color,
-                  boxShadow: '0 2px 6px rgba(0,0,0,0.05)',
+                  color: '#0b66d5',
+                  boxShadow: '0 2px 6px rgba(0,0,0,0.04)',
                   flexShrink: 0
                 }}>
                   <Icon size={18} />
                 </div>
-                <p style={{ margin: 0, fontSize: '0.9vw', color: '#1e293b', fontWeight: 600, lineHeight: 1.35 }}>
+                <p style={{ margin: 0, fontSize: '0.88vw', color: '#1e293b', fontWeight: 600, lineHeight: 1.35 }}>
                   {item.text}
                 </p>
               </motion.div>
@@ -246,7 +286,7 @@ export default function ContextDLP({ n }: SlideProps) {
           })}
         </div>
 
-        {/* Central Cycle Diagram (Scaled up and vertically distributed) */}
+        {/* Central Cycle Diagram */}
         <div style={{
           position: 'relative',
           width: '33vw',
@@ -270,46 +310,41 @@ export default function ContextDLP({ n }: SlideProps) {
           }}>
             <defs>
               <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-                <path d="M 0 2 L 8 5 L 0 8 z" fill="#00008f" />
+                <path d="M 0 2 L 8 5 L 0 8 z" fill="#0b66d5" />
               </marker>
             </defs>
 
             {/* Clockwise cycle flowing paths */}
-            {stages.map((stage) => (
+            {stages.map((stage, idx) => (
               <motion.path
                 key={`path-${stage.id}`}
                 d={stage.pathD}
                 fill="none"
-                stroke="#00008f"
+                stroke="#0b66d5"
                 strokeWidth="2.5"
                 strokeDasharray="5,5"
                 markerEnd="url(#arrow)"
                 variants={draw}
-                custom={stage.pathDelay}
+                custom={Math.floor((INITIAL_DELAY + 0.3 + idx * 0.18) * 10)}
                 initial="hidden"
                 animate="visible"
                 style={{ strokeDashoffset: -20 }}
               />
             ))}
 
-            {/* Glowing dot traveling once around the loop at the end of the sequence */}
+            {/* Continuous glowing traveling pulse running infinitely in a loop */}
             <motion.circle
-              r="4.5"
-              fill="#00008f"
-              style={{ filter: 'drop-shadow(0 0 6px #00008f)' }}
+              r="5"
+              fill="#0b66d5"
+              style={{ filter: 'drop-shadow(0 0 8px #38bdf8)' }}
               initial={{ opacity: 0 }}
-              animate={{ opacity: [0, 1, 1, 0] }}
-              transition={{
-                delay: 3.4,
-                duration: 3,
-                times: [0, 0.05, 0.95, 1],
-                ease: 'easeInOut'
-              }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 2.2, duration: 0.4 }}
             >
               <animateMotion
-                dur="3s"
-                begin="3.4s"
-                repeatCount="1"
+                dur="4s"
+                begin="2.2s"
+                repeatCount="indefinite"
                 path="M 90,45 Q 150,25 210,45 Q 245,120 230,155 Q 150,215 90,195 Q 55,120 70,85 Z"
               />
             </motion.circle>
@@ -319,11 +354,11 @@ export default function ContextDLP({ n }: SlideProps) {
           <motion.div
             initial={{ scale: 0, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.6, delay: 1.2, type: 'spring', stiffness: 180, damping: 12 }}
+            transition={{ duration: 0.5, delay: INITIAL_DELAY + 0.25, type: 'spring', stiffness: 180, damping: 14 }}
             style={{
               gridArea: '2 / 2 / 3 / 3',
               zIndex: 5,
-              background: '#00008f',
+              background: 'linear-gradient(135deg, #0b66d5 0%, #004494 100%)',
               color: '#fff',
               width: '7vw',
               height: '7vw',
@@ -333,7 +368,7 @@ export default function ContextDLP({ n }: SlideProps) {
               justifyContent: 'center',
               fontWeight: 900,
               fontSize: '1.6vw',
-              boxShadow: '0 8px 24px rgba(0,0,143,0.3)',
+              boxShadow: '0 8px 24px rgba(11, 102, 213, 0.35)',
               margin: '0 auto',
               border: '4px solid #fff'
             }}
@@ -341,41 +376,56 @@ export default function ContextDLP({ n }: SlideProps) {
             DLP
           </motion.div>
 
-          {/* Outer Cards */}
-          {stages.map((stage) => {
+          {/* Outer 4 Stage Cards (Surveiller -> Détecter -> Répondre -> Analyser) */}
+          {stages.map((stage, idx) => {
             const Icon = stage.icon;
             return (
               <motion.div
                 key={stage.id}
-                variants={popIn}
-                custom={Math.floor(stage.cardDelay * 20)}
+                custom={idx}
                 initial="hidden"
                 animate="visible"
+                variants={stageCardVariant}
+                whileHover={{ scale: 1.04, y: -3, boxShadow: '0 8px 20px rgba(11, 102, 213, 0.15)' }}
+                className={`stage-glow-${idx}`}
                 style={{
                   gridArea: stage.gridArea,
                   zIndex: 10,
-                  background: '#fff',
+                  background: '#ffffff',
                   border: '1.5px solid #cbd6e7',
-                  borderRadius: '12px',
-                  padding: '0.8vw 1.1vw',
+                  borderRadius: '14px',
+                  padding: '0.8vw 1vw',
                   textAlign: 'center',
-                  boxShadow: '0 4px 12px rgba(7,27,63,0.04)',
+                  boxShadow: '0 4px 12px rgba(7, 27, 63, 0.04)',
                   display: 'flex',
                   flexDirection: 'column',
                   alignItems: 'center',
-                  gap: '0.3vw',
-                  width: '10.5vw',
-                  height: '6.5vw',
-                  justifyContent: 'center'
+                  gap: '0.25vw',
+                  width: '10.8vw',
+                  height: '6.6vw',
+                  justifyContent: 'center',
+                  transition: 'border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease'
                 }}
               >
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.4vw', color: '#00008f' }}>
-                  <Icon size={16} strokeWidth={2.5} />
-                  <strong style={{ fontSize: '1.1vw', color: '#102240', fontWeight: 800 }}>
+                <span style={{
+                  background: stage.isStart ? '#0b66d5' : 'rgba(11, 102, 213, 0.08)',
+                  color: stage.isStart ? '#ffffff' : '#0b66d5',
+                  fontSize: '0.62vw',
+                  fontWeight: 900,
+                  padding: '0.12vw 0.45vw',
+                  borderRadius: '6px',
+                  letterSpacing: '0.04em',
+                  marginBottom: '0.15vw'
+                }}>
+                  {stage.badgeText}
+                </span>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.4vw', color: '#0b66d5' }}>
+                  <Icon size={17} strokeWidth={2.5} />
+                  <strong style={{ fontSize: '1vw', color: '#0f172a', fontWeight: 800 }}>
                     {stage.title}
                   </strong>
                 </div>
-                <span style={{ fontSize: '0.85vw', color: '#64748b', fontWeight: 500 }}>
+                <span style={{ fontSize: '0.78vw', color: '#64748b', fontWeight: 600 }}>
                   {stage.desc}
                 </span>
               </motion.div>
@@ -387,3 +437,4 @@ export default function ContextDLP({ n }: SlideProps) {
     </Shell>
   );
 }
+

@@ -1,24 +1,63 @@
 'use client';
 
-import { motion } from 'framer-motion';
-import { Cloud, Database, ShareNetwork, Laptop } from '@phosphor-icons/react';
+import { motion, type Variants } from 'framer-motion';
+import { Cloud, Database, ShareNetwork, Laptop, CheckCircle } from '@phosphor-icons/react';
 import { Shell } from '../Presentation';
 import type { SlideProps } from '../Presentation';
+
+const INITIAL_DELAY = 1.15; // Attendre la fin de l'overlay "CONTEXTE" (1.15s)
+
+// Animation progressive des 4 cartes piliers
+const pillarCardVariant: Variants = {
+  hidden: { opacity: 0, y: 25, scale: 0.95, filter: 'blur(4px)' },
+  visible: (idx: number) => ({
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    filter: 'blur(0px)',
+    transition: {
+      delay: INITIAL_DELAY + idx * 0.15,
+      duration: 0.5,
+      type: 'spring',
+      stiffness: 140,
+      damping: 18
+    }
+  })
+};
+
+// Animation séquentielle pour chaque point à l'intérieur des cartes
+const pointVariant: Variants = {
+  hidden: { opacity: 0, x: -10, filter: 'blur(2px)' },
+  visible: ({ pIdx, ptIdx }: { pIdx: number; ptIdx: number }) => ({
+    opacity: 1,
+    x: 0,
+    filter: 'blur(0px)',
+    transition: {
+      delay: INITIAL_DELAY + 0.35 + pIdx * 0.15 + ptIdx * 0.06,
+      duration: 0.35,
+      ease: [0.16, 1, 0.3, 1]
+    }
+  })
+};
 
 export default function ContextPiliers({ n }: SlideProps) {
   const pillars = [
     {
+      num: '01',
       title: 'CLOUD',
+      subtitle: 'Sécurité SaaS & Stockage',
       icon: Cloud,
       points: [
-        'Protection données SaaS',
+        'Protection des données SaaS',
         'Stockages (OneDrive, SharePoint)',
-        'Contrôle partages externes',
-        'Gestion conformité cloud',
+        'Contrôle des partages externes',
+        'Gestion de la conformité cloud',
       ],
     },
     {
+      num: '02',
       title: 'DONNÉES',
+      subtitle: 'Classification & Audit',
       icon: Database,
       points: [
         'Classification automatique',
@@ -28,287 +67,213 @@ export default function ContextPiliers({ n }: SlideProps) {
       ],
     },
     {
+      num: '03',
       title: 'RÉSEAU',
+      subtitle: 'Supervision des Flux',
       icon: ShareNetwork,
       points: [
-        'Surveillance trafic web',
+        'Surveillance du trafic web',
         'Transferts sécurisés (SFTP)',
-        'Inspection emails (SMTP)',
-        'Blocage & alertes flux reseau',
+        'Inspection des emails (SMTP)',
+        'Blocage & alertes flux réseau',
       ],
     },
     {
+      num: '04',
       title: 'DEVICES',
+      subtitle: 'Protection Endpoints',
       icon: Laptop,
       points: [
-        'Contrôle périphériques (USB)',
-        'Surveillance disques externes',
+        'Contrôle des périphériques (USB)',
+        'Surveillance des disques externes',
         'Transferts hors ligne',
-        'Chiffrement forcé supports',
+        'Chiffrement forcé des supports',
       ],
     },
   ];
 
   return (
-    <Shell section="CONTEXTE" pulseLabel="Piliers DLP" title="Les 4 Piliers Structuraux DLP" n={n} dense>
-      {/* Inline styles for custom continuous flow & slow, calm glow transitions on circular icon badges */}
-      <style>{`
-        @keyframes flowBeam {
-          0% { left: -30%; }
-          100% { left: 100%; }
-        }
-        @keyframes glowPillar0 {
-          0%, 25%, 100% { 
-            transform: scale(1); 
-            border-color: #cbd6e7; 
-            color: #64748b; 
-            background: rgba(0, 0, 143, 0.03); 
-            box-shadow: 0 4px 10px rgba(0,0,0,0.01); 
-          }
-          5%, 18% { 
-            transform: scale(1.08); 
-            border-color: #00008f; 
-            color: #00008f; 
-            background: rgba(0, 0, 143, 0.08); 
-            box-shadow: 0 0 14px rgba(0, 0, 143, 0.3); 
-          }
-        }
-        @keyframes glowPillar1 {
-          0%, 25%, 50%, 100% { 
-            transform: scale(1); 
-            border-color: #cbd6e7; 
-            color: #64748b; 
-            background: rgba(0, 0, 143, 0.03); 
-            box-shadow: 0 4px 10px rgba(0,0,0,0.01); 
-          }
-          30%, 43% { 
-            transform: scale(1.08); 
-            border-color: #00008f; 
-            color: #00008f; 
-            background: rgba(0, 0, 143, 0.08); 
-            box-shadow: 0 0 14px rgba(0, 0, 143, 0.3); 
-          }
-        }
-        @keyframes glowPillar2 {
-          0%, 50%, 75%, 100% { 
-            transform: scale(1); 
-            border-color: #cbd6e7; 
-            color: #64748b; 
-            background: rgba(0, 0, 143, 0.03); 
-            box-shadow: 0 4px 10px rgba(0,0,0,0.01); 
-          }
-          55%, 68% { 
-            transform: scale(1.08); 
-            border-color: #00008f; 
-            color: #00008f; 
-            background: rgba(0, 0, 143, 0.08); 
-            box-shadow: 0 0 14px rgba(0, 0, 143, 0.3); 
-          }
-        }
-        @keyframes glowPillar3 {
-          0%, 75%, 100% { 
-            transform: scale(1); 
-            border-color: #cbd6e7; 
-            color: #64748b; 
-            background: rgba(0, 0, 143, 0.03); 
-            box-shadow: 0 4px 10px rgba(0,0,0,0.01); 
-          }
-          80%, 93% { 
-            transform: scale(1.08); 
-            border-color: #00008f; 
-            color: #00008f; 
-            background: rgba(0, 0, 143, 0.08); 
-            box-shadow: 0 0 14px rgba(0, 0, 143, 0.3); 
-          }
-        }
-        .glow-0 { animation: glowPillar0 8s infinite ease-in-out; }
-        .glow-1 { animation: glowPillar1 8s infinite ease-in-out; }
-        .glow-2 { animation: glowPillar2 8s infinite ease-in-out; }
-        .glow-3 { animation: glowPillar3 8s infinite ease-in-out; }
-      `}</style>
-
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6vw', height: '100%', justifyContent: 'center', padding: '0.5vw 0' }}>
+    <Shell section="CONTEXTE" title="Les 4 Piliers Structuraux DLP" n={n}>
+      <div style={{ display: 'flex', flexDirection: 'column', height: '100%', justifyContent: 'center', gap: '1.4vw', padding: '0' }}>
         
-        {/* Title reveal & Supporting sentence */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.2vw', marginBottom: '0.2vw' }}>
-          <div style={{ overflow: 'hidden', height: '2.2vw' }}>
-            <motion.div
-              initial={{ y: '100%', opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.5, ease: 'easeOut' }}
-            >
-              <h3 style={{ margin: 0, fontSize: '1.3vw', fontWeight: 800, color: '#00008f' }}>
-                Piliers de DLP :
-              </h3>
-            </motion.div>
-          </div>
-          <motion.p
-            initial={{ opacity: 0, y: 5 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.15, ease: 'easeOut' }}
-            style={{ margin: 0, fontSize: '0.8vw', color: '#64748b', fontWeight: 600, letterSpacing: '0.01em' }}
-          >
-            Une approche multicouche pour une protection complète des données
-          </motion.p>
-        </div>
+        {/* Subtitle */}
+        <motion.p
+          initial={{ opacity: 0, y: 5 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: INITIAL_DELAY, duration: 0.4 }}
+          style={{ margin: 0, fontSize: '0.88vw', color: '#64748b', fontWeight: 500 }}
+        >
+          Une couverture multicouche intégrée pour assurer la protection des données sensibles sur l'ensemble du périmètre.
+        </motion.p>
 
-        {/* Horizontal Connector Flow System */}
-        <div style={{ position: 'relative', width: '100%', height: '1.6vw', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0.2vw 0' }}>
-          
-          {/* Static gray connection line background */}
+        {/* Top Connection Line Above the 4 Pillars */}
+        <motion.div
+          initial={{ opacity: 0, scaleX: 0 }}
+          animate={{ opacity: 1, scaleX: 1 }}
+          transition={{ delay: INITIAL_DELAY + 0.1, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+          style={{
+            position: 'relative',
+            width: '100%',
+            height: '1vw',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            margin: '-0.2vw 0 -0.4vw 0',
+            transformOrigin: 'center'
+          }}
+        >
+          {/* Horizontal Line */}
           <div style={{
             position: 'absolute',
             left: '12.5%',
             right: '12.5%',
             height: '2px',
-            background: '#cbd6e7',
-            opacity: 0.8,
-            zIndex: 1
+            background: 'linear-gradient(90deg, transparent, #0b66d5 15%, #0b66d5 85%, transparent)',
+            opacity: 0.6
           }} />
 
-          {/* Flowing Conduction Beam overlay */}
+          {/* Node Dots centered over each pillar */}
           <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(4, 1fr)',
+            gap: '1.2vw',
+            width: '100%',
             position: 'absolute',
-            left: '12.5%',
-            right: '12.5%',
-            height: '2px',
-            zIndex: 2,
-            overflow: 'hidden'
+            top: 0,
+            bottom: 0,
+            left: 0
           }}>
-            <div style={{
-              position: 'absolute',
-              top: 0,
-              width: '30%',
-              height: '100%',
-              background: 'linear-gradient(90deg, transparent, #00008f, transparent)',
-              filter: 'drop-shadow(0 0 2px #00008f)',
-              animation: 'flowBeam 8s infinite ease-in-out'
-            }} />
-          </div>
-
-          {/* Connection node dots & vertical dashed lines */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '0.8vw', width: '100%', height: '100%', position: 'absolute', top: 0, left: 0 }}>
-            {pillars.map((p, idx) => (
-              <div key={idx} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%', position: 'relative' }}>
-                {/* Node dot */}
+            {pillars.map((_, idx) => (
+              <div key={idx} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <motion.div
-                  initial={{ scale: 0, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  transition={{ type: 'spring', stiffness: 200, delay: 0.25 + idx * 0.08 }}
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ delay: INITIAL_DELAY + 0.2 + idx * 0.1, type: 'spring', stiffness: 200 }}
                   style={{
                     width: '0.6vw',
                     height: '0.6vw',
                     borderRadius: '50%',
-                    background: '#64748b',
-                    border: '2px solid #fff',
-                    zIndex: 3,
-                    boxShadow: '0 2px 5px rgba(0,0,143,0.15)'
+                    background: '#0b66d5',
+                    border: '2px solid #ffffff',
+                    boxShadow: '0 0 8px rgba(11, 102, 213, 0.5)',
+                    zIndex: 2
                   }}
                 />
-                {/* Vertical connecting dash line down */}
-                <div style={{
-                  position: 'absolute',
-                  top: '50%',
-                  bottom: 0,
-                  width: '0',
-                  borderLeft: '2px dashed #cbd6e7',
-                  zIndex: 1
-                }} />
               </div>
             ))}
           </div>
-        </div>
+        </motion.div>
 
-        {/* Pillars Row */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '0.8vw', width: '100%', alignItems: 'stretch' }}>
-          {pillars.map((p, idx) => {
+        {/* 4 Pillars Cards Grid (Compact & Centered Height) */}
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(4, 1fr)',
+          gap: '1.2vw',
+          alignItems: 'start'
+        }}>
+          {pillars.map((p, pIdx) => {
             const Icon = p.icon;
-            const delayBase = idx * 0.1 + 0.35; // 100ms staggered delay starting after connection line
 
             return (
-              <div 
-                key={p.title} 
-                style={{ display: 'flex', flexDirection: 'column', height: '100%', alignItems: 'center' }}
+              <motion.div
+                key={p.title}
+                custom={pIdx}
+                initial="hidden"
+                animate="visible"
+                variants={pillarCardVariant}
+                whileHover={{ y: -3, scale: 1.01, boxShadow: '0 8px 22px rgba(11, 102, 213, 0.1)' }}
+                style={{
+                  background: '#ffffff',
+                  border: '1.5px solid #e2e8f0',
+                  borderRadius: '14px',
+                  padding: '1.1vw 1vw',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '0.8vw',
+                  position: 'relative',
+                  overflow: 'hidden',
+                  boxShadow: '0 4px 14px rgba(15, 23, 42, 0.04)',
+                  transition: 'all 0.25s ease'
+                }}
               >
-                {/* Column Top Circular Icon Badge: Draws in first & carries the custom glow class */}
-                <motion.div
-                  initial={{ scale: 0, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  transition={{ duration: 0.5, delay: delayBase, type: 'spring', stiffness: 140 }}
-                  className={`glow-${idx}`}
-                  style={{
+                {/* Top Accent Line */}
+                <div style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  height: '4px',
+                  background: '#0b66d5'
+                }} />
+
+                {/* Card Header */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.7vw', borderBottom: '1px solid #f1f5f9', paddingBottom: '0.6vw' }}>
+                  <div style={{
+                    background: 'rgba(11, 102, 213, 0.08)',
+                    border: '1px solid rgba(11, 102, 213, 0.2)',
+                    color: '#0b66d5',
+                    borderRadius: '10px',
+                    padding: '0.5vw',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    width: '5.0vw',
-                    height: '5.0vw',
-                    borderRadius: '50%',
-                    background: 'rgba(0, 0, 143, 0.03)',
-                    border: '2px solid #cbd6e7',
-                    color: '#64748b',
-                    boxShadow: '0 4px 10px rgba(0,0,0,0.01)',
-                    transition: 'all 0.3s ease',
-                    marginBottom: '0.3vw',
-                    zIndex: 2,
-                    transformOrigin: 'center'
-                  }}
-                >
-                  <Icon size={36} weight="duotone" />
-                </motion.div>
-
-                {/* Column Body Card: Slides up after column top icon draws */}
-                <motion.div
-                  initial={{ opacity: 0, y: 25 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: delayBase + 0.4, ease: [0.16, 1, 0.3, 1] }}
-                  whileHover={{ y: -6, scale: 1.02, boxShadow: '0 12px 28px rgba(0,0,143,0.08)' }}
-                  style={{
-                    background: '#fff',
-                    border: '1px solid #cbd6e7',
-                    borderRadius: '14px',
-                    padding: '0.8vw 0.7vw',
-                    boxShadow: '0 4px 10px rgba(7,27,63,0.01)',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: '0.5vw',
-                    height: '100%',
-                    width: '100%',
-                    position: 'relative',
-                    cursor: 'pointer',
-                    transformStyle: 'preserve-3d',
-                  }}
-                >
-                  {/* Card Title (Clean layout without duplicate icon inside) */}
-                  <div style={{ display: 'flex', justifyContent: 'center', borderBottom: '1px solid #edf2f7', paddingBottom: '0.4vw' }}>
-                    <strong style={{ fontSize: '0.75vw', color: '#1e293b', fontWeight: 800, letterSpacing: '0.03em', textAlign: 'center' }}>
-                      {p.title}
-                    </strong>
-                  </div>
-
-                  {/* Bullet Points */}
-                  <ul style={{
-                    margin: 0,
-                    paddingLeft: '0.8vw',
-                    fontSize: '0.65vw',
-                    color: '#475569',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: '0.35vw',
-                    lineHeight: '1.3',
-                    fontWeight: 500
+                    flexShrink: 0
                   }}>
-                    {p.points.map((pt, index) => (
-                      <li key={index} style={{
-                        listStyleType: 'square',
-                        color: '#475569',
-                        fontWeight: 500
-                      }}>
-                        {pt}
-                      </li>
-                    ))}
-                  </ul>
-                </motion.div>
-              </div>
+                    <Icon size={22} weight="bold" />
+                  </div>
+                  <div>
+                    <span style={{ fontSize: '0.65vw', color: '#0b66d5', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                      Pilier {p.num}
+                    </span>
+                    <h4 style={{ margin: '0.05vw 0 0 0', fontSize: '1.05vw', fontWeight: 800, color: '#0f172a', letterSpacing: '-0.01em' }}>
+                      {p.title}
+                    </h4>
+                  </div>
+                </div>
+
+                {/* Subtitle tag */}
+                <div style={{
+                  background: '#f8fafc',
+                  border: '1px solid #f1f5f9',
+                  borderRadius: '6px',
+                  padding: '0.28vw 0.5vw',
+                  fontSize: '0.72vw',
+                  fontWeight: 700,
+                  color: '#475569',
+                  textAlign: 'center'
+                }}>
+                  {p.subtitle}
+                </div>
+
+                {/* Points List */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5vw' }}>
+                  {p.points.map((pt, ptIdx) => (
+                    <motion.div
+                      key={ptIdx}
+                      custom={{ pIdx, ptIdx }}
+                      initial="hidden"
+                      animate="visible"
+                      variants={pointVariant}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '0.5vw',
+                        background: '#f8fafc',
+                        border: '1px solid #f1f5f9',
+                        borderRadius: '6px',
+                        padding: '0.45vw 0.6vw',
+                        fontSize: '0.78vw',
+                        color: '#334155',
+                        fontWeight: 600,
+                        lineHeight: 1.3
+                      }}
+                    >
+                      <CheckCircle size={15} color="#0b66d5" weight="fill" style={{ flexShrink: 0 }} />
+                      <span>{pt}</span>
+                    </motion.div>
+                  ))}
+                </div>
+              </motion.div>
             );
           })}
         </div>

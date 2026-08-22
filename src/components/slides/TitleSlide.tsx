@@ -130,12 +130,12 @@ export default function TitleSlide({ n }: SlideProps) {
           <small style={{ display: 'flex', alignItems: 'center', gap: '0.4vw', color: '#38bdf8', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.06em', fontSize: '0.72vw', marginBottom: '0.3vw' }}>
             <UserCheck size={14} /> Encadré par
           </small>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.2vw' }}>
-            <span style={{ color: '#f1f5f9', fontSize: '0.88vw', fontWeight: 700 }}>
-              Mme. Zineb MACHROUH <em style={{ fontStyle: 'normal', color: '#94a3b8', fontWeight: 500 }}>(Tuteur Académique EMSI)</em>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25vw' }}>
+            <span style={{ color: '#f1f5f9', fontSize: '0.86vw', fontWeight: 700 }}>
+              Mme. Zineb MACHROUH <em style={{ fontStyle: 'normal', color: '#94a3b8', fontWeight: 500 }}>(Encadrement Académique EMSI)</em>
             </span>
-            <span style={{ color: '#f1f5f9', fontSize: '0.88vw', fontWeight: 700 }}>
-              Équipe AXA GBS <em style={{ fontStyle: 'normal', color: '#94a3b8', fontWeight: 500 }}>(Encadrement Professionnel)</em>
+            <span style={{ color: '#f1f5f9', fontSize: '0.86vw', fontWeight: 700 }}>
+              M. Soufiane RSIOUI & Mme. Oumaima FARAJI <em style={{ fontStyle: 'normal', color: '#94a3b8', fontWeight: 500 }}>(Encadrement Professionnel AXA GBS)</em>
             </span>
           </div>
         </div>

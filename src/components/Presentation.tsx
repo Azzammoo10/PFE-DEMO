@@ -17,6 +17,7 @@ import TechStackSlide from './slides/TechStackSlide';
 import DemoDlpSlide from './slides/DemoDlpSlide';
 import ZeroTrustSlide from './slides/ZeroTrustSlide';
 import ResultsSlide from './slides/ResultsSlide';
+import ThanksSlide from './slides/ThanksSlide';
 import MobileBlocker from './MobileBlocker';
 
 export type SlideProps = { n: number; total: number };
@@ -64,7 +65,7 @@ export function Decor() {
   );
 }
 
-export function Footer({ n, total = 15 }: { n: number; total?: number }) {
+export function Footer({ n, total = 14 }: { n: number; total?: number }) {
   return (
     <footer className="footer">
       <div className="mini-brand">EMSI</div>
@@ -94,7 +95,7 @@ const planSteps = [
   { num: '06', title: 'Perspectives' },
 ];
 
-export function Shell({ section, kicker, pulseLabel, title, n, total, children, dense = false }: { section: string; kicker?: string; pulseLabel?: string; title: string | React.ReactNode; n: number; total?: number; children: React.ReactNode; dense?: boolean }) {
+export function Shell({ section, kicker, pulseLabel, title, n, total = 14, children, dense = false }: { section: string; kicker?: string; pulseLabel?: string; title: string | React.ReactNode; n: number; total?: number; children: React.ReactNode; dense?: boolean }) {
   const planStep = getPlanStepNumber(section);
   const showStepNav = section.toUpperCase() !== 'SOMMAIRE' && 
                       section.toUpperCase() !== 'TITLE';
@@ -270,6 +271,7 @@ const slides: Slide[] = [
   { section: 'DÉMONSTRATION', title: 'Démonstration Opérationnelle & Validation', component: DemoDlpSlide },
   { section: 'CONCLUSION', title: 'Conclusion & Zero Trust', component: ZeroTrustSlide },
   { section: 'PERSPECTIVES', title: 'Perspectives d\'évolution', component: ResultsSlide },
+  { section: 'CONCLUSION', title: 'Remerciements & Q/R', component: ThanksSlide },
 ];
 
 const slideVariants = {

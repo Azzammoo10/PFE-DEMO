@@ -1,44 +1,9 @@
 'use client';
 
-import { motion, type Variants } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { Cloud, Database, ShareNetwork, Laptop, CheckCircle } from '@phosphor-icons/react';
 import { Shell } from '../Presentation';
 import type { SlideProps } from '../Presentation';
-
-const INITIAL_DELAY = 1.15; // Attendre la fin de l'overlay "CONTEXTE" (1.15s)
-
-// Animation progressive des 4 cartes piliers
-const pillarCardVariant: Variants = {
-  hidden: { opacity: 0, y: 25, scale: 0.95, filter: 'blur(4px)' },
-  visible: (idx: number) => ({
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    filter: 'blur(0px)',
-    transition: {
-      delay: INITIAL_DELAY + idx * 0.15,
-      duration: 0.5,
-      type: 'spring',
-      stiffness: 140,
-      damping: 18
-    }
-  })
-};
-
-// Animation séquentielle pour chaque point à l'intérieur des cartes
-const pointVariant: Variants = {
-  hidden: { opacity: 0, x: -10, filter: 'blur(2px)' },
-  visible: ({ pIdx, ptIdx }: { pIdx: number; ptIdx: number }) => ({
-    opacity: 1,
-    x: 0,
-    filter: 'blur(0px)',
-    transition: {
-      delay: INITIAL_DELAY + 0.35 + pIdx * 0.15 + ptIdx * 0.06,
-      duration: 0.35,
-      ease: [0.16, 1, 0.3, 1]
-    }
-  })
-};
 
 export default function ContextPiliers({ n }: SlideProps) {
   const pillars = [
@@ -48,22 +13,20 @@ export default function ContextPiliers({ n }: SlideProps) {
       subtitle: 'Sécurité SaaS & Stockage',
       icon: Cloud,
       points: [
-        'Protection des données SaaS',
-        'Stockages (OneDrive, SharePoint)',
-        'Contrôle des partages externes',
-        'Gestion de la conformité cloud',
+        'OneDrive & SharePoint',
+        'Partages externes',
+        'Applications Cloud',
       ],
     },
     {
       num: '02',
       title: 'DONNÉES',
-      subtitle: 'Classification & Audit',
+      subtitle: 'Classification & Confidentialité',
       icon: Database,
       points: [
         'Classification automatique',
-        'Inspection PII et données fi.',
-        'Politiques de rétention',
-        'Destruction sécurisée',
+        'Détection PII & données sensibles',
+        'Sensitivity Labels',
       ],
     },
     {
@@ -72,10 +35,9 @@ export default function ContextPiliers({ n }: SlideProps) {
       subtitle: 'Supervision des Flux',
       icon: ShareNetwork,
       points: [
-        'Surveillance du trafic web',
-        'Transferts sécurisés (SFTP)',
-        'Inspection des emails (SMTP)',
-        'Blocage & alertes flux réseau',
+        'Trafic Web',
+        'Inspection des emails',
+        'Blocage des transferts',
       ],
     },
     {
@@ -84,10 +46,9 @@ export default function ContextPiliers({ n }: SlideProps) {
       subtitle: 'Protection Endpoints',
       icon: Laptop,
       points: [
-        'Contrôle des périphériques (USB)',
-        'Surveillance des disques externes',
-        'Transferts hors ligne',
-        'Chiffrement forcé des supports',
+        'Périphériques USB',
+        'Transferts réseau',
+        'Applications & navigateurs',
       ],
     },
   ];
@@ -96,21 +57,40 @@ export default function ContextPiliers({ n }: SlideProps) {
     <Shell section="CONTEXTE" title="Les 4 Piliers Structuraux DLP" n={n}>
       <div style={{ display: 'flex', flexDirection: 'column', height: '100%', justifyContent: 'center', gap: '1.4vw', padding: '0' }}>
         
-        {/* Subtitle */}
-        <motion.p
-          initial={{ opacity: 0, y: 5 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: INITIAL_DELAY, duration: 0.4 }}
-          style={{ margin: 0, fontSize: '0.88vw', color: '#64748b', fontWeight: 500 }}
+        {/* Subtitle Banner */}
+        <div
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '0.8vw',
+            background: 'linear-gradient(90deg, #eff6ff 0%, #f8fafc 100%)',
+            border: '1.5px solid #bfdbfe',
+            borderRadius: '10px',
+            padding: '0.55vw 1.1vw',
+            width: 'max-content',
+            boxShadow: '0 4px 12px rgba(11, 102, 213, 0.05)'
+          }}
         >
-          Une couverture multicouche intégrée pour assurer la protection des données sensibles sur l'ensemble du périmètre.
-        </motion.p>
+          <span style={{
+            background: '#0b66d5',
+            color: '#ffffff',
+            fontSize: '0.6vw',
+            fontWeight: 900,
+            borderRadius: '6px',
+            padding: '0.15vw 0.5vw',
+            textTransform: 'uppercase',
+            letterSpacing: '0.05em',
+            flexShrink: 0
+          }}>
+            PÉRIMÈTRE D&apos;ACTION
+          </span>
+          <p style={{ margin: 0, fontSize: '0.88vw', color: '#0f172a', fontWeight: 700, lineHeight: 1.3 }}>
+            Une couverture multicouche intégrée pour assurer la protection des données sensibles sur l&apos;ensemble du périmètre.
+          </p>
+        </div>
 
         {/* Top Connection Line Above the 4 Pillars */}
-        <motion.div
-          initial={{ opacity: 0, scaleX: 0 }}
-          animate={{ opacity: 1, scaleX: 1 }}
-          transition={{ delay: INITIAL_DELAY + 0.1, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+        <div
           style={{
             position: 'relative',
             width: '100%',
@@ -145,10 +125,7 @@ export default function ContextPiliers({ n }: SlideProps) {
           }}>
             {pillars.map((_, idx) => (
               <div key={idx} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <motion.div
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  transition={{ delay: INITIAL_DELAY + 0.2 + idx * 0.1, type: 'spring', stiffness: 200 }}
+                <div
                   style={{
                     width: '0.6vw',
                     height: '0.6vw',
@@ -162,9 +139,9 @@ export default function ContextPiliers({ n }: SlideProps) {
               </div>
             ))}
           </div>
-        </motion.div>
+        </div>
 
-        {/* 4 Pillars Cards Grid (Compact & Centered Height) */}
+        {/* 4 Pillars Cards Grid */}
         <div style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(4, 1fr)',
@@ -177,11 +154,10 @@ export default function ContextPiliers({ n }: SlideProps) {
             return (
               <motion.div
                 key={p.title}
-                custom={pIdx}
-                initial="hidden"
-                animate="visible"
-                variants={pillarCardVariant}
-                whileHover={{ y: -3, scale: 1.01, boxShadow: '0 8px 22px rgba(11, 102, 213, 0.1)' }}
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, delay: pIdx * 0.06, ease: 'easeOut' }}
+                whileHover={{ y: -3, boxShadow: '0 8px 22px rgba(11, 102, 213, 0.12)' }}
                 style={{
                   background: '#ffffff',
                   border: '1.5px solid #e2e8f0',
@@ -193,7 +169,8 @@ export default function ContextPiliers({ n }: SlideProps) {
                   position: 'relative',
                   overflow: 'hidden',
                   boxShadow: '0 4px 14px rgba(15, 23, 42, 0.04)',
-                  transition: 'all 0.25s ease'
+                  willChange: 'transform, box-shadow',
+                  transform: 'translateZ(0)'
                 }}
               >
                 {/* Top Accent Line */}
@@ -219,13 +196,13 @@ export default function ContextPiliers({ n }: SlideProps) {
                     justifyContent: 'center',
                     flexShrink: 0
                   }}>
-                    <Icon size={22} weight="bold" />
+                    <Icon size={22} weight="bold" color="#0b66d5" />
                   </div>
                   <div>
-                    <span style={{ fontSize: '0.65vw', color: '#0b66d5', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                    <span style={{ fontSize: '0.65vw', color: '#0b66d5', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                       Pilier {p.num}
                     </span>
-                    <h4 style={{ margin: '0.05vw 0 0 0', fontSize: '1.05vw', fontWeight: 800, color: '#0f172a', letterSpacing: '-0.01em' }}>
+                    <h4 style={{ margin: '0.05vw 0 0 0', fontSize: '1.05vw', fontWeight: 900, color: '#0f172a', letterSpacing: '-0.01em' }}>
                       {p.title}
                     </h4>
                   </div>
@@ -248,12 +225,8 @@ export default function ContextPiliers({ n }: SlideProps) {
                 {/* Points List */}
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5vw' }}>
                   {p.points.map((pt, ptIdx) => (
-                    <motion.div
+                    <div
                       key={ptIdx}
-                      custom={{ pIdx, ptIdx }}
-                      initial="hidden"
-                      animate="visible"
-                      variants={pointVariant}
                       style={{
                         display: 'flex',
                         alignItems: 'center',
@@ -270,7 +243,7 @@ export default function ContextPiliers({ n }: SlideProps) {
                     >
                       <CheckCircle size={15} color="#0b66d5" weight="fill" style={{ flexShrink: 0 }} />
                       <span>{pt}</span>
-                    </motion.div>
+                    </div>
                   ))}
                 </div>
               </motion.div>
@@ -282,3 +255,4 @@ export default function ContextPiliers({ n }: SlideProps) {
     </Shell>
   );
 }
+

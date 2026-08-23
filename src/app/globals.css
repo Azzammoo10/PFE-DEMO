@@ -98,6 +98,29 @@
 .method-node p{font-size:.72vw!important;line-height:1.24!important;max-width:95%!important;margin:0 auto!important;color:#5d6f86!important}
 .method-metrics{margin-top:.25vw!important;gap:1vw!important}.method-metrics div{min-height:3.7vw!important}
 
+/* Fullscreen mode support for interactive video demonstration containers */
+.demo-video-container:fullscreen {
+  width: 100vw !important;
+  height: 100vh !important;
+  padding: 1.2vw 2vw !important;
+  background: #060e1a !important;
+  border: none !important;
+  border-radius: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  box-sizing: border-box !important;
+  z-index: 99999 !important;
+}
+.demo-video-container:fullscreen h3 {
+  color: #ffffff !important;
+  font-size: 1.1vw !important;
+}
+.demo-video-container:fullscreen button {
+  font-size: 0.8vw !important;
+}
+
+
 /* Slide 7: make the use cases feel like a guided story, not four static blocks */
 .uc-storyline{margin:-.9vw 0 1.05vw;width:max-content;display:flex;align-items:center;gap:.55vw;background:#f5f9ff;border:1px solid #d7e5f7;border-radius:999px;padding:.45vw .85vw;color:#17437f;font-weight:900;font-size:.82vw;box-shadow:0 10px 24px rgba(7,27,63,.05)}
 .uc-storyline svg{color:#0b66d5}.stable-uc-grid{gap:1.1vw!important}.stable-uc-grid .uc-card{min-height:19.3vw!important;border-radius:18px!important;border:1px solid #d7e5f7!important;box-shadow:0 14px 32px rgba(7,27,63,.06)!important;background:#fff!important}.stable-uc-grid .uc-card.green{box-shadow:0 18px 38px rgba(22,128,68,.12)!important;border-color:#b9dfc8!important}.stable-uc-grid .uc-head{height:3vw!important;font-size:1.35vw!important}.stable-uc-grid .uc-card p{font-size:.86vw!important;min-height:4.7vw!important}.stable-uc-grid .uc-card strong{font-size:.82vw!important}

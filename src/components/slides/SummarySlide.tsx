@@ -1,10 +1,9 @@
+import { useState, useEffect } from 'react';
 import { Building2, AlertTriangle, Target, Network, Code2, CheckCircle2 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { Shell, popIn } from '../Presentation';
+import { Shell } from '../Presentation';
 import type { SlideProps } from '../Presentation';
-
-import type { Variants } from 'framer-motion';
 
 type PlanItem = {
   num: string;
@@ -13,27 +12,10 @@ type PlanItem = {
   Icon: LucideIcon;
 };
 
-const INITIAL_DELAY = 1.15; // Attendre la fin de l'animation d'overlay "SOMMAIRE" au milieu (1.15s)
-
-const cardVariant: Variants = {
-  hidden: { opacity: 0, x: -30, y: 25, scale: 0.92, filter: 'blur(8px)' },
-  visible: (i: number) => ({
-    opacity: 1,
-    x: 0,
-    y: 0,
-    scale: 1,
-    filter: 'blur(0px)',
-    transition: {
-      delay: INITIAL_DELAY + 0.22 * i,
-      duration: 0.65,
-      type: 'spring',
-      stiffness: 130,
-      damping: 16
-    }
-  })
-};
-
 export default function SummarySlide({ n }: SlideProps) {
+  const [activeStepIndex, setActiveStepIndex] = useState(0);
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+
   const items: PlanItem[] = [
     {
       num: '01',
@@ -73,10 +55,24 @@ export default function SummarySlide({ n }: SlideProps) {
     },
   ];
 
+  // Sequential step animation (1 -> 2 -> 3 -> 4 -> 5 -> 6 and stops on 6)
+  useEffect(() => {
+    if (hoveredIndex !== null) return;
+    const timer = setInterval(() => {
+      setActiveStepIndex((prev) => {
+        if (prev >= items.length - 1) {
+          clearInterval(timer);
+          return prev;
+        }
+        return prev + 1;
+      });
+    }, 1800);
+    return () => clearInterval(timer);
+  }, [hoveredIndex, items.length]);
+
   return (
     <Shell 
       section="SOMMAIRE" 
-      kicker="Vue d'ensemble" 
       title="Plan & Déroulement de la Soutenance" 
       n={n}
     >
@@ -94,26 +90,40 @@ export default function SummarySlide({ n }: SlideProps) {
         }}>
           {items.map((item, i) => {
             const Icon = item.Icon;
+            const isActive = hoveredIndex !== null ? hoveredIndex === i : activeStepIndex === i;
+
             return (
               <motion.div
                 key={item.num}
-                custom={i}
-                initial="hidden"
-                animate="visible"
-                variants={cardVariant}
-                whileHover={{ scale: 1.015, y: -2 }}
+                onMouseEnter={() => setHoveredIndex(i)}
+                onMouseLeave={() => setHoveredIndex(null)}
+                initial={{ opacity: 0, y: 15 }}
+                animate={{
+                  opacity: 1,
+                  y: isActive ? -4 : 0,
+                  scale: isActive ? 1.025 : 1,
+                  boxShadow: isActive
+                    ? '0 10px 28px -4px rgba(11, 102, 213, 0.35), 0 0 16px rgba(11, 102, 213, 0.18)'
+                    : '0 4px 14px rgba(15, 23, 42, 0.04)'
+                }}
+                transition={{ duration: 0.35, ease: 'easeOut' }}
                 style={{
-                  background: '#ffffff',
-                  border: '1.5px solid #e2e8f0',
+                  background: isActive
+                    ? 'linear-gradient(135deg, #ffffff 0%, #f0f7ff 100%)'
+                    : '#ffffff',
+                  border: isActive
+                    ? '2px solid #0b66d5'
+                    : '1.5px solid #e2e8f0',
                   borderRadius: '14px',
                   padding: '1.3vw 1.6vw',
                   display: 'flex',
                   alignItems: 'center',
                   gap: '1.3vw',
-                  boxShadow: '0 4px 14px rgba(15, 23, 42, 0.04)',
                   position: 'relative',
                   overflow: 'hidden',
-                  transition: 'all 0.25s ease'
+                  cursor: 'pointer',
+                  willChange: 'transform, box-shadow',
+                  transform: 'translateZ(0)'
                 }}
               >
                 {/* Accent Left Line */}
@@ -121,45 +131,71 @@ export default function SummarySlide({ n }: SlideProps) {
                   position: 'absolute',
                   top: 0,
                   left: 0,
-                  width: '4.5px',
+                  width: isActive ? '6px' : '4.5px',
                   height: '100%',
-                  background: '#0b66d5'
+                  background: isActive ? 'linear-gradient(180deg, #0b66d5, #38bdf8)' : '#0b66d5',
+                  transition: 'all 0.3s ease'
                 }} />
 
                 {/* Number Badge */}
                 <div style={{
-                  background: 'rgba(11, 102, 213, 0.08)',
-                  border: '1px solid rgba(11, 102, 213, 0.2)',
-                  color: '#0b66d5',
-                  fontWeight: 800,
+                  background: isActive ? '#0b66d5' : 'rgba(11, 102, 213, 0.08)',
+                  border: isActive ? '1px solid #0b66d5' : '1px solid rgba(11, 102, 213, 0.2)',
+                  color: isActive ? '#ffffff' : '#0b66d5',
+                  fontWeight: 900,
                   fontSize: '1.05vw',
                   borderRadius: '11px',
                   minWidth: '2.9vw',
                   height: '2.9vw',
                   display: 'grid',
                   placeItems: 'center',
-                  flexShrink: 0
+                  flexShrink: 0,
+                  boxShadow: isActive ? '0 4px 12px rgba(11, 102, 213, 0.4)' : 'none',
+                  transition: 'all 0.3s ease'
                 }}>
                   {item.num}
                 </div>
 
                 {/* Text Content */}
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <h3 style={{
-                    margin: 0,
-                    fontSize: '1.12vw',
-                    fontWeight: 800,
-                    color: '#0f172a',
-                    lineHeight: 1.25,
-                    letterSpacing: '-0.01em'
-                  }}>
-                    {item.label}
-                  </h3>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5vw' }}>
+                    <h3 style={{
+                      margin: 0,
+                      fontSize: '1.12vw',
+                      fontWeight: 800,
+                      color: isActive ? '#0b66d5' : '#0f172a',
+                      lineHeight: 1.25,
+                      letterSpacing: '-0.01em',
+                      transition: 'color 0.3s ease'
+                    }}>
+                      {item.label}
+                    </h3>
+
+                    {/* Active Step Indicator */}
+                    {isActive && (
+                      <motion.span
+                        initial={{ opacity: 0, scale: 0.5 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        style={{
+                          fontSize: '0.62vw',
+                          fontWeight: 900,
+                          background: '#0b66d5',
+                          color: '#ffffff',
+                          borderRadius: '6px',
+                          padding: '0.1vw 0.4vw',
+                          textTransform: 'uppercase',
+                          letterSpacing: '0.04em'
+                        }}
+                      >
+                        Étape En Cours
+                      </motion.span>
+                    )}
+                  </div>
                   <p style={{
                     margin: '0.35vw 0 0 0',
                     fontSize: '0.86vw',
-                    color: '#475569',
-                    fontWeight: 500,
+                    color: isActive ? '#334155' : '#475569',
+                    fontWeight: isActive ? 600 : 500,
                     lineHeight: 1.35
                   }}>
                     {item.desc}
@@ -168,17 +204,18 @@ export default function SummarySlide({ n }: SlideProps) {
 
                 {/* Icon Container */}
                 <div style={{
-                  background: '#f8fafc',
-                  border: '1px solid #e2e8f0',
-                  color: '#0b66d5',
+                  background: isActive ? '#0b66d5' : '#f8fafc',
+                  border: isActive ? '1px solid #0b66d5' : '1px solid #e2e8f0',
+                  color: isActive ? '#ffffff' : '#0b66d5',
                   borderRadius: '12px',
                   padding: '0.7vw',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  flexShrink: 0
+                  flexShrink: 0,
+                  transition: 'all 0.3s ease'
                 }}>
-                  <Icon size={24} color="#0b66d5" />
+                  <Icon size={24} color={isActive ? '#ffffff' : '#0b66d5'} />
                 </div>
               </motion.div>
             );
@@ -188,6 +225,7 @@ export default function SummarySlide({ n }: SlideProps) {
     </Shell>
   );
 }
+
 
 
 

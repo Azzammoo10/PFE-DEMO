@@ -24,36 +24,31 @@ export type SlideProps = { n: number; total: number };
 export type Slide = { section: string; title: string; component: (p: SlideProps) => ReactElement };
 
 export const fadeUp: Variants = {
-  hidden: { opacity: 0, y: 16, filter: 'blur(3px)' },
+  hidden: { opacity: 0, y: 14 },
   visible: (i: number = 0) => ({
     opacity: 1,
     y: 0,
-    filter: 'blur(0px)',
-    transition: { delay: 0.04 * i, duration: 0.32, ease: [0.23, 1, 0.32, 1] }
+    transition: { delay: 0.03 * i, duration: 0.28, ease: [0.23, 1, 0.32, 1] }
   }),
 };
 
 export const popIn: Variants = {
-  hidden: { opacity: 0, scale: 0.96, y: 12 },
+  hidden: { opacity: 0, scale: 0.97, y: 10 },
   visible: (i: number = 0) => ({
     opacity: 1,
     scale: 1,
     y: 0,
-    transition: { delay: 0.04 * i, duration: 0.38, type: 'spring', stiffness: 160, damping: 20 }
+    transition: { delay: 0.03 * i, duration: 0.32, ease: [0.23, 1, 0.32, 1] }
   }),
 };
 
 export const draw: Variants = {
   hidden: { pathLength: 0, opacity: 0 },
-  visible: (i: number = 0) => ({ pathLength: 1, opacity: 1, transition: { delay: 0.1 + i * 0.08, duration: 0.45, ease: [0.23, 1, 0.32, 1] } }),
+  visible: (i: number = 0) => ({ pathLength: 1, opacity: 1, transition: { delay: 0.08 + i * 0.06, duration: 0.38, ease: [0.23, 1, 0.32, 1] } }),
 };
 
 function SectionPulse({ label }: { label: string }) {
-  return (
-    <motion.div className="section-pulse" initial={{ opacity: 0, scale: 0.92 }} animate={{ opacity: [0, 1, 1, 0], scale: [0.92, 1, 1, 1.02] }} transition={{ duration: 1.15, times: [0, .18, .72, 1], ease: 'easeOut' }}>
-      <span>{label}</span>
-    </motion.div>
-  );
+  return null;
 }
 
 export function Decor() {
@@ -103,7 +98,6 @@ export function Shell({ section, kicker, pulseLabel, title, n, total = 14, child
   return (
     <section className={`slide ${dense ? 'dense' : ''}`}>
       <Decor />
-      <SectionPulse label={pulseLabel || section} />
       
       {showStepNav && (
         <div className="global-step-nav" style={{
@@ -134,7 +128,7 @@ export function Shell({ section, kicker, pulseLabel, title, n, total = 14, child
             animate={{
               width: `${((planStep - 1) / 5) * 94}%`
             }}
-            transition={{ type: 'spring', stiffness: 120, damping: 18 }}
+            transition={{ type: 'spring', stiffness: 140, damping: 20 }}
             style={{
               position: 'absolute',
               top: '50%',
@@ -156,13 +150,13 @@ export function Shell({ section, kicker, pulseLabel, title, n, total = 14, child
             return (
               <motion.div
                 key={step.num}
-                initial={{ opacity: 0, y: -8 }}
+                initial={{ opacity: 0, y: -6 }}
                 animate={{
                   opacity: 1,
                   y: 0,
-                  scale: isActive ? 1.06 : 1,
+                  scale: isActive ? 1.05 : 1,
                 }}
-                transition={{ duration: 0.35, type: 'spring', stiffness: 200, damping: 20 }}
+                transition={{ duration: 0.28, ease: 'easeOut' }}
                 style={{
                   position: 'relative',
                   zIndex: 2,
@@ -176,11 +170,11 @@ export function Shell({ section, kicker, pulseLabel, title, n, total = 14, child
                     : '#ffffff',
                   color: isActive ? '#ffffff' : isPast ? '#0b66d5' : '#64748b',
                   border: isActive
-                    ? '1.5px solid rgba(56, 189, 248, 0.8)'
+                    ? '1.5px solid #0b66d5'
                     : isPast
                     ? '1.5px solid #93c5fd'
                     : '1.5px solid #cbd5e1',
-                  padding: isActive ? '0.28vw 0.85vw' : '0.22vw 0.6vw',
+                  padding: '0.25vw 0.7vw',
                   borderRadius: '20px',
                   fontSize: '0.74vw',
                   fontWeight: isActive ? 800 : 600,
@@ -189,13 +183,13 @@ export function Shell({ section, kicker, pulseLabel, title, n, total = 14, child
                     : isPast
                     ? '0 2px 6px rgba(11, 102, 213, 0.08)'
                     : 'none',
-                  transition: 'background 0.3s ease, border 0.3s ease'
+                  willChange: 'transform, background, border'
                 }}
               >
                 {/* Active Pulsing Live Dot or Past Checkmark */}
                 {isActive ? (
                   <motion.span
-                    animate={{ scale: [1, 1.4, 1], opacity: [0.8, 1, 0.8] }}
+                    animate={{ scale: [1, 1.3, 1], opacity: [0.8, 1, 0.8] }}
                     transition={{ repeat: Infinity, duration: 1.5, ease: 'easeInOut' }}
                     style={{
                       width: '6px',
@@ -224,9 +218,9 @@ export function Shell({ section, kicker, pulseLabel, title, n, total = 14, child
       <header className="slide-head" style={{ marginTop: showStepNav ? '0' : '0.5vw', display: 'flex', flexDirection: 'column', gap: '0.2vw', alignItems: 'flex-start' }}>
         {kicker && (
           <motion.span
-            initial={{ opacity: 0, scale: 1.12, y: -5 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            transition={{ delay: 0.1, duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+            initial={{ opacity: 0, y: -4 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.05, duration: 0.3, ease: 'easeOut' }}
             style={{
               color: '#00008f',
               background: 'rgba(0, 0, 143, 0.05)',
@@ -246,9 +240,6 @@ export function Shell({ section, kicker, pulseLabel, title, n, total = 14, child
             {kicker}
           </motion.span>
         )}
-        <motion.div className="section-label" initial="hidden" animate="visible" custom={0} variants={fadeUp}>
-          {section}
-        </motion.div>
         <motion.h1 initial="hidden" animate="visible" custom={1} variants={fadeUp}>{title}</motion.h1>
       </header>
       <footer className="slide-body">{children}</footer>
@@ -264,7 +255,7 @@ const slides: Slide[] = [
   { section: 'CONTEXTE', title: 'Contexte — Prévention des Pertes de données (DLP)', component: ContextDLP },
   { section: 'CONTEXTE', title: 'Les 4 Piliers Structuraux DLP', component: ContextPiliers },
   { section: 'PROBLÉMATIQUE', title: 'Problème', component: ProblemSlide },
-  { section: 'OBJECTIFS', title: 'Objectifs', component: ObjectivesSlide },
+  { section: '', title: 'Objectifs', component: ObjectivesSlide },
   { section: 'MÉTHODOLOGIE', title: 'Méthodologie', component: MethodologySlide },
   { section: 'CONCEPTION', title: 'Architecture', component: ArchitectureSlide },
   { section: 'RÉALISATION', title: 'Technologies & Outils', component: TechStackSlide },
@@ -275,56 +266,21 @@ const slides: Slide[] = [
 ];
 
 const slideVariants = {
-  enter: ({ direction, isSameSection }: { direction: number; isSameSection: boolean }) => {
-    if (isSameSection) {
-      return {
-        x: 0,
-        y: direction > 0 ? '35vh' : direction < 0 ? '-35vh' : 0,
-        rotateY: 0,
-        opacity: 0,
-        scale: 0.98,
-        filter: 'blur(0px)',
-      };
-    } else {
-      return {
-        x: 0,
-        y: direction > 0 ? '25vh' : direction < 0 ? '-25vh' : 0,
-        rotateY: direction > 0 ? 3 : direction < 0 ? -3 : 0,
-        opacity: 0,
-        scale: 0.97,
-        filter: 'blur(3px)',
-      };
-    }
-  },
+  enter: ({ direction, isSameSection }: { direction: number; isSameSection: boolean }) => ({
+    x: 0,
+    y: direction > 0 ? (isSameSection ? '10vh' : '6vh') : direction < 0 ? (isSameSection ? '-10vh' : '-6vh') : 0,
+    opacity: 0,
+  }),
   center: {
     x: 0,
     y: 0,
-    rotateY: 0,
     opacity: 1,
-    scale: 1,
-    filter: 'blur(0px)',
   },
-  exit: ({ direction, isSameSection }: { direction: number; isSameSection: boolean }) => {
-    if (isSameSection) {
-      return {
-        x: 0,
-        y: direction < 0 ? '35vh' : direction > 0 ? '-35vh' : 0,
-        rotateY: 0,
-        opacity: 0,
-        scale: 0.98,
-        filter: 'blur(0px)',
-      };
-    } else {
-      return {
-        x: 0,
-        y: direction < 0 ? '25vh' : direction > 0 ? '-25vh' : 0,
-        rotateY: direction < 0 ? 3 : direction > 0 ? -3 : 0,
-        opacity: 0,
-        scale: 0.97,
-        filter: 'blur(3px)',
-      };
-    }
-  }
+  exit: ({ direction, isSameSection }: { direction: number; isSameSection: boolean }) => ({
+    x: 0,
+    y: direction < 0 ? (isSameSection ? '10vh' : '6vh') : direction > 0 ? (isSameSection ? '-10vh' : '-6vh') : 0,
+    opacity: 0,
+  })
 };
 
 export default function Presentation() {
@@ -385,7 +341,7 @@ export default function Presentation() {
 
       setTimeout(() => {
         isScrolling.current = false;
-      }, 550);
+      }, 380);
     };
 
     window.addEventListener('keydown', onKey);
@@ -398,25 +354,21 @@ export default function Presentation() {
   }, [go, goTo]);
 
   return (
-    <main className="stage" style={{ perspective: '1600px' }}>
+    <main className="stage">
       <MobileBlocker />
       <AnimatePresence mode="wait" custom={{ direction, isSameSection }}>
         <motion.div
           key={index}
           className="slide-holder"
-          style={{ transformStyle: 'preserve-3d', backfaceVisibility: 'hidden', WebkitFontSmoothing: 'antialiased' }}
+          style={{ willChange: 'transform, opacity', transform: 'translateZ(0)' }}
           custom={{ direction, isSameSection }}
           variants={slideVariants}
           initial="enter"
           animate="center"
           exit="exit"
           transition={{
-            x: { duration: isSameSection ? 0.35 : 0.44, ease: [0.25, 1, 0.5, 1] },
-            y: { duration: isSameSection ? 0.35 : 0.44, ease: [0.25, 1, 0.5, 1] },
-            rotateY: { duration: isSameSection ? 0.35 : 0.44, ease: [0.25, 1, 0.5, 1] },
-            opacity: { duration: isSameSection ? 0.28 : 0.32, ease: 'easeOut' },
-            scale: { duration: isSameSection ? 0.35 : 0.44, ease: [0.25, 1, 0.5, 1] },
-            filter: { duration: isSameSection ? 0.28 : 0.35, ease: 'easeOut' }
+            y: { duration: isSameSection ? 0.22 : 0.25, ease: [0.25, 1, 0.5, 1] },
+            opacity: { duration: isSameSection ? 0.18 : 0.22, ease: 'easeOut' }
           }}
         >
           <Active n={index + 1} total={slides.length}/>

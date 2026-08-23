@@ -93,6 +93,11 @@ const Icons = {
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
       <path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3L12 3z"/>
     </svg>
+  ),
+  Maximize: () => (
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>
+    </svg>
   )
 };
 
@@ -268,7 +273,7 @@ const PLATFORM_SCENARIOS: Scenario[] = [
     time: 24,
     timeStr: '0:24',
     title: 'Deuxième scénario : Solution 2 — OneTrust Tracker',
-    subtitle: 'Analyse comparative des règles CM11 & recommandation Gemini IA',
+    subtitle: 'Analyse comparative des règles CM11 & recommandation IA Locale (Ollama)',
     badge: 'OneTrust Tracker',
     IconComponent: Icons.Sparkles,
     color: '#7c3aed',
@@ -297,6 +302,23 @@ export default function DemoDlpSlide({ n }: SlideProps) {
     phaseRef.current = phase;
   }, [phase]);
   const isScrolling = useRef(false);
+
+  const containerRef1 = useRef<HTMLDivElement>(null);
+  const containerRef2 = useRef<HTMLDivElement>(null);
+  const containerRef3 = useRef<HTMLDivElement>(null);
+  const containerRef4 = useRef<HTMLDivElement>(null);
+
+  const toggleFullscreen = (containerRef: React.RefObject<HTMLDivElement | null>) => {
+    if (!document.fullscreenElement) {
+      if (containerRef.current?.requestFullscreen) {
+        containerRef.current.requestFullscreen().catch(() => {});
+      }
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen().catch(() => {});
+      }
+    }
+  };
 
   // Phase 1 (Simulation DLP) Video State
   const videoRef1 = useRef<HTMLVideoElement>(null);
@@ -443,7 +465,7 @@ export default function DemoDlpSlide({ n }: SlideProps) {
     };
   }, [showSplash4]);
 
-  // Pause non-active phase videos automatically to avoid background CPU/GPU lag
+  // Pause non-active phase videos automatically when switching phases
   useEffect(() => {
     if (phase !== 0 && videoRef1.current && !videoRef1.current.paused) {
       videoRef1.current.pause();
@@ -460,6 +482,16 @@ export default function DemoDlpSlide({ n }: SlideProps) {
     if (phase !== 3 && videoRef4.current && !videoRef4.current.paused) {
       videoRef4.current.pause();
       setIsPlaying4(false);
+    }
+
+    let activeContainer: HTMLDivElement | null = null;
+    if (phase === 0) activeContainer = containerRef1.current;
+    else if (phase === 1) activeContainer = containerRef2.current;
+    else if (phase === 2) activeContainer = containerRef3.current;
+    else if (phase === 3) activeContainer = containerRef4.current;
+
+    if (activeContainer && document.fullscreenElement) {
+      activeContainer.requestFullscreen().catch(() => {});
     }
   }, [phase]);
 
@@ -665,7 +697,18 @@ export default function DemoDlpSlide({ n }: SlideProps) {
             return (
               <button
                 key={p.id}
-                onClick={() => setPhase(p.id as 0 | 1 | 2 | 3)}
+                onClick={() => {
+                  const pId = p.id as 0 | 1 | 2 | 3;
+                  setPhase(pId);
+                  let container: HTMLDivElement | null = null;
+                  if (pId === 0) container = containerRef1.current;
+                  else if (pId === 1) container = containerRef2.current;
+                  else if (pId === 2) container = containerRef3.current;
+                  else if (pId === 3) container = containerRef4.current;
+                  if (container && !document.fullscreenElement) {
+                    container.requestFullscreen().catch(() => {});
+                  }
+                }}
                 style={{
                   padding: '2px 14px',
                   borderRadius: '16px',
@@ -706,6 +749,7 @@ export default function DemoDlpSlide({ n }: SlideProps) {
           >
             <div style={{ display: 'flex', flexDirection: 'column', height: '100%', width: '100%' }}>
               <div
+                ref={containerRef1}
                 className="demo-video-container"
                 style={{
                   border: '1px solid #d7e5f7',
@@ -757,10 +801,34 @@ export default function DemoDlpSlide({ n }: SlideProps) {
                       );
                     })}
                   </div>
-                  <span style={{ fontSize: '0.68vw', fontWeight: 600, color: '#52657d', background: '#f0f4f8', padding: '2px 8px', borderRadius: '10px', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                    <Icons.Clock />
-                    {formatTime(currentTime1)} / {formatTime(duration1 || 0)}
-                  </span>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <span style={{ fontSize: '0.68vw', fontWeight: 600, color: '#52657d', background: '#f0f4f8', padding: '2px 8px', borderRadius: '10px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                      <Icons.Clock />
+                      {formatTime(currentTime1)} / {formatTime(duration1 || 0)}
+                    </span>
+                    <button
+                      onClick={() => toggleFullscreen(containerRef1)}
+                      title="Afficher en Plein Écran avec Scénarios & Animations"
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '4px',
+                        background: '#00008f',
+                        color: '#ffffff',
+                        border: 'none',
+                        borderRadius: '10px',
+                        padding: '3px 10px',
+                        fontSize: '0.68vw',
+                        fontWeight: 700,
+                        cursor: 'pointer',
+                        boxShadow: '0 2px 6px rgba(0, 0, 143, 0.25)',
+                        transition: 'all 0.2s ease'
+                      }}
+                    >
+                      <Icons.Maximize />
+                      <span>Plein Écran</span>
+                    </button>
+                  </div>
                 </div>
 
                 <div style={{ flex: 1, position: 'relative', background: '#000', borderRadius: '10px', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
@@ -770,14 +838,16 @@ export default function DemoDlpSlide({ n }: SlideProps) {
                     preload="metadata"
                     controls
                     onTimeUpdate={() => {
-                      if (videoRef1.current) setCurrentTime1(videoRef1.current.currentTime);
+                      if (videoRef1.current && Math.abs(videoRef1.current.currentTime - currentTime1) >= 0.5) {
+                        setCurrentTime1(videoRef1.current.currentTime);
+                      }
                     }}
                     onLoadedMetadata={() => {
                       if (videoRef1.current) setDuration1(videoRef1.current.duration);
                     }}
                     onPlay={() => setIsPlaying1(true)}
                     onPause={() => setIsPlaying1(false)}
-                    style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                    style={{ width: '100%', height: '100%', objectFit: 'contain', transform: 'translateZ(0)', backfaceVisibility: 'hidden' }}
                   />
 
                   <AnimatePresence>
@@ -922,6 +992,7 @@ export default function DemoDlpSlide({ n }: SlideProps) {
           >
             <div style={{ display: 'flex', flexDirection: 'column', height: '100%', width: '100%' }}>
               <div
+                ref={containerRef2}
                 className="demo-video-container"
                 style={{
                   border: '1px solid #d7e5f7',
@@ -975,10 +1046,34 @@ export default function DemoDlpSlide({ n }: SlideProps) {
                     })}
                   </div>
 
-                  <span style={{ fontSize: '0.68vw', fontWeight: 600, color: '#52657d', background: '#f0f4f8', padding: '2px 8px', borderRadius: '10px', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                    <Icons.Clock />
-                    {formatTime(currentTime2)} / {formatTime(duration2 || 0)}
-                  </span>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <span style={{ fontSize: '0.68vw', fontWeight: 600, color: '#52657d', background: '#f0f4f8', padding: '2px 8px', borderRadius: '10px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                      <Icons.Clock />
+                      {formatTime(currentTime2)} / {formatTime(duration2 || 0)}
+                    </span>
+                    <button
+                      onClick={() => toggleFullscreen(containerRef2)}
+                      title="Afficher en Plein Écran avec Scénarios & Animations"
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '4px',
+                        background: '#dc2626',
+                        color: '#ffffff',
+                        border: 'none',
+                        borderRadius: '10px',
+                        padding: '3px 10px',
+                        fontSize: '0.68vw',
+                        fontWeight: 700,
+                        cursor: 'pointer',
+                        boxShadow: '0 2px 6px rgba(220, 38, 38, 0.25)',
+                        transition: 'all 0.2s ease'
+                      }}
+                    >
+                      <Icons.Maximize />
+                      <span>Plein Écran</span>
+                    </button>
+                  </div>
                 </div>
 
                 <div style={{ flex: 1, position: 'relative', background: '#000', borderRadius: '10px', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
@@ -988,14 +1083,16 @@ export default function DemoDlpSlide({ n }: SlideProps) {
                     preload="metadata"
                     controls
                     onTimeUpdate={() => {
-                      if (videoRef2.current) setCurrentTime2(videoRef2.current.currentTime);
+                      if (videoRef2.current && Math.abs(videoRef2.current.currentTime - currentTime2) >= 0.5) {
+                        setCurrentTime2(videoRef2.current.currentTime);
+                      }
                     }}
                     onLoadedMetadata={() => {
                       if (videoRef2.current) setDuration2(videoRef2.current.duration);
                     }}
                     onPlay={() => setIsPlaying2(true)}
                     onPause={() => setIsPlaying2(false)}
-                    style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                    style={{ width: '100%', height: '100%', objectFit: 'contain', transform: 'translateZ(0)', backfaceVisibility: 'hidden' }}
                   />
 
                   <AnimatePresence>
@@ -1140,6 +1237,7 @@ export default function DemoDlpSlide({ n }: SlideProps) {
           >
             <div style={{ display: 'flex', flexDirection: 'column', height: '100%', width: '100%' }}>
               <div
+                ref={containerRef3}
                 className="demo-video-container"
                 style={{
                   border: '1px solid #d7e5f7',
@@ -1193,10 +1291,34 @@ export default function DemoDlpSlide({ n }: SlideProps) {
                     })}
                   </div>
 
-                  <span style={{ fontSize: '0.68vw', fontWeight: 600, color: '#52657d', background: '#f0f4f8', padding: '2px 8px', borderRadius: '10px', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                    <Icons.Clock />
-                    {formatTime(currentTime3)} / {formatTime(duration3 || 0)}
-                  </span>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <span style={{ fontSize: '0.68vw', fontWeight: 600, color: '#52657d', background: '#f0f4f8', padding: '2px 8px', borderRadius: '10px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                      <Icons.Clock />
+                      {formatTime(currentTime3)} / {formatTime(duration3 || 0)}
+                    </span>
+                    <button
+                      onClick={() => toggleFullscreen(containerRef3)}
+                      title="Afficher en Plein Écran avec Scénarios & Animations"
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '4px',
+                        background: '#0b66d5',
+                        color: '#ffffff',
+                        border: 'none',
+                        borderRadius: '10px',
+                        padding: '3px 10px',
+                        fontSize: '0.68vw',
+                        fontWeight: 700,
+                        cursor: 'pointer',
+                        boxShadow: '0 2px 6px rgba(11, 102, 213, 0.25)',
+                        transition: 'all 0.2s ease'
+                      }}
+                    >
+                      <Icons.Maximize />
+                      <span>Plein Écran</span>
+                    </button>
+                  </div>
                 </div>
 
                 <div style={{ flex: 1, position: 'relative', background: '#000', borderRadius: '10px', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
@@ -1206,14 +1328,16 @@ export default function DemoDlpSlide({ n }: SlideProps) {
                     preload="metadata"
                     controls
                     onTimeUpdate={() => {
-                      if (videoRef3.current) setCurrentTime3(videoRef3.current.currentTime);
+                      if (videoRef3.current && Math.abs(videoRef3.current.currentTime - currentTime3) >= 0.5) {
+                        setCurrentTime3(videoRef3.current.currentTime);
+                      }
                     }}
                     onLoadedMetadata={() => {
                       if (videoRef3.current) setDuration3(videoRef3.current.duration);
                     }}
                     onPlay={() => setIsPlaying3(true)}
                     onPause={() => setIsPlaying3(false)}
-                    style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                    style={{ width: '100%', height: '100%', objectFit: 'contain', transform: 'translateZ(0)', backfaceVisibility: 'hidden' }}
                   />
 
                   <AnimatePresence>
@@ -1358,6 +1482,7 @@ export default function DemoDlpSlide({ n }: SlideProps) {
           >
             <div style={{ display: 'flex', flexDirection: 'column', height: '100%', width: '100%' }}>
               <div
+                ref={containerRef4}
                 className="demo-video-container"
                 style={{
                   border: '1px solid #d7e5f7',
@@ -1411,10 +1536,34 @@ export default function DemoDlpSlide({ n }: SlideProps) {
                     })}
                   </div>
 
-                  <span style={{ fontSize: '0.68vw', fontWeight: 600, color: '#52657d', background: '#f0f4f8', padding: '2px 8px', borderRadius: '10px', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                    <Icons.Clock />
-                    {formatTime(currentTime4)} / {formatTime(duration4 || 0)}
-                  </span>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <span style={{ fontSize: '0.68vw', fontWeight: 600, color: '#52657d', background: '#f0f4f8', padding: '2px 8px', borderRadius: '10px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                      <Icons.Clock />
+                      {formatTime(currentTime4)} / {formatTime(duration4 || 0)}
+                    </span>
+                    <button
+                      onClick={() => toggleFullscreen(containerRef4)}
+                      title="Afficher en Plein Écran avec Scénarios & Animations"
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '4px',
+                        background: '#7c3aed',
+                        color: '#ffffff',
+                        border: 'none',
+                        borderRadius: '10px',
+                        padding: '3px 10px',
+                        fontSize: '0.68vw',
+                        fontWeight: 700,
+                        cursor: 'pointer',
+                        boxShadow: '0 2px 6px rgba(124, 58, 237, 0.25)',
+                        transition: 'all 0.2s ease'
+                      }}
+                    >
+                      <Icons.Maximize />
+                      <span>Plein Écran</span>
+                    </button>
+                  </div>
                 </div>
 
                 <div style={{ flex: 1, position: 'relative', background: '#000', borderRadius: '10px', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
@@ -1424,14 +1573,16 @@ export default function DemoDlpSlide({ n }: SlideProps) {
                     preload="metadata"
                     controls
                     onTimeUpdate={() => {
-                      if (videoRef4.current) setCurrentTime4(videoRef4.current.currentTime);
+                      if (videoRef4.current && Math.abs(videoRef4.current.currentTime - currentTime4) >= 0.5) {
+                        setCurrentTime4(videoRef4.current.currentTime);
+                      }
                     }}
                     onLoadedMetadata={() => {
                       if (videoRef4.current) setDuration4(videoRef4.current.duration);
                     }}
                     onPlay={() => setIsPlaying4(true)}
                     onPause={() => setIsPlaying4(false)}
-                    style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                    style={{ width: '100%', height: '100%', objectFit: 'contain', transform: 'translateZ(0)', backfaceVisibility: 'hidden' }}
                   />
 
                   <AnimatePresence>

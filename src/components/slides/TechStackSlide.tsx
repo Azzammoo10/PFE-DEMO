@@ -68,16 +68,12 @@ const TechLogos = {
       </g>
     </svg>
   ),
-  Gemini: () => (
+  Ollama: () => (
     <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
-      <path d="m12 2 2.5 7.5L22 12l-7.5 2.5L12 22l-2.5-7.5L2 12l7.5-2.5L12 2z" fill="url(#gemini-grad-clean)"/>
-      <defs>
-        <linearGradient id="gemini-grad-clean" x1="2" y1="2" x2="22" y2="22">
-          <stop offset="0%" stopColor="#1a73e8"/>
-          <stop offset="50%" stopColor="#8ab4f8"/>
-          <stop offset="100%" stopColor="#c58af9"/>
-        </linearGradient>
-      </defs>
+      <rect width="24" height="24" rx="6" fill="#0f172a" />
+      <path d="M12 6a4 4 0 0 0-4 4c0 1.5.8 2.8 2 3.5V17a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-3.5c1.2-.7 2-2 2-3.5a4 4 0 0 0-4-4z" fill="#38bdf8"/>
+      <circle cx="10" cy="10" r="1" fill="#fff"/>
+      <circle cx="14" cy="10" r="1" fill="#fff"/>
     </svg>
   ),
   Appwrite: () => (
@@ -100,7 +96,7 @@ export default function TechStackSlide({ n }: SlideProps) {
       num: '01',
       id: 'agent',
       title: 'Sondes Endpoint (Windows)',
-      subtitle: 'Collecte & Surveillance Temps Réel',
+      subtitle: 'Collecte & Supervision Temps Réel',
       icon: Monitor,
       tools: [
         {
@@ -164,10 +160,10 @@ export default function TechStackSlide({ n }: SlideProps) {
           LogoComp: TechLogos.ReactTS
         },
         {
-          name: 'Google Gemini IA',
-          role: 'IA Décisionnelle',
-          desc: 'Analyse sémantique & triage des règles CM11',
-          LogoComp: TechLogos.Gemini
+          name: 'Ollama (LLM Local)',
+          role: 'IA Locale Souveraine',
+          desc: 'Exécution 100% On-Premise — Zéro Fuite de Données',
+          LogoComp: TechLogos.Ollama
         },
         {
           name: 'Appwrite',

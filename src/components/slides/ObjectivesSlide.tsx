@@ -102,8 +102,9 @@ export default function ObjectivesSlide({ n }: SlideProps) {
                   width: '17.5vw',
                   height: '17.5vw',
                   background: '#ffffff',
-                  border: '1.5px solid #cbd6e7',
-                  borderTop: '5px solid #00008f', // Unified AXA Blue
+                  borderWidth: '5px 1.5px 1.5px 1.5px',
+                  borderStyle: 'solid',
+                  borderColor: '#00008f #cbd6e7 #cbd6e7 #cbd6e7',
                   borderRadius: '14px',
                   padding: '1.8vw 1.4vw',
                   boxShadow: '0 4px 16px rgba(0,0,0,0.02)',

@@ -1,4 +1,4 @@
-import { GraduationCap, User, UserCheck, Award } from 'lucide-react';
+import { GraduationCap, User, UserCheck, Users, Award } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { fadeUp } from '../Presentation';
 import type { SlideProps } from '../Presentation';
@@ -110,32 +110,50 @@ export default function TitleSlide({ n }: SlideProps) {
 
       {/* 3. Metadata Cards at Bottom */}
       <motion.div custom={6} variants={fadeUp} className="title-meta" style={{ 
-        width: '88%', 
-        maxWidth: '1050px', 
+        width: '94%', 
+        maxWidth: '1150px', 
         display: 'grid', 
-        gridTemplateColumns: '1fr 1.4fr', 
-        gap: '1.5vw', 
+        gridTemplateColumns: '1fr 1.35fr 1.15fr', 
+        gap: '1.2vw', 
         zIndex: 2, 
         marginTop: 'auto',
-        marginBottom: '0.5vw'
+        marginBottom: '0.4vw'
       }}>
-        <div style={{ background: 'rgba(15, 23, 42, 0.65)', border: '1px solid rgba(56, 189, 248, 0.25)', backdropFilter: 'blur(12px)', borderRadius: '12px', padding: '0.8vw 1.2vw', textAlign: 'left' }}>
-          <small style={{ display: 'flex', alignItems: 'center', gap: '0.4vw', color: '#38bdf8', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.06em', fontSize: '0.72vw', marginBottom: '0.3vw' }}>
+        {/* Card 1: Réalisé par */}
+        <div style={{ background: 'rgba(15, 23, 42, 0.65)', border: '1px solid rgba(56, 189, 248, 0.25)', backdropFilter: 'blur(12px)', borderRadius: '12px', padding: '0.7vw 1vw', textAlign: 'left' }}>
+          <small style={{ display: 'flex', alignItems: 'center', gap: '0.4vw', color: '#38bdf8', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.06em', fontSize: '0.68vw', marginBottom: '0.3vw' }}>
             <User size={14} /> Réalisé par
           </small>
-          <strong style={{ display: 'block', color: '#ffffff', fontSize: '1.15vw', fontWeight: 800 }}>Mohamed AZZAM</strong>
+          <strong style={{ display: 'block', color: '#ffffff', fontSize: '1.05vw', fontWeight: 800 }}>Mohamed AZZAM</strong>
+          <span style={{ fontSize: '0.72vw', color: '#94a3b8', fontWeight: 500, marginTop: '0.1vw', display: 'block' }}>Élève Ingénieur (IIR)</span>
         </div>
         
-        <div style={{ background: 'rgba(15, 23, 42, 0.65)', border: '1px solid rgba(56, 189, 248, 0.25)', backdropFilter: 'blur(12px)', borderRadius: '12px', padding: '0.8vw 1.2vw', textAlign: 'left' }}>
-          <small style={{ display: 'flex', alignItems: 'center', gap: '0.4vw', color: '#38bdf8', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.06em', fontSize: '0.72vw', marginBottom: '0.3vw' }}>
+        {/* Card 2: Encadré par */}
+        <div style={{ background: 'rgba(15, 23, 42, 0.65)', border: '1px solid rgba(56, 189, 248, 0.25)', backdropFilter: 'blur(12px)', borderRadius: '12px', padding: '0.7vw 1vw', textAlign: 'left' }}>
+          <small style={{ display: 'flex', alignItems: 'center', gap: '0.4vw', color: '#38bdf8', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.06em', fontSize: '0.68vw', marginBottom: '0.3vw' }}>
             <UserCheck size={14} /> Encadré par
           </small>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25vw' }}>
-            <span style={{ color: '#f1f5f9', fontSize: '0.86vw', fontWeight: 700 }}>
-              Mme. Zineb MACHROUH <em style={{ fontStyle: 'normal', color: '#94a3b8', fontWeight: 500 }}>(Encadrement Académique EMSI)</em>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.2vw' }}>
+            <span style={{ color: '#f1f5f9', fontSize: '0.78vw', fontWeight: 700 }}>
+              Mme. Zineb MACHROUH <em style={{ fontStyle: 'normal', color: '#94a3b8', fontWeight: 500 }}>(Académique EMSI)</em>
             </span>
-            <span style={{ color: '#f1f5f9', fontSize: '0.86vw', fontWeight: 700 }}>
-              M. Soufiane RSIOUI & Mme. Oumaima FARAJI <em style={{ fontStyle: 'normal', color: '#94a3b8', fontWeight: 500 }}>(Encadrement Professionnel AXA GBS)</em>
+            <span style={{ color: '#f1f5f9', fontSize: '0.78vw', fontWeight: 700 }}>
+              M. Soufiane RSIOUI & Mme. Oumaima FARAJI <em style={{ fontStyle: 'normal', color: '#94a3b8', fontWeight: 500 }}>(AXA GBS)</em>
+            </span>
+          </div>
+        </div>
+
+        {/* Card 3: Membres du Jury */}
+        <div style={{ background: 'rgba(15, 23, 42, 0.65)', border: '1px solid rgba(56, 189, 248, 0.25)', backdropFilter: 'blur(12px)', borderRadius: '12px', padding: '0.7vw 1vw', textAlign: 'left' }}>
+          <small style={{ display: 'flex', alignItems: 'center', gap: '0.4vw', color: '#38bdf8', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.06em', fontSize: '0.68vw', marginBottom: '0.3vw' }}>
+            <Users size={14} /> Membres du Jury
+          </small>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.2vw' }}>
+            <span style={{ color: '#f1f5f9', fontSize: '0.78vw', fontWeight: 700 }}>
+              Président : <em style={{ fontStyle: 'normal', color: '#94a3b8', fontWeight: 500 }}>Pr. [Nom du Président]</em>
+            </span>
+            <span style={{ color: '#f1f5f9', fontSize: '0.78vw', fontWeight: 700 }}>
+              Examinateur : <em style={{ fontStyle: 'normal', color: '#94a3b8', fontWeight: 500 }}>Pr. [Nom de l&apos;Examinateur]</em>
             </span>
           </div>
         </div>

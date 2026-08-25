@@ -3,25 +3,26 @@
 import { Shield, Eye, AlertCircle, FileText, Search, Laptop } from 'lucide-react';
 import { motion, type Variants } from 'framer-motion';
 import { useSyncExternalStore } from 'react';
-import { Shell, popIn, draw } from '../Presentation';
+import { Shell, draw } from '../Presentation';
 import type { SlideProps } from '../Presentation';
 
 const emptySubscribe = () => () => { };
-const INITIAL_DELAY = 1.15; // Attendre la fin de l'overlay "CONTEXTE" (1.15s)
+const INITIAL_DELAY = 0.02; // Instant render without waiting
 
+// Variants pour les 4 étapes du schéma (01 -> 02 -> 03 -> 04)
 const stageCardVariant: Variants = {
-  hidden: { opacity: 0, scale: 0.9, y: 20, filter: 'blur(4px)' },
+  hidden: { opacity: 0, scale: 0.95, y: 10, filter: 'blur(2px)' },
   visible: (idx: number) => ({
     opacity: 1,
     scale: 1,
     y: 0,
     filter: 'blur(0px)',
     transition: {
-      delay: INITIAL_DELAY + 0.3 + idx * 0.18,
-      duration: 0.55,
+      delay: INITIAL_DELAY + 0.12 + idx * 0.05, // Fast instant stagger: 0.14s, 0.19s, 0.24s, 0.29s
+      duration: 0.3,
       type: 'spring',
-      stiffness: 140,
-      damping: 18
+      stiffness: 180,
+      damping: 20
     }
   })
 };
@@ -33,25 +34,27 @@ export default function ContextDLP({ n }: SlideProps) {
     () => false
   );
 
+  // Étape 2 : Phrases explicatives du haut
   const callouts = [
     {
       text: "Empêche les données sensibles de quitter votre contrôle",
       icon: Shield,
       color: '#00008f',
       bgColor: 'rgba(0, 0, 143, 0.04)',
-      slideDir: -30,
-      cardDelay: INITIAL_DELAY + 0.1,
+      slideDir: -20,
+      cardDelay: INITIAL_DELAY + 0.05,
     },
     {
       text: "Détecter et protéger les données sur tous les canaux et appareils",
       icon: Laptop,
       color: '#00008f',
       bgColor: 'rgba(0, 0, 143, 0.04)',
-      slideDir: 30,
-      cardDelay: INITIAL_DELAY + 0.25,
+      slideDir: 20,
+      cardDelay: INITIAL_DELAY + 0.08,
     },
   ];
 
+  // Étape 3 : Les 4 phases du schéma DLP
   const stages = [
     {
       id: 'surveiller',
@@ -99,13 +102,13 @@ export default function ContextDLP({ n }: SlideProps) {
     },
   ];
 
-  // Reveal variants for title
+  // Étape 1 : Titre Principal
   const titleVariants = {
     hidden: { y: '100%', opacity: 0 },
     visible: {
       y: 0,
       opacity: 1,
-      transition: { delay: INITIAL_DELAY, duration: 0.5, ease: [0.16, 1, 0.3, 1] as const }
+      transition: { delay: INITIAL_DELAY, duration: 0.45, ease: [0.16, 1, 0.3, 1] as const } // 1.15s
     }
   };
 
@@ -121,7 +124,7 @@ export default function ContextDLP({ n }: SlideProps) {
       n={n}
       dense
     >
-      {/* Styles CSS pour la boucle d'animation continue parfaitement synchronisée avec le point voyageur */}
+      {/* Animation continue de circulation lumineuse (démarre à t = 3.2s) */}
       <style>{`
         @keyframes stagePulse0 {
           0%, 14%, 90%, 100% { border-color: #0b66d5; box-shadow: 0 0 20px rgba(11,102,213,0.38); transform: scale(1.05); }
@@ -139,10 +142,10 @@ export default function ContextDLP({ n }: SlideProps) {
           0%, 65%, 90%, 100% { border-color: #cbd6e7; box-shadow: 0 4px 12px rgba(7,27,63,0.04); transform: scale(1); }
           72%, 83% { border-color: #0b66d5; box-shadow: 0 0 20px rgba(11,102,213,0.38); transform: scale(1.05); }
         }
-        .stage-glow-0 { animation: stagePulse0 4s 2.2s infinite ease-in-out; }
-        .stage-glow-1 { animation: stagePulse1 4s 2.2s infinite ease-in-out; }
-        .stage-glow-2 { animation: stagePulse2 4s 2.2s infinite ease-in-out; }
-        .stage-glow-3 { animation: stagePulse3 4s 2.2s infinite ease-in-out; }
+        .stage-glow-0 { animation: stagePulse0 4s 0.4s infinite ease-in-out; }
+        .stage-glow-1 { animation: stagePulse1 4s 0.4s infinite ease-in-out; }
+        .stage-glow-2 { animation: stagePulse2 4s 0.4s infinite ease-in-out; }
+        .stage-glow-3 { animation: stagePulse3 4s 0.4s infinite ease-in-out; }
       `}</style>
 
       <div style={{
@@ -155,7 +158,7 @@ export default function ContextDLP({ n }: SlideProps) {
         overflow: 'hidden'
       }}>
 
-        {/* Subtitle with sequential highlight */}
+        {/* Étape 1 : Titre principal affiché EN PREMIER */}
         <div style={{ overflow: 'hidden', textAlign: 'center', height: '2.5vw' }}>
           <motion.div
             initial="hidden"
@@ -166,7 +169,7 @@ export default function ContextDLP({ n }: SlideProps) {
               La{' '}
               <motion.span
                 animate={{ color: ['#1e293b', '#0b66d5'] }}
-                transition={{ delay: INITIAL_DELAY + 0.3, duration: 0.4 }}
+                transition={{ delay: INITIAL_DELAY + 0.2, duration: 0.4 }}
                 style={{ fontWeight: 900 }}
               >
                 Prévention
@@ -174,7 +177,7 @@ export default function ContextDLP({ n }: SlideProps) {
               des{' '}
               <motion.span
                 animate={{ color: ['#1e293b', '#0b66d5'] }}
-                transition={{ delay: INITIAL_DELAY + 0.3, duration: 0.4 }}
+                transition={{ delay: INITIAL_DELAY + 0.2, duration: 0.4 }}
                 style={{ fontWeight: 900 }}
               >
                 Pertes de données
@@ -184,7 +187,7 @@ export default function ContextDLP({ n }: SlideProps) {
           </motion.div>
         </div>
 
-        {/* Callouts Row with drawing arrows */}
+        {/* Étape 2 : Les 2 phrases explicatives du haut */}
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2vw', width: '92%', margin: '0 auto', position: 'relative' }}>
 
           <svg
@@ -224,7 +227,7 @@ export default function ContextDLP({ n }: SlideProps) {
               strokeDasharray="2.5 2.5"
               markerEnd="url(#subtitle-arrow)"
               variants={draw}
-              custom={Math.floor((INITIAL_DELAY + 0.2) * 10)}
+              custom={Math.floor((INITIAL_DELAY + 0.5) * 10)}
               initial="hidden"
               animate="visible"
             />
@@ -238,7 +241,7 @@ export default function ContextDLP({ n }: SlideProps) {
               strokeDasharray="2.5 2.5"
               markerEnd="url(#subtitle-arrow)"
               variants={draw}
-              custom={Math.floor((INITIAL_DELAY + 0.3) * 10)}
+              custom={Math.floor((INITIAL_DELAY + 0.7) * 10)}
               initial="hidden"
               animate="visible"
             />
@@ -251,7 +254,7 @@ export default function ContextDLP({ n }: SlideProps) {
                 key={idx}
                 initial={{ opacity: 0, x: item.slideDir }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.55, delay: item.cardDelay, ease: [0.16, 1, 0.3, 1] }}
+                transition={{ duration: 0.5, delay: item.cardDelay, ease: [0.16, 1, 0.3, 1] }}
                 style={{
                   background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
                   border: '1.5px solid rgba(11, 102, 213, 0.2)',
@@ -286,7 +289,7 @@ export default function ContextDLP({ n }: SlideProps) {
           })}
         </div>
 
-        {/* Central Cycle Diagram */}
+        {/* Étape 3 : Schéma Central DLP & 4 Étapes Séquentielles */}
         <div style={{
           position: 'relative',
           width: '33vw',
@@ -298,7 +301,7 @@ export default function ContextDLP({ n }: SlideProps) {
           alignItems: 'center',
           justifyContent: 'center'
         }}>
-          {/* SVG overlay line cycles with flowing marching ants animation */}
+          {/* SVG overlay lines */}
           <svg viewBox="0 0 300 240" style={{
             position: 'absolute',
             top: 0,
@@ -325,36 +328,36 @@ export default function ContextDLP({ n }: SlideProps) {
                 strokeDasharray="5,5"
                 markerEnd="url(#arrow)"
                 variants={draw}
-                custom={Math.floor((INITIAL_DELAY + 0.3 + idx * 0.18) * 10)}
+                custom={Math.floor((INITIAL_DELAY + 0.12 + idx * 0.05) * 10)}
                 initial="hidden"
                 animate="visible"
                 style={{ strokeDashoffset: -20 }}
               />
             ))}
 
-            {/* Continuous glowing traveling pulse running infinitely in a loop */}
+            {/* Point voyageur lumineux continu (démarre à t = 0.4s) */}
             <motion.circle
               r="5"
               fill="#0b66d5"
               style={{ filter: 'drop-shadow(0 0 8px #38bdf8)' }}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 2.2, duration: 0.4 }}
+              transition={{ delay: 0.4, duration: 0.3 }}
             >
               <animateMotion
                 dur="4s"
-                begin="2.2s"
+                begin="0.4s"
                 repeatCount="indefinite"
                 path="M 90,45 Q 150,25 210,45 Q 245,120 230,155 Q 150,215 90,195 Q 55,120 70,85 Z"
               />
             </motion.circle>
           </svg>
 
-          {/* Central DLP Badge */}
+          {/* Badge Central DLP */}
           <motion.div
             initial={{ scale: 0, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.5, delay: INITIAL_DELAY + 0.25, type: 'spring', stiffness: 180, damping: 14 }}
+            transition={{ duration: 0.35, delay: INITIAL_DELAY + 0.1, type: 'spring', stiffness: 200, damping: 16 }}
             style={{
               gridArea: '2 / 2 / 3 / 3',
               zIndex: 5,
@@ -376,7 +379,7 @@ export default function ContextDLP({ n }: SlideProps) {
             DLP
           </motion.div>
 
-          {/* Outer 4 Stage Cards (Surveiller -> Détecter -> Répondre -> Analyser) */}
+          {/* Les 4 Cartes d'Étapes (01 Surveiller -> 02 Détecter -> 03 Répondre -> 04 Analyser) */}
           {stages.map((stage, idx) => {
             const Icon = stage.icon;
             return (
@@ -437,4 +440,3 @@ export default function ContextDLP({ n }: SlideProps) {
     </Shell>
   );
 }
-

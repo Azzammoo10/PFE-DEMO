@@ -13,12 +13,15 @@ import ProblemSlide from './slides/ProblemSlide';
 import ObjectivesSlide from './slides/ObjectivesSlide';
 import MethodologySlide from './slides/MethodologySlide';
 import ArchitectureSlide from './slides/ArchitectureSlide';
+import PlatformsSlide from './slides/PlatformsSlide';
 import TechStackSlide from './slides/TechStackSlide';
+import AIBenchmarkSlide from './slides/AIBenchmarkSlide';
 import DemoDlpSlide from './slides/DemoDlpSlide';
 import ZeroTrustSlide from './slides/ZeroTrustSlide';
 import ResultsSlide from './slides/ResultsSlide';
 import ThanksSlide from './slides/ThanksSlide';
 import MobileBlocker from './MobileBlocker';
+import SlideNavigationModal from './SlideNavigationModal';
 
 export type SlideProps = { n: number; total: number };
 export type Slide = { section: string; title: string; component: (p: SlideProps) => ReactElement };
@@ -90,8 +93,45 @@ const planSteps = [
   { num: '06', title: 'Perspectives' },
 ];
 
+const getSlideProgressPercentage = (n: number): number => {
+  switch (n) {
+    case 1:
+    case 2:
+    case 3:
+      return 0; // Step 01 Contexte (0%)
+    case 4:
+      return 7; // Moving inside Contexte
+    case 5:
+      return 14; // End of Contexte
+    case 6:
+      return 20; // Step 02 Problématique (20%)
+    case 7:
+      return 30; // Step 02 Objectifs
+    case 8:
+      return 40; // Step 03 Méthodologie (40%)
+    case 9:
+      return 60; // Step 04 Conception - Architecture (60%) -> Reaches Conception badge!
+    case 10:
+      return 70; // Step 04 Conception - Plateformes
+    case 11:
+      return 80; // Step 05 Réalisation - TechStack (80%) -> Reaches Réalisation badge!
+    case 12:
+      return 86; // Step 05 Réalisation - AI Benchmark
+    case 13:
+      return 92; // Step 05 Démonstration DLP
+    case 14:
+      return 96; // Step 06 Perspectives - Conclusion
+    case 15:
+    case 16:
+      return 100; // Step 06 Perspectives - Thanks (100%)
+    default:
+      return 0;
+  }
+};
+
 export function Shell({ section, kicker, pulseLabel, title, n, total = 14, children, dense = false }: { section: string; kicker?: string; pulseLabel?: string; title: string | React.ReactNode; n: number; total?: number; children: React.ReactNode; dense?: boolean }) {
   const planStep = getPlanStepNumber(section);
+  const slideProgress = getSlideProgressPercentage(n);
   const showStepNav = section.toUpperCase() !== 'SOMMAIRE' && 
                       section.toUpperCase() !== 'TITLE';
 
@@ -110,35 +150,55 @@ export function Shell({ section, kicker, pulseLabel, title, n, total = 14, child
           padding: '0.3vw 0',
           zIndex: 10
         }}>
-          {/* Horizontal gray connecting line */}
+          {/* Horizontal gray connecting line background */}
           <div style={{
             position: 'absolute',
             top: '50%',
             left: '3%',
             right: '3%',
             height: '2px',
-            background: '#e2e8f0',
+            background: '#cbd5e1',
             zIndex: 1,
             transform: 'translateY(-50%)'
           }} />
 
-          {/* Active glowing progress beam with spring animation */}
+          {/* Active glowing progress beam advancing slide by slide */}
           <motion.div
             initial={false}
             animate={{
-              width: `${((planStep - 1) / 5) * 94}%`
+              width: `${(slideProgress / 100) * 94}%`
             }}
-            transition={{ type: 'spring', stiffness: 140, damping: 20 }}
+            transition={{ type: 'spring', stiffness: 120, damping: 18 }}
             style={{
               position: 'absolute',
               top: '50%',
               left: '3%',
-              height: '3px',
-              background: 'linear-gradient(90deg, #0b66d5 0%, #38bdf8 50%, #00d2ff 100%)',
-              boxShadow: '0 0 10px rgba(0, 210, 255, 0.65)',
+              height: '3.5px',
+              background: 'linear-gradient(90deg, #00008f 0%, #0b66d5 40%, #38bdf8 75%, #00d2ff 100%)',
+              boxShadow: '0 0 12px rgba(0, 210, 255, 0.75)',
               zIndex: 1,
               transform: 'translateY(-50%)',
-              borderRadius: '2px'
+              borderRadius: '3px'
+            }}
+          />
+
+          {/* Glowing leading pulse head traveling on the tip of the connecting trait */}
+          <motion.div
+            initial={false}
+            animate={{
+              left: `calc(3% + ${(slideProgress / 100) * 94}%)`
+            }}
+            transition={{ type: 'spring', stiffness: 120, damping: 18 }}
+            style={{
+              position: 'absolute',
+              top: '50%',
+              width: '9px',
+              height: '9px',
+              borderRadius: '50%',
+              background: '#00d2ff',
+              boxShadow: '0 0 12px #00d2ff, 0 0 20px #38bdf8',
+              zIndex: 2,
+              transform: 'translate(-50%, -50%)'
             }}
           />
 
@@ -249,20 +309,22 @@ export function Shell({ section, kicker, pulseLabel, title, n, total = 14, child
 }
 
 const slides: Slide[] = [
-  { section: 'TITLE', title: 'Titre', component: TitleSlide },
-  { section: 'SOMMAIRE', title: 'Plan', component: SummarySlide },
-  { section: 'CONTEXTE', title: 'AXA Présentation', component: ContextAxaPresentation },
-  { section: 'CONTEXTE', title: 'Contexte — Prévention des Pertes de données (DLP)', component: ContextDLP },
-  { section: 'CONTEXTE', title: 'Les 4 Piliers Structuraux DLP', component: ContextPiliers },
-  { section: 'PROBLÉMATIQUE', title: 'Problème', component: ProblemSlide },
-  { section: '', title: 'Objectifs', component: ObjectivesSlide },
+  { section: 'TITLE', title: 'Page de Garde', component: TitleSlide },
+  { section: 'SOMMAIRE', title: 'Sommaire', component: SummarySlide },
+  { section: 'CONTEXTE', title: 'Présentation AXA GO', component: ContextAxaPresentation },
+  { section: 'CONTEXTE', title: 'Cadre Conceptuel DLP', component: ContextDLP },
+  { section: 'CONTEXTE', title: 'Les 4 Piliers de la Protection DLP', component: ContextPiliers },
+  { section: 'PROBLÉMATIQUE', title: 'Problématique', component: ProblemSlide },
+  { section: 'OBJECTIFS', title: 'Objectifs', component: ObjectivesSlide },
   { section: 'MÉTHODOLOGIE', title: 'Méthodologie', component: MethodologySlide },
-  { section: 'CONCEPTION', title: 'Architecture', component: ArchitectureSlide },
-  { section: 'RÉALISATION', title: 'Technologies & Outils', component: TechStackSlide },
-  { section: 'DÉMONSTRATION', title: 'Démonstration Opérationnelle & Validation', component: DemoDlpSlide },
-  { section: 'CONCLUSION', title: 'Conclusion & Zero Trust', component: ZeroTrustSlide },
-  { section: 'PERSPECTIVES', title: 'Perspectives d\'évolution', component: ResultsSlide },
-  { section: 'CONCLUSION', title: 'Remerciements & Q/R', component: ThanksSlide },
+  { section: 'CONCEPTION', title: 'Analyse et Conception du Laboratoire DLP', component: ArchitectureSlide },
+  { section: 'CONCEPTION', title: 'Conception des Plateformes Opérationnelles', component: PlatformsSlide },
+  { section: 'RÉALISATION', title: 'Environnement Technique', component: TechStackSlide },
+  { section: 'RÉALISATION', title: 'Benchmark IA', component: AIBenchmarkSlide },
+  { section: 'DÉMONSTRATION', title: 'Validation Expérimentale', component: DemoDlpSlide },
+  { section: 'CONCLUSION', title: 'Conclusion', component: ZeroTrustSlide },
+  { section: 'PERSPECTIVES', title: 'Perspectives d\'Évolution', component: ResultsSlide },
+  { section: 'CONCLUSION', title: 'Remerciements et Échange avec le Jury', component: ThanksSlide },
 ];
 
 const slideVariants = {
@@ -285,6 +347,7 @@ const slideVariants = {
 
 export default function Presentation() {
   const [[index, direction, isSameSection], setPage] = useState([0, 0, false]);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const isScrolling = useRef(false);
 
   const Active = useMemo(() => slides[index].component, [index]);
@@ -307,8 +370,70 @@ export default function Presentation() {
     });
   }, []);
 
+  // Permanent Auto-Lock & Startup Fullscreen across entire presentation
+  useEffect(() => {
+    const enforceFullscreen = () => {
+      if (!document.fullscreenElement && document.documentElement.requestFullscreen) {
+        document.documentElement.requestFullscreen().catch(() => {});
+      }
+    };
+
+    // Attempt immediately on mount (works if user navigated with gesture)
+    enforceFullscreen();
+
+    const handleFullscreenChange = () => {
+      if (!document.fullscreenElement) {
+        setTimeout(enforceFullscreen, 10);
+      }
+    };
+
+    const handleUserInteraction = () => {
+      enforceFullscreen();
+    };
+
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+    window.addEventListener('click', handleUserInteraction, { capture: true });
+    window.addEventListener('pointerdown', handleUserInteraction, { capture: true });
+    window.addEventListener('keydown', handleUserInteraction, { capture: true });
+
+    return () => {
+      document.removeEventListener('fullscreenchange', handleFullscreenChange);
+      document.removeEventListener('webkitfullscreenchange', handleFullscreenChange);
+      window.removeEventListener('click', handleUserInteraction, { capture: true });
+      window.removeEventListener('pointerdown', handleUserInteraction, { capture: true });
+      window.removeEventListener('keydown', handleUserInteraction, { capture: true });
+    };
+  }, []);
+
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'm' || e.key === 'M') {
+        e.preventDefault();
+        setIsMenuOpen((prev) => !prev);
+        return;
+      }
+
+      if (e.key === 'Escape') {
+        if (isMenuOpen) {
+          setIsMenuOpen(false);
+          return;
+        }
+        e.preventDefault();
+        if (!document.fullscreenElement && document.documentElement.requestFullscreen) {
+          document.documentElement.requestFullscreen().catch(() => {});
+        }
+        return;
+      }
+
+      if (e.key.toLowerCase() === 'f') {
+        e.preventDefault();
+        if (!document.fullscreenElement && document.documentElement.requestFullscreen) {
+          document.documentElement.requestFullscreen().catch(() => {});
+        }
+        return;
+      }
+
       if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'ArrowDown' || e.key === 'PageDown') {
         e.preventDefault();
         go(1);
@@ -319,13 +444,6 @@ export default function Presentation() {
       }
       if (e.key === 'Home') goTo(0);
       if (e.key === 'End') goTo(slides.length - 1);
-      if (e.key.toLowerCase() === 'f') {
-        if (document.fullscreenElement) {
-          document.exitFullscreen();
-        } else {
-          document.documentElement.requestFullscreen();
-        }
-      }
     };
 
     const onWheel = (e: WheelEvent) => {
@@ -351,7 +469,7 @@ export default function Presentation() {
       window.removeEventListener('keydown', onKey);
       window.removeEventListener('wheel', onWheel);
     };
-  }, [go, goTo]);
+  }, [go, goTo, isMenuOpen]);
 
   return (
     <main className="stage">
@@ -374,10 +492,23 @@ export default function Presentation() {
           <Active n={index + 1} total={slides.length}/>
         </motion.div>
       </AnimatePresence>
+
+      <SlideNavigationModal
+        isOpen={isMenuOpen}
+        slides={slides}
+        currentIndex={index}
+        onSelectSlide={(i) => {
+          goTo(i);
+          setIsMenuOpen(false);
+        }}
+        onClose={() => setIsMenuOpen(false)}
+      />
+
       <div className="nav">
         <button onClick={() => go(-1)}>‹</button>
         <span>{index + 1}/{slides.length}</span>
-        <button onClick={() => document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen()}>⛶</button>
+        <button onClick={() => setIsMenuOpen((prev) => !prev)} style={{ fontWeight: 800, fontSize: '0.7vw', letterSpacing: '0.05em' }} title="Menu Présentateur (Touche M)">M</button>
+        <button onClick={() => document.documentElement.requestFullscreen().catch(() => {})}>⛶</button>
         <button onClick={() => go(1)}>›</button>
       </div>
     </main>

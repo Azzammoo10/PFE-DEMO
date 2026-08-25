@@ -33,9 +33,9 @@ export default function MethodologySlide({ n }: SlideProps) {
       icon: Network,
       tasks: ['VMware Host-Only', '4 VMs déployées', "Plan d'IPs configuré"],
       increment: 'Réseau & VMs OK',
-      cardCustom: 25,
-      chevronCustom: 28,
-      elementDelay: 1.25
+      cardCustom: 1,
+      chevronCustom: 2,
+      elementDelay: 0.05
     },
     {
       id: '02',
@@ -43,9 +43,9 @@ export default function MethodologySlide({ n }: SlideProps) {
       icon: Code2,
       tasks: ['API Manager Flask', 'Sondes agents Python', 'Hooking Windows API'],
       increment: 'Sondes & API OK',
-      cardCustom: 32,
-      chevronCustom: 35,
-      elementDelay: 1.53
+      cardCustom: 3,
+      chevronCustom: 4,
+      elementDelay: 0.10
     },
     {
       id: '03',
@@ -53,9 +53,9 @@ export default function MethodologySlide({ n }: SlideProps) {
       icon: AlertTriangle,
       tasks: ['Simulations Kali', 'Fuites SCP & Mail', 'Reverse Shells'],
       increment: 'Vecteurs Testés',
-      cardCustom: 39,
-      chevronCustom: 42,
-      elementDelay: 1.81
+      cardCustom: 5,
+      chevronCustom: 6,
+      elementDelay: 0.15
     },
     {
       id: '04',
@@ -63,9 +63,9 @@ export default function MethodologySlide({ n }: SlideProps) {
       icon: Gauge,
       tasks: ['SOC Console Flask', 'Triage Alertes', 'Case Management'],
       increment: 'Console Web OK',
-      cardCustom: 46,
-      chevronCustom: 49,
-      elementDelay: 2.09
+      cardCustom: 7,
+      chevronCustom: 8,
+      elementDelay: 0.20
     },
     {
       id: '05',
@@ -73,17 +73,17 @@ export default function MethodologySlide({ n }: SlideProps) {
       icon: LayoutDashboard,
       tasks: ['DLP Monitor Tool', 'OneTrust Tracker', 'Suivi opérationnel'],
       increment: 'Release Finale',
-      cardCustom: 53,
+      cardCustom: 9,
       chevronCustom: null,
-      elementDelay: 2.37
+      elementDelay: 0.25
     }
   ];
 
   const metrics = [
-    { label: '4 VMs', desc: 'Ubuntu, AXA AMS & GO, Kali', custom: 64 },
-    { label: '5 Canaux', desc: 'USB, Mail, File, Cloud, Presse-papiers', custom: 67 },
-    { label: '4 Scénarios', desc: "d'attaques offensives Kali", custom: 70 },
-    { label: '2 Plateformes', desc: 'DLP Monitor & OneTrust Tracker', custom: 73 }
+    { label: '4 VMs', desc: 'Ubuntu, AXA AMS & GO, Kali', custom: 10 },
+    { label: '5 Canaux', desc: 'USB, Mail, File, Cloud, Presse-papiers', custom: 11 },
+    { label: '2 Scénarios', desc: "d'attaques offensives Kali", custom: 12 },
+    { label: '3 Plateformes', desc: 'DLP Monitor & OneTrust Tracker', custom: 13 }
   ];
 
   if (!isMounted) {
@@ -94,7 +94,7 @@ export default function MethodologySlide({ n }: SlideProps) {
     <Shell 
       section="MÉTHODOLOGIE" 
       pulseLabel="Méthodologie" 
-      title="Sprints et Démarche Projet Agile" 
+      title="Méthodologie et Organisation du Projet" 
       n={n} 
       dense
     >

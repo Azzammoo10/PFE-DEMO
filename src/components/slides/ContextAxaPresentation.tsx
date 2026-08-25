@@ -40,7 +40,7 @@ export default function ContextAxaPresentation({ n }: SlideProps) {
   ];
 
   return (
-    <Shell section="CONTEXTE" title="AXA GBS & Organisation Cybersécurité" n={n}>
+    <Shell section="CONTEXTE" title="Contexte Général et Organisme d'Accueil (AXA GO)" n={n}>
       <div style={{
         display: 'grid',
         gridTemplateColumns: '1fr 1.05fr 1.15fr',

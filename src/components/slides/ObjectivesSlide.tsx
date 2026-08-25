@@ -18,7 +18,7 @@ export default function ObjectivesSlide({ n }: SlideProps) {
   const objectives = [
     {
       id: '01',
-      title: 'Coût & Flexibilité',
+      title: 'Coût et Flexibilité',
       text: 'Concevoir une architecture DLP hybride, flexible et à coût réduit',
       icon: Compass,
       delay: 0.1,
@@ -50,22 +50,11 @@ export default function ObjectivesSlide({ n }: SlideProps) {
     }
   ];
 
-  // Page title matching requirements
-  const customTitle = (
-    <>
-      Nos <span style={{ color: '#00008f', fontWeight: 900 }}>Objectifs</span>
-    </>
-  );
-
-  if (!isMounted) {
-    return <div className="p-6 text-slate-500">Chargement des objectifs...</div>;
-  }
-
   return (
     <Shell 
       section="OBJECTIFS" 
       pulseLabel="Objectifs" 
-      title={customTitle} 
+      title="Objectifs du Projet" 
       n={n} 
       dense
     >

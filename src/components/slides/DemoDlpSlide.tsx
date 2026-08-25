@@ -120,7 +120,7 @@ const DEMO_SCENARIOS: Scenario[] = [
     time: 34,
     timeStr: '0:34',
     title: 'Premier scénario : Détection des fichiers secrets (Autolabeling)',
-    subtitle: 'Marquage automatique & classification en temps réel',
+    subtitle: 'Marquage automatique et classification en temps réel',
     badge: 'Autolabeling',
     IconComponent: Icons.Tag,
     color: '#00008f',
@@ -132,7 +132,7 @@ const DEMO_SCENARIOS: Scenario[] = [
     time: 73,
     timeStr: '1:13',
     title: 'Deuxième scénario : Détection d\'upload',
-    subtitle: 'Interception & blocage des flux web',
+    subtitle: 'Interception et blocage des flux web',
     badge: 'Upload Web',
     IconComponent: Icons.Globe,
     color: '#6366f1',
@@ -296,6 +296,7 @@ const PLATFORM_SCENARIOS: Scenario[] = [
 
 export default function DemoDlpSlide({ n }: SlideProps) {
   const [phase, setPhase] = useState<0 | 1 | 2 | 3>(0);
+  const [playbackRate, setPlaybackRate] = useState<number>(1);
 
   const phaseRef = useRef(phase);
   useEffect(() => {
@@ -308,16 +309,24 @@ export default function DemoDlpSlide({ n }: SlideProps) {
   const containerRef3 = useRef<HTMLDivElement>(null);
   const containerRef4 = useRef<HTMLDivElement>(null);
 
-  const toggleFullscreen = (containerRef: React.RefObject<HTMLDivElement | null>) => {
-    if (!document.fullscreenElement) {
-      if (containerRef.current?.requestFullscreen) {
-        containerRef.current.requestFullscreen().catch(() => {});
-      }
-    } else {
-      if (document.exitFullscreen) {
-        document.exitFullscreen().catch(() => {});
-      }
+  const togglePlaybackSpeed = () => {
+    setPlaybackRate((prev) => {
+      const next = prev === 1 ? 2 : 1;
+      [videoRef1, videoRef2, videoRef3, videoRef4].forEach((ref) => {
+        if (ref.current) ref.current.playbackRate = next;
+      });
+      return next;
+    });
+  };
+
+  const enterFullscreen = (containerRef: React.RefObject<HTMLDivElement | null>) => {
+    if (!document.fullscreenElement && containerRef.current?.requestFullscreen) {
+      containerRef.current.requestFullscreen().catch(() => {});
     }
+  };
+
+  const toggleFullscreen = (containerRef: React.RefObject<HTMLDivElement | null>) => {
+    enterFullscreen(containerRef);
   };
 
   // Phase 1 (Simulation DLP) Video State
@@ -495,41 +504,36 @@ export default function DemoDlpSlide({ n }: SlideProps) {
     }
   }, [phase]);
 
-  const handleSeekTo1 = (timeInSeconds: number) => {
-    if (videoRef1.current) {
-      videoRef1.current.currentTime = timeInSeconds;
-      videoRef1.current.play().catch(() => {});
-      setIsPlaying1(true);
-      setCurrentTime1(timeInSeconds);
+  const safeSeekAndPlay = (
+    video: HTMLVideoElement | null,
+    setIsPlaying: (playing: boolean) => void,
+    setCurrentTime: (time: number) => void,
+    targetTime: number
+  ) => {
+    if (!video) return;
+    try {
+      video.currentTime = targetTime;
+      video.playbackRate = playbackRate;
+      const playPromise = video.play();
+      if (playPromise !== undefined) {
+        playPromise
+          .then(() => {
+            setIsPlaying(true);
+          })
+          .catch(() => {
+            // Safely catch video play interruptions
+          });
+      }
+      setCurrentTime(targetTime);
+    } catch {
+      // Gracefully catch potential DOMException during rapid seek
     }
   };
 
-  const handleSeekTo2 = (timeInSeconds: number) => {
-    if (videoRef2.current) {
-      videoRef2.current.currentTime = timeInSeconds;
-      videoRef2.current.play().catch(() => {});
-      setIsPlaying2(true);
-      setCurrentTime2(timeInSeconds);
-    }
-  };
-
-  const handleSeekTo3 = (timeInSeconds: number) => {
-    if (videoRef3.current) {
-      videoRef3.current.currentTime = timeInSeconds;
-      videoRef3.current.play().catch(() => {});
-      setIsPlaying3(true);
-      setCurrentTime3(timeInSeconds);
-    }
-  };
-
-  const handleSeekTo4 = (timeInSeconds: number) => {
-    if (videoRef4.current) {
-      videoRef4.current.currentTime = timeInSeconds;
-      videoRef4.current.play().catch(() => {});
-      setIsPlaying4(true);
-      setCurrentTime4(timeInSeconds);
-    }
-  };
+  const handleSeekTo1 = (timeInSeconds: number) => safeSeekAndPlay(videoRef1.current, setIsPlaying1, setCurrentTime1, timeInSeconds);
+  const handleSeekTo2 = (timeInSeconds: number) => safeSeekAndPlay(videoRef2.current, setIsPlaying2, setCurrentTime2, timeInSeconds);
+  const handleSeekTo3 = (timeInSeconds: number) => safeSeekAndPlay(videoRef3.current, setIsPlaying3, setCurrentTime3, timeInSeconds);
+  const handleSeekTo4 = (timeInSeconds: number) => safeSeekAndPlay(videoRef4.current, setIsPlaying4, setCurrentTime4, timeInSeconds);
 
   const handleTabNextScenario = (isShift: boolean) => {
     const currentPhase = phaseRef.current;
@@ -574,6 +578,31 @@ export default function DemoDlpSlide({ n }: SlideProps) {
     }
   };
 
+  // Auto-restore container fullscreen if browser drops out of fullscreen
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      if (!document.fullscreenElement) {
+        let container: HTMLDivElement | null = null;
+        const currentPhase = phaseRef.current;
+        if (currentPhase === 0) container = containerRef1.current;
+        else if (currentPhase === 1) container = containerRef2.current;
+        else if (currentPhase === 2) container = containerRef3.current;
+        else if (currentPhase === 3) container = containerRef4.current;
+
+        if (container && container.requestFullscreen) {
+          container.requestFullscreen().catch(() => {});
+        }
+      }
+    };
+
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+    return () => {
+      document.removeEventListener('fullscreenchange', handleFullscreenChange);
+      document.removeEventListener('webkitfullscreenchange', handleFullscreenChange);
+    };
+  }, []);
+
   // Capture wheel and keyboard events for internal phase navigation
   useEffect(() => {
     const handleWheel = (e: WheelEvent) => {
@@ -600,6 +629,32 @@ export default function DemoDlpSlide({ n }: SlideProps) {
     };
 
     const handleKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' || e.key === 'f' || e.key === 'F') {
+        e.preventDefault();
+        e.stopPropagation();
+        e.stopImmediatePropagation();
+
+        let container: HTMLDivElement | null = null;
+        const currentPhase = phaseRef.current;
+        if (currentPhase === 0) container = containerRef1.current;
+        else if (currentPhase === 1) container = containerRef2.current;
+        else if (currentPhase === 2) container = containerRef3.current;
+        else if (currentPhase === 3) container = containerRef4.current;
+
+        if (container && !document.fullscreenElement) {
+          container.requestFullscreen().catch(() => {});
+        }
+        return;
+      }
+
+      if (e.key === 'v' || e.key === 'V') {
+        e.preventDefault();
+        e.stopPropagation();
+        e.stopImmediatePropagation();
+        togglePlaybackSpeed();
+        return;
+      }
+
       if (e.key === 'Tab') {
         e.preventDefault();
         e.stopPropagation();
@@ -661,10 +716,10 @@ export default function DemoDlpSlide({ n }: SlideProps) {
   };
 
   const titles = [
-    'Simulation Opérationnelle du DLP',
-    'Validation par Approche Offensive (Pentest)',
-    'Supervision SOC & Centralisation',
-    'Démonstration des Plateformes Développées'
+    'Simulation Opérationnelle DLP',
+    'Validation Offensive (Pentest)',
+    'Supervision SOC et Centralisation',
+    'Démonstration des Outils Métier'
   ];
 
   const kickers = [
@@ -685,7 +740,7 @@ export default function DemoDlpSlide({ n }: SlideProps) {
     <Shell section="DÉMONSTRATION" kicker={kickers[phase]} title={titles[phase]} n={n} dense>
       <div className="demo-slide-layout" style={{ display: 'flex', flexDirection: 'column', height: 'calc(100% + 1vw)', width: '100%', marginTop: '-0.8vw' }}>
         
-        {/* Top 4-Phase Selector Pills */}
+        {/* Top 4-Phase Selector Pills & Speed Multiplier Button */}
         <div style={{ display: 'flex', gap: '8px', alignItems: 'center', justifyContent: 'center', marginBottom: '6px', zIndex: 20 }}>
           {[
             { id: 0, label: '1. Simulation DLP', color: '#00008f' },
@@ -726,6 +781,31 @@ export default function DemoDlpSlide({ n }: SlideProps) {
               </button>
             );
           })}
+
+          {/* Speed Toggle Badge (Key V) */}
+          <button
+            onClick={togglePlaybackSpeed}
+            style={{
+              padding: '2px 12px',
+              borderRadius: '16px',
+              border: `1.5px solid ${playbackRate === 2 ? '#0b66d5' : '#cbd5e1'}`,
+              background: playbackRate === 2 ? '#eff6ff' : '#ffffff',
+              color: playbackRate === 2 ? '#0b66d5' : '#475569',
+              fontSize: '0.7vw',
+              fontWeight: 800,
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '4px',
+              boxShadow: playbackRate === 2 ? '0 2px 8px rgba(11, 102, 213, 0.2)' : 'none',
+              marginLeft: '8px'
+            }}
+          >
+            <span>{playbackRate === 2 ? '⏩ Vitesse 2.0x' : '▶ Vitesse 1.0x'}</span>
+            <span style={{ fontSize: '0.58vw', background: playbackRate === 2 ? '#0b66d5' : '#cbd5e1', color: '#ffffff', padding: '0.08vw 0.3vw', borderRadius: '4px' }}>
+              Touche V
+            </span>
+          </button>
         </div>
 
         {/* Permanently Mounted & Pre-Decoded Dynamic Phase Containers (No lag / 60 FPS GPU hardware acceleration) */}
@@ -802,6 +882,30 @@ export default function DemoDlpSlide({ n }: SlideProps) {
                     })}
                   </div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <button
+                      onClick={togglePlaybackSpeed}
+                      title="Appuyez sur la touche V pour basculer la vitesse (1.0x / 2.0x)"
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '4px',
+                        padding: '2px 8px',
+                        borderRadius: '10px',
+                        border: `1.5px solid ${playbackRate === 2 ? '#0b66d5' : '#cbd5e1'}`,
+                        background: playbackRate === 2 ? '#0b66d5' : '#ffffff',
+                        color: playbackRate === 2 ? '#ffffff' : '#0b2b5d',
+                        fontSize: '0.68vw',
+                        fontWeight: 800,
+                        cursor: 'pointer',
+                        transition: 'all 0.2s ease',
+                        boxShadow: playbackRate === 2 ? '0 0 10px rgba(11, 102, 213, 0.4)' : 'none'
+                      }}
+                    >
+                      <span>{playbackRate === 2 ? '⚡ 2.0x' : '▶ 1.0x'}</span>
+                      <span style={{ fontSize: '0.55vw', background: playbackRate === 2 ? 'rgba(255,255,255,0.3)' : '#e2e8f0', color: playbackRate === 2 ? '#ffffff' : '#475569', padding: '1px 4px', borderRadius: '4px' }}>
+                        V
+                      </span>
+                    </button>
                     <span style={{ fontSize: '0.68vw', fontWeight: 600, color: '#52657d', background: '#f0f4f8', padding: '2px 8px', borderRadius: '10px', display: 'flex', alignItems: 'center', gap: '4px' }}>
                       <Icons.Clock />
                       {formatTime(currentTime1)} / {formatTime(duration1 || 0)}
@@ -837,6 +941,8 @@ export default function DemoDlpSlide({ n }: SlideProps) {
                     src="/DLP-DEMO-final.mp4"
                     preload="metadata"
                     controls
+                    controlsList="nofullscreen noremoteplayback"
+                    disablePictureInPicture
                     onTimeUpdate={() => {
                       if (videoRef1.current && Math.abs(videoRef1.current.currentTime - currentTime1) >= 0.5) {
                         setCurrentTime1(videoRef1.current.currentTime);
@@ -1047,6 +1153,30 @@ export default function DemoDlpSlide({ n }: SlideProps) {
                   </div>
 
                   <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <button
+                      onClick={togglePlaybackSpeed}
+                      title="Appuyez sur la touche V pour basculer la vitesse (1.0x / 2.0x)"
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '4px',
+                        padding: '2px 8px',
+                        borderRadius: '10px',
+                        border: `1.5px solid ${playbackRate === 2 ? '#dc2626' : '#cbd5e1'}`,
+                        background: playbackRate === 2 ? '#dc2626' : '#ffffff',
+                        color: playbackRate === 2 ? '#ffffff' : '#0b2b5d',
+                        fontSize: '0.68vw',
+                        fontWeight: 800,
+                        cursor: 'pointer',
+                        transition: 'all 0.2s ease',
+                        boxShadow: playbackRate === 2 ? '0 0 10px rgba(220, 38, 38, 0.4)' : 'none'
+                      }}
+                    >
+                      <span>{playbackRate === 2 ? '⚡ 2.0x' : '▶ 1.0x'}</span>
+                      <span style={{ fontSize: '0.55vw', background: playbackRate === 2 ? 'rgba(255,255,255,0.3)' : '#e2e8f0', color: playbackRate === 2 ? '#ffffff' : '#475569', padding: '1px 4px', borderRadius: '4px' }}>
+                        V
+                      </span>
+                    </button>
                     <span style={{ fontSize: '0.68vw', fontWeight: 600, color: '#52657d', background: '#f0f4f8', padding: '2px 8px', borderRadius: '10px', display: 'flex', alignItems: 'center', gap: '4px' }}>
                       <Icons.Clock />
                       {formatTime(currentTime2)} / {formatTime(duration2 || 0)}
@@ -1077,11 +1207,42 @@ export default function DemoDlpSlide({ n }: SlideProps) {
                 </div>
 
                 <div style={{ flex: 1, position: 'relative', background: '#000', borderRadius: '10px', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
+                  {/* Floating Speed Indicator Badge inside Fullscreen Video Container */}
+                  <div
+                    onClick={togglePlaybackSpeed}
+                    style={{
+                      position: 'absolute',
+                      top: '10px',
+                      right: '10px',
+                      zIndex: 20,
+                      background: playbackRate === 2 ? 'rgba(220, 38, 38, 0.9)' : 'rgba(15, 23, 42, 0.8)',
+                      backdropFilter: 'blur(8px)',
+                      border: `1.5px solid ${playbackRate === 2 ? '#fca5a5' : 'rgba(255, 255, 255, 0.25)'}`,
+                      borderRadius: '16px',
+                      padding: '3px 9px',
+                      color: '#ffffff',
+                      fontSize: '0.68vw',
+                      fontWeight: 800,
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '5px',
+                      cursor: 'pointer',
+                      boxShadow: '0 4px 14px rgba(0, 0, 0, 0.4)',
+                      transition: 'all 0.2s ease'
+                    }}
+                  >
+                    <span>{playbackRate === 2 ? '⚡ Vitesse 2.0x' : '▶ Vitesse 1.0x'}</span>
+                    <span style={{ fontSize: '0.55vw', background: 'rgba(255, 255, 255, 0.25)', padding: '1px 4px', borderRadius: '4px' }}>
+                      [V]
+                    </span>
+                  </div>
                   <video
                     ref={videoRef2}
                     src="/Phase Pentest -Final.mp4"
                     preload="metadata"
                     controls
+                    controlsList="nofullscreen noremoteplayback"
+                    disablePictureInPicture
                     onTimeUpdate={() => {
                       if (videoRef2.current && Math.abs(videoRef2.current.currentTime - currentTime2) >= 0.5) {
                         setCurrentTime2(videoRef2.current.currentTime);
@@ -1292,6 +1453,30 @@ export default function DemoDlpSlide({ n }: SlideProps) {
                   </div>
 
                   <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <button
+                      onClick={togglePlaybackSpeed}
+                      title="Appuyez sur la touche V pour basculer la vitesse (1.0x / 2.0x)"
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '4px',
+                        padding: '2px 8px',
+                        borderRadius: '10px',
+                        border: `1.5px solid ${playbackRate === 2 ? '#0b66d5' : '#cbd5e1'}`,
+                        background: playbackRate === 2 ? '#0b66d5' : '#ffffff',
+                        color: playbackRate === 2 ? '#ffffff' : '#0b2b5d',
+                        fontSize: '0.68vw',
+                        fontWeight: 800,
+                        cursor: 'pointer',
+                        transition: 'all 0.2s ease',
+                        boxShadow: playbackRate === 2 ? '0 0 10px rgba(11, 102, 213, 0.4)' : 'none'
+                      }}
+                    >
+                      <span>{playbackRate === 2 ? '⚡ 2.0x' : '▶ 1.0x'}</span>
+                      <span style={{ fontSize: '0.55vw', background: playbackRate === 2 ? 'rgba(255,255,255,0.3)' : '#e2e8f0', color: playbackRate === 2 ? '#ffffff' : '#475569', padding: '1px 4px', borderRadius: '4px' }}>
+                        V
+                      </span>
+                    </button>
                     <span style={{ fontSize: '0.68vw', fontWeight: 600, color: '#52657d', background: '#f0f4f8', padding: '2px 8px', borderRadius: '10px', display: 'flex', alignItems: 'center', gap: '4px' }}>
                       <Icons.Clock />
                       {formatTime(currentTime3)} / {formatTime(duration3 || 0)}
@@ -1322,11 +1507,42 @@ export default function DemoDlpSlide({ n }: SlideProps) {
                 </div>
 
                 <div style={{ flex: 1, position: 'relative', background: '#000', borderRadius: '10px', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
+                  {/* Floating Speed Indicator Badge inside Fullscreen Video Container */}
+                  <div
+                    onClick={togglePlaybackSpeed}
+                    style={{
+                      position: 'absolute',
+                      top: '10px',
+                      right: '10px',
+                      zIndex: 20,
+                      background: playbackRate === 2 ? 'rgba(11, 102, 213, 0.9)' : 'rgba(15, 23, 42, 0.8)',
+                      backdropFilter: 'blur(8px)',
+                      border: `1.5px solid ${playbackRate === 2 ? '#38bdf8' : 'rgba(255, 255, 255, 0.25)'}`,
+                      borderRadius: '16px',
+                      padding: '3px 9px',
+                      color: '#ffffff',
+                      fontSize: '0.68vw',
+                      fontWeight: 800,
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '5px',
+                      cursor: 'pointer',
+                      boxShadow: '0 4px 14px rgba(0, 0, 0, 0.4)',
+                      transition: 'all 0.2s ease'
+                    }}
+                  >
+                    <span>{playbackRate === 2 ? '⚡ Vitesse 2.0x' : '▶ Vitesse 1.0x'}</span>
+                    <span style={{ fontSize: '0.55vw', background: 'rgba(255, 255, 255, 0.25)', padding: '1px 4px', borderRadius: '4px' }}>
+                      [V]
+                    </span>
+                  </div>
                   <video
                     ref={videoRef3}
                     src="/DLP-SOC.mp4"
                     preload="metadata"
                     controls
+                    controlsList="nofullscreen noremoteplayback"
+                    disablePictureInPicture
                     onTimeUpdate={() => {
                       if (videoRef3.current && Math.abs(videoRef3.current.currentTime - currentTime3) >= 0.5) {
                         setCurrentTime3(videoRef3.current.currentTime);
@@ -1537,6 +1753,30 @@ export default function DemoDlpSlide({ n }: SlideProps) {
                   </div>
 
                   <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <button
+                      onClick={togglePlaybackSpeed}
+                      title="Appuyez sur la touche V pour basculer la vitesse (1.0x / 2.0x)"
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '4px',
+                        padding: '2px 8px',
+                        borderRadius: '10px',
+                        border: `1.5px solid ${playbackRate === 2 ? '#7c3aed' : '#cbd5e1'}`,
+                        background: playbackRate === 2 ? '#7c3aed' : '#ffffff',
+                        color: playbackRate === 2 ? '#ffffff' : '#0b2b5d',
+                        fontSize: '0.68vw',
+                        fontWeight: 800,
+                        cursor: 'pointer',
+                        transition: 'all 0.2s ease',
+                        boxShadow: playbackRate === 2 ? '0 0 10px rgba(124, 58, 237, 0.4)' : 'none'
+                      }}
+                    >
+                      <span>{playbackRate === 2 ? '⚡ 2.0x' : '▶ 1.0x'}</span>
+                      <span style={{ fontSize: '0.55vw', background: playbackRate === 2 ? 'rgba(255,255,255,0.3)' : '#e2e8f0', color: playbackRate === 2 ? '#ffffff' : '#475569', padding: '1px 4px', borderRadius: '4px' }}>
+                        V
+                      </span>
+                    </button>
                     <span style={{ fontSize: '0.68vw', fontWeight: 600, color: '#52657d', background: '#f0f4f8', padding: '2px 8px', borderRadius: '10px', display: 'flex', alignItems: 'center', gap: '4px' }}>
                       <Icons.Clock />
                       {formatTime(currentTime4)} / {formatTime(duration4 || 0)}
@@ -1567,11 +1807,42 @@ export default function DemoDlpSlide({ n }: SlideProps) {
                 </div>
 
                 <div style={{ flex: 1, position: 'relative', background: '#000', borderRadius: '10px', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
+                  {/* Floating Speed Indicator Badge inside Fullscreen Video Container */}
+                  <div
+                    onClick={togglePlaybackSpeed}
+                    style={{
+                      position: 'absolute',
+                      top: '10px',
+                      right: '10px',
+                      zIndex: 20,
+                      background: playbackRate === 2 ? 'rgba(124, 58, 237, 0.9)' : 'rgba(15, 23, 42, 0.8)',
+                      backdropFilter: 'blur(8px)',
+                      border: `1.5px solid ${playbackRate === 2 ? '#c4b5fd' : 'rgba(255, 255, 255, 0.25)'}`,
+                      borderRadius: '16px',
+                      padding: '3px 9px',
+                      color: '#ffffff',
+                      fontSize: '0.68vw',
+                      fontWeight: 800,
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '5px',
+                      cursor: 'pointer',
+                      boxShadow: '0 4px 14px rgba(0, 0, 0, 0.4)',
+                      transition: 'all 0.2s ease'
+                    }}
+                  >
+                    <span>{playbackRate === 2 ? '⚡ Vitesse 2.0x' : '▶ Vitesse 1.0x'}</span>
+                    <span style={{ fontSize: '0.55vw', background: 'rgba(255, 255, 255, 0.25)', padding: '1px 4px', borderRadius: '4px' }}>
+                      [V]
+                    </span>
+                  </div>
                   <video
                     ref={videoRef4}
                     src="/Platform PFE.mp4"
                     preload="metadata"
                     controls
+                    controlsList="nofullscreen noremoteplayback"
+                    disablePictureInPicture
                     onTimeUpdate={() => {
                       if (videoRef4.current && Math.abs(videoRef4.current.currentTime - currentTime4) >= 0.5) {
                         setCurrentTime4(videoRef4.current.currentTime);

@@ -22,7 +22,7 @@ export default function ProblemSlide({ n }: SlideProps) {
       id: '02',
       title: 'Absence d\'Alternative Open-Source',
       text: 'Manque d\'une solution DLP légère, modulaire et totalement contrôlable en interne.',
-      tag: 'Souveraineté & Code',
+      tag: 'Souveraineté et Code',
       icon: Code2,
       color: '#00008f', // AXA Blue
       bgLight: '#eff6ff',
@@ -31,7 +31,7 @@ export default function ProblemSlide({ n }: SlideProps) {
     },
     {
       id: '03',
-      title: 'Triage Manuel & Surcharge SOC',
+      title: 'Triage Manuel et Surcharge SOC',
       text: 'Extraction manuelle lourde des journaux bruts et fatigue décisionnelle des analystes.',
       tag: 'Efficacité Opérationnelle',
       icon: SearchCheck,
@@ -44,7 +44,7 @@ export default function ProblemSlide({ n }: SlideProps) {
       id: '04',
       title: 'Complexité des Règles DLP',
       text: 'Redondance et chevauchement sémantique des règles au sein du référentiel CM11 / OneTrust.',
-      tag: 'Gouvernance & Conflits',
+      tag: 'Gouvernance et Conflits',
       icon: SlidersHorizontal,
       color: '#d97706', // Amber
       bgLight: '#fffbeb',
@@ -56,11 +56,7 @@ export default function ProblemSlide({ n }: SlideProps) {
   return (
     <Shell 
       section="PROBLÉMATIQUE" 
-      title={
-        <>
-          Limites des Solutions DLP Actuelles &amp; <span style={{ color: '#e11d48', fontWeight: 900 }}>Verrous Opérationnels</span>
-        </>
-      } 
+      title="Problématique et Défis Opérationnels" 
       n={n}
     >
       <div style={{
@@ -149,7 +145,7 @@ export default function ProblemSlide({ n }: SlideProps) {
               Verrous DLP Actuels
             </h3>
             <p style={{ margin: 0, fontSize: '0.74vw', color: '#475569', fontWeight: 600, lineHeight: 1.35 }}>
-              Coûts élevés, opacité du code &amp; triage manuelle lourd.
+              Coûts élevés, opacité du code et triage manuel lourd.
             </p>
           </div>
         </div>

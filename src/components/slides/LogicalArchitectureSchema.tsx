@@ -34,10 +34,10 @@ export default function LogicalArchitectureSchema() {
   }, [hoveredNode]);
 
   const stepsData = [
-    { num: 1, title: 'Step 1 : Surveillance Endpoints & Agents Python', desc: 'Les sondes Python surveillent la mémoire, les USB, emails, SCP et uploads cloud des postes Windows AXA GO.' },
+    { num: 1, title: 'Step 1 : Surveillance Endpoints et Agents Python', desc: 'Les sondes Python surveillent la mémoire, les USB, emails, SCP et uploads cloud des postes Windows AXA GO.' },
     { num: 2, title: 'Step 2 : Traitement Moteur DLP LAB', desc: 'Ingestion, parsing, normalisation JSON et calcul du Risk Scoring au sein du Laboratoire DLP Hybride.' },
-    { num: 3, title: 'Step 3 : Politiques & Décision Locale', desc: 'Évaluation contre le référentiel de classification et déclenchement immédiat du blocage ou de l\'alerte.' },
-    { num: 4, title: 'Step 4 : Corrélation Wazuh SOC & Active Response', desc: 'Centralisation des logs JSON dans Wazuh SOC, mapping MITRE ATT&CK et blocage automatique des Reverse Shells.' },
+    { num: 3, title: 'Step 3 : Politiques et Décision Locale', desc: 'Évaluation contre le référentiel de classification et déclenchement immédiat du blocage ou de l\'alerte.' },
+    { num: 4, title: 'Step 4 : Corrélation Wazuh SOC et Active Response', desc: 'Centralisation des logs JSON dans Wazuh SOC, mapping MITRE ATT&CK et blocage automatique des Reverse Shells.' },
     { num: 5, title: 'Step 5 : Validation Offensive Kali Linux', desc: 'Execution de scénarios d\'exfiltration réels (Kali Linux) pour valider l\'efficacité des règles DLP et du SOC.' }
   ];
 

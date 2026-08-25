@@ -1,4 +1,4 @@
-import { GraduationCap, User, UserCheck, Users, Award } from 'lucide-react';
+import { GraduationCap, User, UserCheck, Users, Award, Calendar } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { fadeUp } from '../Presentation';
 import type { SlideProps } from '../Presentation';
@@ -85,27 +85,45 @@ export default function TitleSlide({ n }: SlideProps) {
           </h1>
         </motion.div>
 
-        {/* Text 4: DLP Manager central (Flask API) & Sondes Endpoints Windows */}
-        <motion.h2 custom={4} variants={fadeUp} style={{ fontSize: '1.2vw', fontWeight: 500, color: '#cbd5e1', margin: '0 0 1.2vw 0' }}>
-          DLP Manager central (Flask API) & Sondes Endpoints Windows
+        {/* Text 4: DLP Manager Centralisé, Sondes Endpoints Windows et Outillage Métier */}
+        <motion.h2 custom={4} variants={fadeUp} style={{ fontSize: '1.25vw', fontWeight: 600, color: '#3b82f6', letterSpacing: '-0.01em', margin: '0 0 1.2vw 0', padding: 0, textShadow: '0 0 16px rgba(59, 130, 246, 0.25)' }}>
+          DLP Manager Centralisé, Sondes Endpoints Windows et Outillage Métier
         </motion.h2>
 
-        {/* Text 5: Filière : Ingénierie Informatique et Réseaux (EMSI) */}
-        <motion.p custom={5} variants={fadeUp} style={{ 
-          display: 'inline-flex', 
-          alignItems: 'center', 
-          gap: '0.6vw', 
-          background: 'rgba(255, 255, 255, 0.05)', 
-          border: '1px solid rgba(255, 255, 255, 0.12)', 
-          padding: '0.5vw 1.2vw', 
-          borderRadius: '10px', 
-          color: '#e2e8f0', 
-          fontWeight: 700, 
-          fontSize: '0.95vw', 
-          margin: '0' 
-        }}>
-          <GraduationCap size={18} style={{ color: '#38bdf8' }}/> Filière : Ingénierie Informatique et Réseaux (EMSI)
-        </motion.p>
+        {/* Text 5: Filière & Date de Soutenance */}
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.4vw', marginTop: '0.1vw' }}>
+          <motion.p custom={5} variants={fadeUp} style={{ 
+            display: 'inline-flex', 
+            alignItems: 'center', 
+            gap: '0.6vw', 
+            background: 'rgba(255, 255, 255, 0.05)', 
+            border: '1px solid rgba(255, 255, 255, 0.12)', 
+            padding: '0.45vw 1.2vw', 
+            borderRadius: '10px', 
+            color: '#e2e8f0', 
+            fontWeight: 700, 
+            fontSize: '0.95vw', 
+            margin: '0' 
+          }}>
+            <GraduationCap size={18} style={{ color: '#38bdf8' }}/> Filière : Ingénierie Informatique et Réseaux (EMSI)
+          </motion.p>
+
+          <motion.div custom={6} variants={fadeUp} style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '0.4vw',
+            background: 'rgba(11, 102, 213, 0.15)',
+            border: '1px solid rgba(56, 189, 248, 0.3)',
+            padding: '0.25vw 0.9vw',
+            borderRadius: '8px',
+            color: '#38bdf8',
+            fontWeight: 700,
+            fontSize: '0.85vw'
+          }}>
+            <Calendar size={14} style={{ color: '#38bdf8' }} />
+            <span>Soutenu le : X / X / X</span>
+          </motion.div>
+        </div>
       </motion.div>
 
       {/* 3. Metadata Cards at Bottom */}

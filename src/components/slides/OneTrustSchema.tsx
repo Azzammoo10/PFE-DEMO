@@ -110,8 +110,8 @@ export default function OneTrustSchema() {
     {
       id: 5,
       num: '05',
-      title: 'PERSISTENCE & KPIs',
-      subtitle: 'Registre & Reporting',
+      title: 'PERSISTENCE et KPIs',
+      subtitle: 'Registre et Reporting',
       badge: 'Audit Trail',
       icon: Database,
       color: '#059669',
@@ -120,8 +120,8 @@ export default function OneTrustSchema() {
       desc: 'Enregistrement de la décision et mise à jour des KPIs.',
       items: [
         { label: 'Décision Enregistrée', icon: CheckCircle2, isSuccess: true },
-        { label: 'Dashboards & KPIs Métiers', icon: BarChart3 },
-        { label: 'Export Managers & RSI', icon: Users }
+        { label: 'Dashboards et KPIs Métiers', icon: BarChart3 },
+        { label: 'Export Managers et RSI', icon: Users }
       ],
       footer: 'Reporting Final'
     }

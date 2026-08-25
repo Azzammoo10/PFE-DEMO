@@ -7,3 +7,5 @@ dist/
 .DS_Store
 *.tsbuildinfo
 
+# Report folder (local only)
+PFE-DATA_REPORT/

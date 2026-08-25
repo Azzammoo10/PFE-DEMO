@@ -3,16 +3,16 @@
 import { useState, useEffect, useRef, useSyncExternalStore } from 'react';
 import { motion, AnimatePresence, type Variants } from 'framer-motion';
 import { 
-  Network, 
-  Cpu, 
-  Flame,
-  ShieldAlert
+  Tag, 
+  Activity, 
+  ShieldCheck
 } from 'lucide-react';
 import { Shell } from '../Presentation';
 import type { SlideProps } from '../Presentation';
-import Volet1InfrastructureSchema from './Volet1InfrastructureSchema';
-import Volet2DlpManagerSchema from './Volet2DlpManagerSchema';
-import Volet3PentestAnimation from './Volet3PentestAnimation';
+
+import LabelGuardSchema from './LabelGuardSchema';
+import MonitoringSchema from './MonitoringSchema';
+import OneTrustSchema from './OneTrustSchema';
 
 const emptySubscribe = () => () => {};
 
@@ -34,14 +34,14 @@ const verticalVariants: Variants = {
   })
 };
 
-export default function ArchitectureSlide({ n }: SlideProps) {
+export default function PlatformsSlide({ n, total }: SlideProps) {
   const isMounted = useSyncExternalStore(
     emptySubscribe,
     () => true,
     () => false
   );
 
-  const [subStep, setSubStep] = useState<1 | 2 | 3 | 4>(1);
+  const [subStep, setSubStep] = useState<1 | 2 | 3>(1);
   const [slideDirection, setSlideDirection] = useState<1 | -1>(1);
 
   const subStepRef = useRef(subStep);
@@ -50,19 +50,19 @@ export default function ArchitectureSlide({ n }: SlideProps) {
   }, [subStep]);
   const isScrolling = useRef(false);
 
-  // Capture wheel and keyboard events for internal sub-step navigation (1/4 to 4/4)
+  // Capture wheel and keyboard events for internal sub-step navigation (1/3 to 3/3)
   useEffect(() => {
     const handleWheel = (e: WheelEvent) => {
       if (Math.abs(e.deltaY) < 18) return;
       if (isScrolling.current) return;
 
       if (e.deltaY > 0) {
-        if (subStepRef.current < 4) {
+        if (subStepRef.current < 3) {
           e.stopPropagation();
           e.stopImmediatePropagation();
           isScrolling.current = true;
           setSlideDirection(1);
-          setSubStep((prev) => (prev + 1) as 1 | 2 | 3 | 4);
+          setSubStep((prev) => (prev + 1) as 1 | 2 | 3);
           setTimeout(() => { isScrolling.current = false; }, 400);
         }
       } else if (e.deltaY < 0) {
@@ -71,7 +71,7 @@ export default function ArchitectureSlide({ n }: SlideProps) {
           e.stopImmediatePropagation();
           isScrolling.current = true;
           setSlideDirection(-1);
-          setSubStep((prev) => (prev - 1) as 1 | 2 | 3 | 4);
+          setSubStep((prev) => (prev - 1) as 1 | 2 | 3);
           setTimeout(() => { isScrolling.current = false; }, 400);
         }
       }
@@ -79,12 +79,12 @@ export default function ArchitectureSlide({ n }: SlideProps) {
 
     const handleKey = (e: KeyboardEvent) => {
       if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'ArrowDown' || e.key === 'PageDown') {
-        if (subStepRef.current < 4) {
+        if (subStepRef.current < 3) {
           e.preventDefault();
           e.stopPropagation();
           e.stopImmediatePropagation();
           setSlideDirection(1);
-          setSubStep((prev) => (prev + 1) as 1 | 2 | 3 | 4);
+          setSubStep((prev) => (prev + 1) as 1 | 2 | 3);
         }
       } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp' || e.key === 'PageUp') {
         if (subStepRef.current > 1) {
@@ -92,7 +92,7 @@ export default function ArchitectureSlide({ n }: SlideProps) {
           e.stopPropagation();
           e.stopImmediatePropagation();
           setSlideDirection(-1);
-          setSubStep((prev) => (prev - 1) as 1 | 2 | 3 | 4);
+          setSubStep((prev) => (prev - 1) as 1 | 2 | 3);
         }
       }
     };
@@ -107,22 +107,22 @@ export default function ArchitectureSlide({ n }: SlideProps) {
   }, []);
 
   if (!isMounted) {
-    return <div className="p-6 text-slate-500">Chargement de la conception DLP...</div>;
+    return <div className="p-6 text-slate-500">Chargement des plateformes DLP...</div>;
   }
 
   const getSubTitle = () => {
-    if (subStep === 1) return 'VOLET 1/4 : Infrastructure & Réseau Virtualisé (4 VMs)';
-    if (subStep === 2) return 'VOLET 2/4 : DLP Manager & Micro-Agents Python';
-    if (subStep === 3) return 'VOLET 3/4 : Conception de la Validation Offensive (Pentest)';
-    return 'VOLET 4/4 : Supervision SOC Wazuh & Active Response';
+    if (subStep === 1) return 'VOLET 1/3 : LabelGuard Platform (Classificateur & Autolabeling IA)';
+    if (subStep === 2) return 'VOLET 2/3 : DLP Monitoring Tool (Supervision & Ingestion Logs)';
+    return 'VOLET 3/3 : OneTrust Tracker (Cartographie & Conformité RGPD)';
   };
 
   return (
     <Shell
       section="CONCEPTION"
-      pulseLabel="Conception Lab"
-      title="Conception du Laboratoire DLP"
+      pulseLabel="Plateformes Ops"
+      title="Conception des Plateformes Opérationnelles"
       n={n}
+      total={total}
       dense
     >
       <div className="w-full h-full flex flex-col items-center justify-between relative overflow-hidden p-0">
@@ -142,19 +142,18 @@ export default function ArchitectureSlide({ n }: SlideProps) {
             alignItems: 'center',
             gap: '0.6vw',
             background: '#ffffff',
-            border: '2px solid #0b66d5',
+            border: '2px solid #00008f',
             borderRadius: '24px',
             padding: '0.45vw 1.2vw',
             fontSize: '1.05vw',
             fontWeight: 900,
             color: '#0f172a',
-            boxShadow: '0 4px 14px rgba(11, 102, 213, 0.12)'
+            boxShadow: '0 4px 14px rgba(0, 0, 143, 0.12)'
           }}>
-            {subStep === 1 && <Network style={{ width: '1.2vw', height: '1.2vw', color: '#0b66d5' }} />}
-            {subStep === 2 && <Cpu style={{ width: '1.2vw', height: '1.2vw', color: '#0b66d5' }} />}
-            {subStep === 3 && <Flame style={{ width: '1.2vw', height: '1.2vw', color: '#dc2626' }} />}
-            {subStep === 4 && <ShieldAlert style={{ width: '1.2vw', height: '1.2vw', color: '#00008f' }} />}
-            <span style={{ color: subStep === 3 ? '#b91c1c' : (subStep === 4 ? '#00008f' : '#0b66d5') }}>
+            {subStep === 1 && <Tag style={{ width: '1.2vw', height: '1.2vw', color: '#00008f' }} />}
+            {subStep === 2 && <Activity style={{ width: '1.2vw', height: '1.2vw', color: '#0b66d5' }} />}
+            {subStep === 3 && <ShieldCheck style={{ width: '1.2vw', height: '1.2vw', color: '#059669' }} />}
+            <span style={{ color: subStep === 1 ? '#00008f' : (subStep === 2 ? '#0b66d5' : '#059669') }}>
               {getSubTitle()}
             </span>
           </div>
@@ -172,10 +171,10 @@ export default function ArchitectureSlide({ n }: SlideProps) {
         }}>
           <AnimatePresence mode="wait" custom={slideDirection}>
             
-            {/* VOLET 1: Infrastructure & Réseau Virtualisé (4 VMs) */}
+            {/* VOLET 1: LabelGuard Platform */}
             {subStep === 1 && (
               <motion.div
-                key="sub-1"
+                key="sub-plat-1"
                 custom={slideDirection}
                 variants={verticalVariants}
                 initial="enter"
@@ -192,14 +191,14 @@ export default function ArchitectureSlide({ n }: SlideProps) {
                   padding: '0.1vw'
                 }}
               >
-                <Volet1InfrastructureSchema />
+                <LabelGuardSchema />
               </motion.div>
             )}
 
-            {/* VOLET 2: DLP Manager & Agents Python */}
+            {/* VOLET 2: DLP Monitoring Tool */}
             {subStep === 2 && (
               <motion.div
-                key="sub-2"
+                key="sub-plat-2"
                 custom={slideDirection}
                 variants={verticalVariants}
                 initial="enter"
@@ -216,14 +215,14 @@ export default function ArchitectureSlide({ n }: SlideProps) {
                   padding: '0.1vw'
                 }}
               >
-                <Volet2DlpManagerSchema />
+                <MonitoringSchema />
               </motion.div>
             )}
 
-            {/* VOLET 3: Validation Offensive (Pentest Kali Linux) */}
+            {/* VOLET 3: OneTrust Tracker */}
             {subStep === 3 && (
               <motion.div
-                key="sub-3"
+                key="sub-plat-3"
                 custom={slideDirection}
                 variants={verticalVariants}
                 initial="enter"
@@ -240,72 +239,26 @@ export default function ArchitectureSlide({ n }: SlideProps) {
                   padding: '0.1vw'
                 }}
               >
-                <Volet3PentestAnimation />
-              </motion.div>
-            )}
-
-            {/* VOLET 4: Supervision SOC Wazuh & Active Response */}
-            {subStep === 4 && (
-              <motion.div
-                key="sub-4"
-                custom={slideDirection}
-                variants={verticalVariants}
-                initial="enter"
-                animate="center"
-                exit="exit"
-                transition={{ duration: 0.45, ease: [0.25, 1, 0.5, 1] }}
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  position: 'relative',
-                  padding: '0.1vw'
-                }}
-              >
-                <div style={{
-                  width: '100%',
-                  height: '100%',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  background: '#ffffff',
-                  border: '1.5px solid #cbd5e1',
-                  borderRadius: '16px',
-                  padding: '0.6vw 1vw',
-                  boxShadow: '0 8px 24px rgba(15, 23, 42, 0.04)',
-                  boxSizing: 'border-box'
-                }}>
-                  <img
-                    src="/soc_wazuh_dlp (1).png"
-                    alt="Chaîne de visibilité SOC Wazuh & DLP"
-                    style={{
-                      maxWidth: '96%',
-                      maxHeight: '94%',
-                      objectFit: 'contain'
-                    }}
-                  />
-                </div>
+                <OneTrustSchema />
               </motion.div>
             )}
 
           </AnimatePresence>
         </div>
 
-        {/* Bottom Navigation Control */}
+        {/* Bottom Navigation Control with Scroll Down Arrow Prompt */}
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', paddingTop: '2px', zIndex: 10 }}>
           <button
             onClick={() => {
-              if (subStep < 4) {
+              if (subStep < 3) {
                 setSlideDirection(1);
-                setSubStep((prev) => (prev + 1) as 1 | 2 | 3 | 4);
+                setSubStep((prev) => (prev + 1) as 1 | 2 | 3);
               }
             }}
             style={{
               background: 'none',
               border: 'none',
-              cursor: subStep < 4 ? 'pointer' : 'default',
+              cursor: subStep < 3 ? 'pointer' : 'default',
               padding: 0
             }}
           >
@@ -316,9 +269,9 @@ export default function ArchitectureSlide({ n }: SlideProps) {
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '6px',
-                background: subStep === 4 ? 'rgba(16, 185, 129, 0.08)' : 'rgba(11, 102, 213, 0.05)',
-                border: `1.5px solid ${subStep === 4 ? 'rgba(16, 185, 129, 0.25)' : 'rgba(11, 102, 213, 0.15)'}`,
-                color: subStep === 4 ? '#047857' : '#0b66d5',
+                background: subStep === 3 ? 'rgba(16, 185, 129, 0.08)' : 'rgba(0, 0, 143, 0.05)',
+                border: `1.5px solid ${subStep === 3 ? 'rgba(16, 185, 129, 0.25)' : 'rgba(0, 0, 143, 0.15)'}`,
+                color: subStep === 3 ? '#047857' : '#00008f',
                 padding: '2px 12px',
                 borderRadius: '20px',
                 fontSize: '0.68vw',
@@ -326,10 +279,9 @@ export default function ArchitectureSlide({ n }: SlideProps) {
               }}
             >
               <span>
-                {subStep === 1 && 'Scroll vers le bas pour le Volet 2/4 (DLP Manager & Agents)'}
-                {subStep === 2 && 'Scroll vers le bas pour le Volet 3/4 (Validation Offensive Pentest)'}
-                {subStep === 3 && 'Scroll vers le bas pour le Volet 4/4 (SOC Wazuh & Active Response)'}
-                {subStep === 4 && 'Dernier volet du DLP Lab — Continuer vers la slide suivante'}
+                {subStep === 1 && 'Scroll vers le bas pour le Volet 2/3 (DLP Monitoring Tool)'}
+                {subStep === 2 && 'Scroll vers le bas pour le Volet 3/3 (OneTrust Tracker & RGPD)'}
+                {subStep === 3 && 'Dernier volet des Plateformes — Continuer vers la slide suivante'}
               </span>
               <span style={{ fontSize: '0.78vw', fontWeight: 900 }}>↓</span>
             </motion.div>

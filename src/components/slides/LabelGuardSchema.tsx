@@ -52,27 +52,29 @@ export default function LabelGuardSchema() {
       borderColor: '#cbd5e1',
       desc: 'Choix de la donnée sensible à tester sans exposition réelle.',
       items: [
-        { label: 'IBAN / MOD-97', icon: CreditCard },
-        { label: 'Email / Identifiant', icon: Mail },
-        { label: 'Nom & Prénom', icon: UserSquare2 },
-        { label: 'Donnée Métier (Vam)', icon: Database }
+        { label: 'IBAN', icon: CreditCard },
+        { label: 'Credit Card', icon: CreditCard },
+        { label: 'EU Debit Card', icon: CreditCard },
+        { label: 'SWIFT Code', icon: Database },
+        { label: 'ABA Routing', icon: Database }
       ],
-      footer: 'Saisie & Filtrage'
+      footer: 'Saisie et Filtrage'
     },
     {
       id: 2,
       num: '02',
       title: 'CONFIGURATION',
-      subtitle: 'Variantes & Langues',
+      subtitle: 'Niveau & Langues',
       badge: 'Paramétrage Test',
       icon: Sliders,
       color: '#1e3a8a',
       bgLight: '#f8fafc',
       borderColor: '#cbd5e1',
-      desc: 'Définition du volume d\'occurrences et de la langue cible.',
+      desc: 'Définition du niveau de sensibilité, des occurrences et de la langue.',
       items: [
-        { label: 'Variante (ex: 1 / 10)', icon: Layers },
-        { label: 'FR / EN / DE / ES', icon: FileType }
+        { label: 'Confidentiel (X occurrences)', icon: Lock, color: '#d97706', isOccurence: true },
+        { label: 'Secret (X occurrences)', icon: Lock, color: '#dc2626', isOccurence: true },
+        { label: 'Langues : FR & ENG', icon: FileType, color: '#0b66d5' }
       ],
       footer: 'Génération Données'
     },
@@ -98,25 +100,26 @@ export default function LabelGuardSchema() {
     {
       id: 4,
       num: '04',
-      title: 'INJECTION',
-      subtitle: 'Environnement AXA',
-      badge: 'Ingestion Sécurisée',
+      title: 'TEST / INJECTION',
+      subtitle: 'Clients AXA & Équipe Test',
+      badge: 'Environnement Microsoft 365',
       icon: Lock,
       color: '#1e3a8a',
       bgLight: '#f8fafc',
       borderColor: '#cbd5e1',
-      desc: 'Transfert de la donnée ou du fichier dans le périmètre AXA.',
+      desc: 'Injection des fichiers de test dans l écosystème M365 par l équipe de recette et clients AXA.',
       items: [
-        { label: 'Purview DLP Engine' },
-        { label: 'Exchange / SharePoint' }
+        { label: 'OneDrive & SharePoint', icon: Database },
+        { label: 'Word, Excel & Outlook', icon: FileText },
+        { label: 'Exchange Mail & Teams', icon: Mail }
       ],
-      footer: 'Envoi / Dépôt'
+      footer: 'Dépôt & Diffusion M365'
     },
     {
       id: 5,
       num: '05',
       title: 'VÉRIFICATION',
-      subtitle: 'Analyse & Rapports',
+      subtitle: 'Analyse et Rapports',
       badge: 'Résultat DLP',
       icon: CheckCircle2,
       color: '#059669',
@@ -325,34 +328,81 @@ export default function LabelGuardSchema() {
                   {step.items.map((item, idx) => {
                     const ItemIcon = 'icon' in item ? item.icon : null;
                     const isStatus = 'isStatus' in item && Boolean((item as Record<string, unknown>).isStatus);
+                    const isOccurence = 'isOccurence' in item && Boolean((item as Record<string, unknown>).isOccurence);
                     const itemColor = 'color' in item ? ((item as Record<string, unknown>).color as string) : undefined;
 
                     return (
-                      <div
+                      <motion.div
                         key={idx}
+                        animate={isOccurence && isActiveSequence ? { scale: [1, 1.04, 1] } : {}}
+                        transition={{ repeat: Infinity, duration: 1.5, ease: 'easeInOut', delay: idx * 0.3 }}
                         style={{
-                          background: isStatus ? '#dcfce7' : '#f8fafc',
-                          borderLeft: isStatus ? '1.5px solid #86efac' : '1px solid #cbd5e1',
-                          borderRight: isStatus ? '1.5px solid #86efac' : '1px solid #cbd5e1',
-                          borderTop: isStatus ? '1.5px solid #86efac' : '1px solid #cbd5e1',
-                          borderBottom: isStatus ? '1.5px solid #86efac' : '1px solid #cbd5e1',
+                          background: isStatus ? '#dcfce7' : isOccurence ? (itemColor === '#dc2626' ? '#fef2f2' : '#fffbeb') : '#f8fafc',
+                          borderLeft: isStatus ? '1.5px solid #86efac' : isOccurence ? `1.5px solid ${itemColor}` : '1px solid #cbd5e1',
+                          borderRight: isStatus ? '1.5px solid #86efac' : isOccurence ? `1.5px solid ${itemColor}` : '1px solid #cbd5e1',
+                          borderTop: isStatus ? '1.5px solid #86efac' : isOccurence ? `1.5px solid ${itemColor}` : '1px solid #cbd5e1',
+                          borderBottom: isStatus ? '1.5px solid #86efac' : isOccurence ? `1.5px solid ${itemColor}` : '1px solid #cbd5e1',
                           borderRadius: '5px',
                           padding: '0.28vw 0.45vw',
                           fontSize: '0.68vw',
                           fontWeight: 800,
-                          color: isStatus ? '#166534' : '#1e293b',
+                          color: isStatus ? '#166534' : isOccurence ? itemColor : '#1e293b',
                           display: 'flex',
                           alignItems: 'center',
+                          justifyContent: 'space-between',
                           gap: '0.3vw'
                         }}
                       >
-                        {ItemIcon && <ItemIcon style={{ width: '0.9vw', height: '0.9vw', color: itemColor || step.color, flexShrink: 0 }} />}
-                        <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                          {item.label}
-                        </span>
-                      </div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.3vw', overflow: 'hidden' }}>
+                          {ItemIcon && <ItemIcon style={{ width: '0.9vw', height: '0.9vw', color: itemColor || step.color, flexShrink: 0 }} />}
+                          <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                            {item.label}
+                          </span>
+                        </div>
+
+                        {isOccurence && isActiveSequence && (
+                          <motion.span
+                            animate={{ opacity: [0.4, 1, 0.4] }}
+                            transition={{ repeat: Infinity, duration: 1.2 }}
+                            style={{
+                              width: '6px',
+                              height: '6px',
+                              borderRadius: '50%',
+                              background: itemColor,
+                              boxShadow: `0 0 6px ${itemColor}`,
+                              flexShrink: 0
+                            }}
+                          />
+                        )}
+                      </motion.div>
                     );
                   })}
+
+                  {/* Animated Explanation Badge for 'Why We Use X' in Step 02 */}
+                  {step.id === 2 && (
+                    <motion.div
+                      animate={isActiveSequence ? { scale: [0.98, 1.02, 0.98] } : {}}
+                      transition={{ repeat: Infinity, duration: 2, ease: 'easeInOut' }}
+                      style={{
+                        marginTop: '0.2vw',
+                        background: '#fef2f2',
+                        border: '1px dashed #dc2626',
+                        borderRadius: '5px',
+                        padding: '0.2vw 0.4vw',
+                        fontSize: '0.58vw',
+                        fontWeight: 800,
+                        color: '#991b1b',
+                        textAlign: 'center',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: '0.25vw'
+                      }}
+                    >
+                      <Lock style={{ width: '0.7vw', height: '0.7vw', color: '#dc2626' }} />
+                      <span>Paramètre X : Occurrences anonymisées (Confidentialité AXA)</span>
+                    </motion.div>
+                  )}
                 </div>
 
                 {/* Footer Tag */}

@@ -32,7 +32,7 @@ export default function ResultsSlide({ n }: SlideProps) {
     ],
     [
       'Plateforme DLP Centrale',
-      'Détection & Monitoring',
+      'Détection et Monitoring',
       'Gestion unifiée des règles',
       [
         'Centralisation des alertes et des événements',
@@ -43,7 +43,7 @@ export default function ResultsSlide({ n }: SlideProps) {
     ],
   ];
   return (
-    <Shell section="PERSPECTIVES" title="Perspectives d'évolution" n={n}>
+    <Shell section="PERSPECTIVES" title="Perspectives d'Évolution" n={n}>
       <div style={{ display: 'flex', flexDirection: 'column', height: '100%', justifyContent: 'center', padding: '0.5vw 0' }}>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.4vw', width: '100%', alignItems: 'stretch' }}>
           {cards.map(([title, metric, sub, list, Icon], i) => (

@@ -11,7 +11,7 @@ import { Shell, popIn } from '../Presentation';
 import type { SlideProps } from '../Presentation';
 
 const emptySubscribe = () => () => {};
-const INITIAL_DELAY = 1.15; // Attendre la fin de l'overlay (1.15s)
+const INITIAL_DELAY = 0.02; // Fast instant render
 
 // Official Brand & Technology Vector Logos
 const TechLogos = {
@@ -96,7 +96,7 @@ export default function TechStackSlide({ n }: SlideProps) {
       num: '01',
       id: 'agent',
       title: 'Sondes Endpoint (Windows)',
-      subtitle: 'Collecte & Supervision Temps Réel',
+      subtitle: 'Collecte et Supervision Temps Réel',
       icon: Monitor,
       tools: [
         {
@@ -122,14 +122,14 @@ export default function TechStackSlide({ n }: SlideProps) {
     {
       num: '02',
       id: 'backend',
-      title: 'Serveur SOC & Analytics',
-      subtitle: 'Ingestion REST & Inspection Proxy',
+      title: 'Serveur SOC et Analytics',
+      subtitle: 'Ingestion REST et Inspection Proxy',
       icon: Server,
       tools: [
         {
           name: 'Flask / Express',
           role: 'API REST',
-          desc: 'Ingestion sécurisée des journaux & alertes',
+          desc: 'Ingestion sécurisée des journaux et alertes',
           LogoComp: TechLogos.FlaskExpress
         },
         {
@@ -149,8 +149,8 @@ export default function TechStackSlide({ n }: SlideProps) {
     {
       num: '03',
       id: 'frontend',
-      title: 'Consoles Web & Intelligence',
-      subtitle: 'Supervision SOC & Décisionnel IA',
+      title: 'Consoles Web et Intelligence',
+      subtitle: 'Supervision SOC et Décisionnel IA',
       icon: Code2,
       tools: [
         {
@@ -167,8 +167,8 @@ export default function TechStackSlide({ n }: SlideProps) {
         },
         {
           name: 'Appwrite',
-          role: 'BaaS & Auth',
-          desc: 'Gestion des accès & persistance des audits',
+          role: 'BaaS et Auth',
+          desc: 'Gestion des accès et persistance des audits',
           LogoComp: TechLogos.Appwrite
         }
       ]
@@ -183,7 +183,7 @@ export default function TechStackSlide({ n }: SlideProps) {
     <Shell
       section="RÉALISATION"
       pulseLabel="Réalisation"
-      title="Technologies & Écosystème d'Outillage DLP"
+      title="Environnement Technique et Technologies"
       n={n}
       dense
     >

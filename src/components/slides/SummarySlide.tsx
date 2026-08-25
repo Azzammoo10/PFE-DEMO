@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import { Building2, AlertTriangle, Target, Network, Code2, CheckCircle2 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { motion } from 'framer-motion';
@@ -8,122 +7,90 @@ import type { SlideProps } from '../Presentation';
 type PlanItem = {
   num: string;
   label: string;
-  desc: string;
   Icon: LucideIcon;
 };
 
 export default function SummarySlide({ n }: SlideProps) {
-  const [activeStepIndex, setActiveStepIndex] = useState(0);
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-
   const items: PlanItem[] = [
     {
       num: '01',
-      label: 'Contexte & Enjeux',
-      desc: 'Présentation AXA GBS & fondements de la DLP',
+      label: 'Contexte et Enjeux',
       Icon: Building2,
     },
     {
       num: '02',
-      label: 'Problématique & Objectifs',
-      desc: 'Défis de fuite de données et objectifs clés du projet',
+      label: 'Problématique et Objectifs',
       Icon: AlertTriangle,
     },
     {
       num: '03',
-      label: 'Méthodologie & Démarche',
-      desc: "Cadrage projet et méthodologie d'ingénierie",
+      label: 'Méthodologie et Démarche',
       Icon: Target,
     },
     {
       num: '04',
-      label: 'Conception & Architecture',
-      desc: 'Architecture DLP Hybride (Sondes Windows & API Flask)',
+      label: 'Conception et Architecture',
       Icon: Network,
     },
     {
       num: '05',
-      label: 'Réalisation & Démonstration',
-      desc: 'Mise en œuvre technique, supervision SOC & démo',
+      label: 'Réalisation et Démonstration',
       Icon: Code2,
     },
     {
       num: '06',
-      label: 'Conclusion & Perspectives',
-      desc: "Bilan Zero Trust, perspectives d'évolution & remerciements",
+      label: 'Conclusion et Perspectives',
       Icon: CheckCircle2,
     },
   ];
 
-  // Sequential step animation (1 -> 2 -> 3 -> 4 -> 5 -> 6 and stops on 6)
-  useEffect(() => {
-    if (hoveredIndex !== null) return;
-    const timer = setInterval(() => {
-      setActiveStepIndex((prev) => {
-        if (prev >= items.length - 1) {
-          clearInterval(timer);
-          return prev;
-        }
-        return prev + 1;
-      });
-    }, 1800);
-    return () => clearInterval(timer);
-  }, [hoveredIndex, items.length]);
-
   return (
     <Shell 
       section="SOMMAIRE" 
-      title="Plan & Déroulement de la Soutenance" 
+      title="Plan de la Présentation" 
       n={n}
     >
       <div style={{
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
+        alignItems: 'center',
         height: '100%',
-        padding: '0 0.5vw'
+        padding: '0.4vw 0'
       }}>
+        {/* Centered Container with Generous Padding and Spacing */}
         <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(2, 1fr)',
-          gap: '1.4vw 1.8vw'
+          width: '45%',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '1.15vw'
         }}>
           {items.map((item, i) => {
             const Icon = item.Icon;
-            const isActive = hoveredIndex !== null ? hoveredIndex === i : activeStepIndex === i;
 
             return (
               <motion.div
                 key={item.num}
-                onMouseEnter={() => setHoveredIndex(i)}
-                onMouseLeave={() => setHoveredIndex(null)}
-                initial={{ opacity: 0, y: 15 }}
-                animate={{
-                  opacity: 1,
-                  y: isActive ? -4 : 0,
-                  scale: isActive ? 1.025 : 1,
-                  boxShadow: isActive
-                    ? '0 10px 28px -4px rgba(11, 102, 213, 0.35), 0 0 16px rgba(11, 102, 213, 0.18)'
-                    : '0 4px 14px rgba(15, 23, 42, 0.04)'
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{
+                  duration: 0.65,
+                  delay: i * 0.22,
+                  ease: [0.22, 1, 0.36, 1]
                 }}
-                transition={{ duration: 0.35, ease: 'easeOut' }}
+                whileHover={{ x: 6, boxShadow: '0 6px 20px rgba(15, 23, 42, 0.08)' }}
                 style={{
-                  background: isActive
-                    ? 'linear-gradient(135deg, #ffffff 0%, #f0f7ff 100%)'
-                    : '#ffffff',
-                  border: isActive
-                    ? '2px solid #0b66d5'
-                    : '1.5px solid #e2e8f0',
-                  borderRadius: '14px',
-                  padding: '1.3vw 1.6vw',
+                  background: '#ffffff',
+                  border: '1.5px solid #cbd5e1',
+                  borderRadius: '10px',
+                  padding: '0.7vw 1.4vw',
                   display: 'flex',
                   alignItems: 'center',
                   gap: '1.3vw',
                   position: 'relative',
                   overflow: 'hidden',
-                  cursor: 'pointer',
-                  willChange: 'transform, box-shadow',
-                  transform: 'translateZ(0)'
+                  cursor: 'default',
+                  boxShadow: '0 2px 8px rgba(15, 23, 42, 0.03)'
                 }}
               >
                 {/* Accent Left Line */}
@@ -131,91 +98,60 @@ export default function SummarySlide({ n }: SlideProps) {
                   position: 'absolute',
                   top: 0,
                   left: 0,
-                  width: isActive ? '6px' : '4.5px',
+                  width: '5px',
                   height: '100%',
-                  background: isActive ? 'linear-gradient(180deg, #0b66d5, #38bdf8)' : '#0b66d5',
-                  transition: 'all 0.3s ease'
+                  background: '#0b66d5'
                 }} />
 
-                {/* Number Badge */}
+                {/* Left Number Badge */}
                 <div style={{
-                  background: isActive ? '#0b66d5' : 'rgba(11, 102, 213, 0.08)',
-                  border: isActive ? '1px solid #0b66d5' : '1px solid rgba(11, 102, 213, 0.2)',
-                  color: isActive ? '#ffffff' : '#0b66d5',
+                  background: 'rgba(11, 102, 213, 0.08)',
+                  border: '1.5px solid rgba(11, 102, 213, 0.25)',
+                  color: '#0b66d5',
                   fontWeight: 900,
-                  fontSize: '1.05vw',
-                  borderRadius: '11px',
-                  minWidth: '2.9vw',
-                  height: '2.9vw',
+                  fontSize: '1.0vw',
+                  borderRadius: '7px',
+                  minWidth: '2.5vw',
+                  height: '2.5vw',
                   display: 'grid',
                   placeItems: 'center',
-                  flexShrink: 0,
-                  boxShadow: isActive ? '0 4px 12px rgba(11, 102, 213, 0.4)' : 'none',
-                  transition: 'all 0.3s ease'
+                  flexShrink: 0
                 }}>
                   {item.num}
                 </div>
 
-                {/* Text Content */}
-                <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5vw' }}>
-                    <h3 style={{
-                      margin: 0,
-                      fontSize: '1.12vw',
-                      fontWeight: 800,
-                      color: isActive ? '#0b66d5' : '#0f172a',
-                      lineHeight: 1.25,
-                      letterSpacing: '-0.01em',
-                      transition: 'color 0.3s ease'
-                    }}>
-                      {item.label}
-                    </h3>
-
-                    {/* Active Step Indicator */}
-                    {isActive && (
-                      <motion.span
-                        initial={{ opacity: 0, scale: 0.5 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        style={{
-                          fontSize: '0.62vw',
-                          fontWeight: 900,
-                          background: '#0b66d5',
-                          color: '#ffffff',
-                          borderRadius: '6px',
-                          padding: '0.1vw 0.4vw',
-                          textTransform: 'uppercase',
-                          letterSpacing: '0.04em'
-                        }}
-                      >
-                        Étape En Cours
-                      </motion.span>
-                    )}
-                  </div>
-                  <p style={{
-                    margin: '0.35vw 0 0 0',
-                    fontSize: '0.86vw',
-                    color: isActive ? '#334155' : '#475569',
-                    fontWeight: isActive ? 600 : 500,
-                    lineHeight: 1.35
-                  }}>
-                    {item.desc}
-                  </p>
-                </div>
-
-                {/* Icon Container */}
+                {/* Left-Aligned Title */}
                 <div style={{
-                  background: isActive ? '#0b66d5' : '#f8fafc',
-                  border: isActive ? '1px solid #0b66d5' : '1px solid #e2e8f0',
-                  color: isActive ? '#ffffff' : '#0b66d5',
-                  borderRadius: '12px',
-                  padding: '0.7vw',
+                  flex: 1,
                   display: 'flex',
                   alignItems: 'center',
-                  justifyContent: 'center',
-                  flexShrink: 0,
-                  transition: 'all 0.3s ease'
+                  minWidth: 0
                 }}>
-                  <Icon size={24} color={isActive ? '#ffffff' : '#0b66d5'} />
+                  <h3 style={{
+                    margin: 0,
+                    fontSize: '1.2vw',
+                    fontWeight: 800,
+                    color: '#0f172a',
+                    lineHeight: 1.25,
+                    letterSpacing: '-0.01em',
+                    textAlign: 'left',
+                    whiteSpace: 'nowrap'
+                  }}>
+                    {item.label}
+                  </h3>
+                </div>
+
+                {/* Right Icon Container */}
+                <div style={{
+                  color: '#0b66d5',
+                  background: '#f1f5f9',
+                  padding: '0.35vw 0.5vw',
+                  borderRadius: '7px',
+                  flexShrink: 0,
+                  display: 'flex',
+                  alignItems: 'center'
+                }}>
+                  <Icon size={20} />
                 </div>
               </motion.div>
             );
@@ -225,9 +161,3 @@ export default function SummarySlide({ n }: SlideProps) {
     </Shell>
   );
 }
-
-
-
-
-
-

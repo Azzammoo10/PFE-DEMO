@@ -4,25 +4,32 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function MobileBlocker() {
-  const [isMobilePortrait, setIsMobilePortrait] = useState(false);
+  const [isMobileDevice, setIsMobileDevice] = useState(false);
 
   useEffect(() => {
-    const checkOrientation = () => {
-      const isPortrait = window.innerWidth <= 820 && window.innerHeight > window.innerWidth;
-      setIsMobilePortrait(isPortrait);
+    const checkDevice = () => {
+      const userAgent = typeof navigator !== 'undefined' ? navigator.userAgent : '';
+      const isMobileUA = /Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
+      
+      // Block mobile phones in both portrait and landscape, or any small screen
+      const isPortraitMobile = window.innerWidth <= 850 && window.innerHeight > window.innerWidth;
+      const isLandscapeMobile = window.innerHeight <= 600 || (isMobileUA && Math.max(window.innerWidth, window.innerHeight) <= 1024);
+      const isTouchMobilePhone = isMobileUA && ('ontouchstart' in window || navigator.maxTouchPoints > 0);
+
+      setIsMobileDevice(isMobileUA || isPortraitMobile || isLandscapeMobile || isTouchMobilePhone);
     };
 
-    checkOrientation();
-    window.addEventListener('resize', checkOrientation);
-    window.addEventListener('orientationchange', checkOrientation);
+    checkDevice();
+    window.addEventListener('resize', checkDevice);
+    window.addEventListener('orientationchange', checkDevice);
 
     return () => {
-      window.removeEventListener('resize', checkOrientation);
-      window.removeEventListener('orientationchange', checkOrientation);
+      window.removeEventListener('resize', checkDevice);
+      window.removeEventListener('orientationchange', checkDevice);
     };
   }, []);
 
-  if (!isMobilePortrait) return null;
+  if (!isMobileDevice) return null;
 
   return (
     <AnimatePresence>
@@ -106,12 +113,12 @@ export default function MobileBlocker() {
             </div>
           </div>
 
-          {/* Minimal Typography using Title Slide font */}
+          {/* Minimal Typography */}
           <h1 className="minimal-title" style={{ fontFamily: "'Plus Jakarta Sans', Arial, sans-serif" }}>
             Veuillez utiliser un Ordinateur
           </h1>
           <p className="minimal-subtitle" style={{ fontFamily: "'Plus Jakarta Sans', Arial, sans-serif" }}>
-            Cette présentation de soutenance <strong>PFE DLP-LAB</strong> est optimisée pour un écran de <strong>PC ou Mac</strong> (ou en mode paysage).
+            Cette présentation de soutenance <strong>PFE DLP-LAB</strong> est exclusivement réservée aux écrans d&apos;<strong>Ordinateurs (PC / Mac)</strong>. Les téléphones mobiles (portrait & paysage) ne sont pas autorisés.
           </p>
         </motion.div>
       </motion.div>

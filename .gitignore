@@ -9,3 +9,5 @@ dist/
 
 # Report folder (local only)
 PFE-DATA_REPORT/
+
+.vercel

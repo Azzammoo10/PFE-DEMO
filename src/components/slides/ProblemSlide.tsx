@@ -10,7 +10,6 @@ export default function ProblemSlide({ n }: SlideProps) {
     {
       id: '01',
       title: 'Coût Élevé des Licences',
-      text: 'Tarification prohibitive des solutions DLP propriétaires du marché (Symantec, Forcepoint).',
       tag: 'Impact Financier',
       icon: DollarSign,
       color: '#e11d48', // Red
@@ -21,8 +20,7 @@ export default function ProblemSlide({ n }: SlideProps) {
     {
       id: '02',
       title: 'Absence d\'Alternative Open-Source',
-      text: 'Manque d\'une solution DLP légère, modulaire et totalement contrôlable en interne.',
-      tag: 'Souveraineté et Code',
+      tag: 'Souveraineté & Code',
       icon: Code2,
       color: '#00008f', // AXA Blue
       bgLight: '#eff6ff',
@@ -31,9 +29,8 @@ export default function ProblemSlide({ n }: SlideProps) {
     },
     {
       id: '03',
-      title: 'Triage Manuel et Surcharge SOC',
-      text: 'Extraction manuelle lourde des journaux bruts et fatigue décisionnelle des analystes.',
-      tag: 'Efficacité Opérationnelle',
+      title: 'Triage Manuel & Surcharge SOC',
+      tag: 'Opérations SOC',
       icon: SearchCheck,
       color: '#475569', // Slate
       bgLight: '#f8fafc',
@@ -42,9 +39,8 @@ export default function ProblemSlide({ n }: SlideProps) {
     },
     {
       id: '04',
-      title: 'Complexité des Règles DLP',
-      text: 'Redondance et chevauchement sémantique des règles au sein du référentiel CM11 / OneTrust.',
-      tag: 'Gouvernance et Conflits',
+      title: 'Conflits & Redondance des Règles',
+      tag: 'Gouvernance DLP',
       icon: SlidersHorizontal,
       color: '#d97706', // Amber
       bgLight: '#fffbeb',
@@ -102,19 +98,19 @@ export default function ProblemSlide({ n }: SlideProps) {
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          gap: '0.8vw',
+          gap: '1vw',
           background: 'linear-gradient(135deg, #ffffff 0%, #fff1f2 100%)',
           border: '2px solid #e11d48',
           borderRadius: '20px',
-          padding: '1.4vw 1.2vw',
+          padding: '1.8vw 1.4vw',
           boxShadow: '0 12px 32px rgba(225, 29, 72, 0.12), 0 2px 8px rgba(0, 0, 0, 0.04)',
           textAlign: 'center',
           width: '100%'
         }}>
           {/* Central Shield Icon Badge */}
           <div style={{
-            width: '3.6vw',
-            height: '3.6vw',
+            width: '4vw',
+            height: '4vw',
             borderRadius: '50%',
             background: 'linear-gradient(135deg, #e11d48 0%, #be123c 100%)',
             color: '#ffffff',
@@ -124,7 +120,7 @@ export default function ProblemSlide({ n }: SlideProps) {
             boxShadow: '0 6px 16px rgba(225, 29, 72, 0.3)',
             flexShrink: 0
           }}>
-            <ShieldAlert size={30} />
+            <ShieldAlert size={34} />
           </div>
 
           <div>
@@ -132,21 +128,18 @@ export default function ProblemSlide({ n }: SlideProps) {
               background: '#fff1f2',
               border: '1px solid #fecdd3',
               color: '#e11d48',
-              fontSize: '0.58vw',
+              fontSize: '0.65vw',
               fontWeight: 900,
               borderRadius: '6px',
-              padding: '0.15vw 0.55vw',
+              padding: '0.2vw 0.6vw',
               letterSpacing: '0.08em',
               textTransform: 'uppercase'
             }}>
               CONSTAT SÉCURITÉ
             </span>
-            <h3 style={{ margin: '0.4vw 0 0.2vw 0', fontSize: '1.05vw', fontWeight: 900, color: '#0f172a', lineHeight: 1.2 }}>
+            <h3 style={{ margin: '0.6vw 0 0 0', fontSize: '1.2vw', fontWeight: 900, color: '#0f172a', lineHeight: 1.25 }}>
               Verrous DLP Actuels
             </h3>
-            <p style={{ margin: 0, fontSize: '0.74vw', color: '#475569', fontWeight: 600, lineHeight: 1.35 }}>
-              Coûts élevés, opacité du code et triage manuel lourd.
-            </p>
           </div>
         </div>
 
@@ -168,10 +161,10 @@ export default function ProblemSlide({ n }: SlideProps) {
                 background: '#ffffff',
                 border: `1.5px solid ${p.border}`,
                 borderRadius: '14px',
-                padding: '1.1vw 1.2vw',
+                padding: '1.4vw 1.4vw',
                 display: 'flex',
-                gap: '0.9vw',
-                alignItems: 'flex-start',
+                gap: '1vw',
+                alignItems: 'center',
                 boxShadow: '0 4px 14px rgba(15, 23, 42, 0.04)',
                 position: 'relative',
                 overflow: 'hidden',
@@ -186,7 +179,7 @@ export default function ProblemSlide({ n }: SlideProps) {
                 top: 0,
                 bottom: 0,
                 left: 0,
-                width: '4.5px',
+                width: '5px',
                 background: p.color
               }} />
 
@@ -195,41 +188,37 @@ export default function ProblemSlide({ n }: SlideProps) {
                 background: p.bgLight,
                 border: `1px solid ${p.border}`,
                 color: p.color,
-                borderRadius: '10px',
-                padding: '0.55vw',
+                borderRadius: '12px',
+                padding: '0.7vw',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 flexShrink: 0
               }}>
-                <Icon size={22} />
+                <Icon size={26} />
               </div>
 
               {/* Text Body */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.2vw', flex: 1 }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4vw', flex: 1 }}>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                  <span style={{ fontSize: '0.6vw', color: p.color, fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                  <span style={{ fontSize: '0.65vw', color: p.color, fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
                     PROBLÈME {p.id}
                   </span>
                   <span style={{
                     background: p.bgLight,
                     color: p.color,
-                    fontSize: '0.58vw',
+                    fontSize: '0.62vw',
                     fontWeight: 800,
                     borderRadius: '4px',
-                    padding: '0.1vw 0.4vw'
+                    padding: '0.15vw 0.5vw'
                   }}>
                     {p.tag}
                   </span>
                 </div>
 
-                <h4 style={{ margin: '0.1vw 0 0 0', fontSize: '0.95vw', fontWeight: 900, color: '#0f172a', lineHeight: 1.25 }}>
+                <h4 style={{ margin: 0, fontSize: '1.1vw', fontWeight: 900, color: '#0f172a', lineHeight: 1.25 }}>
                   {p.title}
                 </h4>
-
-                <p style={{ margin: 0, fontSize: '0.76vw', color: '#475569', fontWeight: 500, lineHeight: 1.38 }}>
-                  {p.text}
-                </p>
               </div>
             </motion.div>
           );

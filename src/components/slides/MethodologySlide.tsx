@@ -29,61 +29,51 @@ export default function MethodologySlide({ n }: SlideProps) {
   const steps = [
     {
       id: '01',
-      title: 'Lab Infra',
+      title: 'Infrastructure & Laboratoire',
       icon: Network,
-      tasks: ['VMware Host-Only', '4 VMs déployées', "Plan d'IPs configuré"],
-      increment: 'Réseau & VMs OK',
+      tag: 'VMs & Réseau',
       cardCustom: 1,
       chevronCustom: 2,
-      elementDelay: 0.05
     },
     {
       id: '02',
-      title: 'DLP Custom',
+      title: 'Développement DLP Custom',
       icon: Code2,
-      tasks: ['API Manager Flask', 'Sondes agents Python', 'Hooking Windows API'],
-      increment: 'Sondes & API OK',
+      tag: 'API & Sondes',
       cardCustom: 3,
       chevronCustom: 4,
-      elementDelay: 0.10
     },
     {
       id: '03',
-      title: 'Validation',
+      title: 'Validation & Tests d\'Attaque',
       icon: AlertTriangle,
-      tasks: ['Simulations Kali', 'Fuites SCP & Mail', 'Reverse Shells'],
-      increment: 'Vecteurs Testés',
+      tag: 'Scénarios Kali',
       cardCustom: 5,
       chevronCustom: 6,
-      elementDelay: 0.15
     },
     {
       id: '04',
-      title: 'Supervision',
+      title: 'Supervision & Triage SOC',
       icon: Gauge,
-      tasks: ['SOC Console Flask', 'Triage Alertes', 'Case Management'],
-      increment: 'Console Web OK',
+      tag: 'Console Web',
       cardCustom: 7,
       chevronCustom: 8,
-      elementDelay: 0.20
     },
     {
       id: '05',
-      title: 'Plateformes',
+      title: 'Plateformes & Suivi DLP',
       icon: LayoutDashboard,
-      tasks: ['DLP Monitor Tool', 'OneTrust Tracker', 'Suivi opérationnel'],
-      increment: 'Release Finale',
+      tag: 'Release Finale',
       cardCustom: 9,
       chevronCustom: null,
-      elementDelay: 0.25
     }
   ];
 
   const metrics = [
-    { label: '4 VMs', desc: 'Ubuntu, AXA AMS & GO, Kali', custom: 10 },
-    { label: '5 Canaux', desc: 'USB, Mail, File, Cloud, Presse-papiers', custom: 11 },
-    { label: '2 Scénarios', desc: "d'attaques offensives Kali", custom: 12 },
-    { label: '3 Plateformes', desc: 'DLP Monitor & OneTrust Tracker', custom: 13 }
+    { label: '4 VMs', tag: 'Environnement Virtuel', custom: 10 },
+    { label: '5 Canaux', tag: 'Couverture DLP', custom: 11 },
+    { label: '2 Scénarios', tag: 'Attaques Offensives', custom: 12 },
+    { label: '3 Plateformes', tag: 'Outillage Développé', custom: 13 }
   ];
 
   if (!isMounted) {
@@ -101,7 +91,7 @@ export default function MethodologySlide({ n }: SlideProps) {
       <div style={{ 
         display: 'flex',
         flexDirection: 'column',
-        gap: '1vw',
+        gap: '1.2vw',
         width: '100%', 
         height: '100%', 
         justifyContent: 'space-between',
@@ -116,14 +106,14 @@ export default function MethodologySlide({ n }: SlideProps) {
           initial="hidden"
           animate="visible"
           style={{
-            background: 'linear-gradient(90deg, rgba(0, 0, 143, 0.04) 0%, rgba(0, 0, 143, 0.01) 100%)',
+            background: 'linear-gradient(90deg, rgba(0, 0, 143, 0.05) 0%, rgba(0, 0, 143, 0.01) 100%)',
             borderLeft: '4px solid #00008f',
-            borderRadius: '8px',
-            padding: '0.6vw 1.2vw',
+            borderRadius: '10px',
+            padding: '0.8vw 1.4vw',
             display: 'flex',
             alignItems: 'center',
             gap: '1.2vw',
-            boxShadow: '0 4px 12px rgba(0,0,143,0.01)'
+            boxShadow: '0 4px 12px rgba(0,0,143,0.02)'
           }}
         >
           <motion.div
@@ -131,7 +121,7 @@ export default function MethodologySlide({ n }: SlideProps) {
             transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
             style={{
               background: '#00008f10',
-              padding: '0.5vw',
+              padding: '0.6vw',
               borderRadius: '50%',
               color: '#00008f',
               display: 'flex',
@@ -140,15 +130,12 @@ export default function MethodologySlide({ n }: SlideProps) {
               flexShrink: 0
             }}
           >
-            <Zap size={22} className="text-[#00008f]" />
+            <Zap size={24} className="text-[#00008f]" />
           </motion.div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.1vw', textAlign: 'left' }}>
-            <strong style={{ fontSize: '1.05vw', fontWeight: 900, color: '#00008f' }}>
-              Approche Itérative Scrum : Sprints de 2-3 Semaines
+          <div style={{ display: 'flex', flexDirection: 'column', textAlign: 'left' }}>
+            <strong style={{ fontSize: '1.2vw', fontWeight: 900, color: '#00008f' }}>
+              Approche Itérative Agile / Scrum (Sprints de 2 à 3 Semaines)
             </strong>
-            <span style={{ fontSize: '0.85vw', fontWeight: 600, color: '#475569' }}>
-              Chaque sprint valide une brique fonctionnelle complète, de l&apos;infrastructure réseau aux plateformes de suivi opérationnel.
-            </span>
           </div>
         </motion.div>
 
@@ -159,11 +146,9 @@ export default function MethodologySlide({ n }: SlideProps) {
           alignItems: 'center', 
           justifyContent: 'space-between', 
           position: 'relative',
-          padding: '1.5vw 0',
+          padding: '0.8vw 0',
           flex: 1,
-          minHeight: '14.5vw'
         }}>
-
 
           {steps.map((p) => {
             const Icon = p.icon;
@@ -184,130 +169,86 @@ export default function MethodologySlide({ n }: SlideProps) {
                   custom={p.cardCustom}
                   initial="hidden"
                   animate="visible"
-                  whileHover={{ y: -3, boxShadow: '0 8px 24px rgba(0,0,0,0.04)' }}
+                  whileHover={{ y: -4, boxShadow: '0 12px 28px rgba(0,0,143,0.08)' }}
                   style={{
-                    width: '15vw',
-                    height: '13.5vw',
+                    width: '15.5vw',
+                    height: '11.5vw',
                     background: '#ffffff',
                     borderWidth: '5px 1.5px 1.5px 1.5px',
                     borderStyle: 'solid',
                     borderColor: '#00008f #cbd6e7 #cbd6e7 #cbd6e7',
-                    borderRadius: '12px',
-                    padding: '0.8vw 1vw',
-                    boxShadow: '0 2px 8px rgba(0,0,0,0.01)',
+                    borderRadius: '14px',
+                    padding: '1.2vw 1.1vw',
+                    boxShadow: '0 4px 14px rgba(0,0,0,0.03)',
                     display: 'flex',
                     flexDirection: 'column',
-                    alignItems: 'flex-start',
+                    justifyContent: 'space-between',
                     textAlign: 'left',
                     cursor: 'pointer',
                     zIndex: 5
                   }}
                 >
                   {/* Card Header row */}
-                  <div style={{ display: 'flex', width: '100%', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.4vw' }}>
+                  <div style={{ display: 'flex', width: '100%', justifyContent: 'space-between', alignItems: 'center' }}>
                     <span style={{
-                      fontSize: '0.65vw',
+                      fontSize: '0.68vw',
                       fontWeight: 900,
                       color: '#ffffff',
                       background: '#00008f',
-                      padding: '0.15vw 0.5vw',
-                      borderRadius: '8px',
+                      padding: '0.2vw 0.6vw',
+                      borderRadius: '6px',
                       textTransform: 'uppercase',
                       letterSpacing: '0.05em'
                     }}>
                       Sprint {p.id}
                     </span>
-                    <Icon size={16} className="text-[#00008f]" />
+                    <div style={{
+                      background: '#eff6ff',
+                      padding: '0.45vw',
+                      borderRadius: '8px',
+                      color: '#00008f',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center'
+                    }}>
+                      <Icon size={20} />
+                    </div>
                   </div>
 
-                  {/* Title */}
+                  {/* Main Title */}
                   <h5 style={{
-                    margin: '0.2vw 0 0.4vw 0',
-                    fontSize: '0.9vw',
+                    margin: '0.4vw 0',
+                    fontSize: '1.05vw',
                     fontWeight: 900,
-                    color: '#00008f',
-                    lineHeight: 1.2
+                    color: '#0f172a',
+                    lineHeight: 1.25
                   }}>
                     {p.title}
                   </h5>
 
-                  {/* Tasks List */}
+                  {/* Tag / Delivered Status */}
                   <div style={{ 
                     display: 'flex', 
-                    flexDirection: 'column', 
+                    alignItems: 'center', 
                     gap: '0.3vw', 
                     width: '100%',
-                    margin: '0.2vw 0',
-                    flex: 1
+                    background: '#10b9810d',
+                    padding: '0.35vw 0.6vw',
+                    borderRadius: '8px',
+                    border: '1px solid #10b98125'
                   }}>
-                    {p.tasks.map((task, tidx) => (
-                      <span 
-                        key={tidx}
-                        style={{ 
-                          fontSize: '0.8vw', 
-                          fontWeight: 600, 
-                          color: '#475569', 
-                          lineHeight: 1.25,
-                          display: 'flex',
-                          alignItems: 'flex-start',
-                          gap: '0.25vw'
-                        }}
-                      >
-                        • {task}
-                      </span>
-                    ))}
-                  </div>
-
-                  {/* Agile loop indicator (Daily & Retrospective) - fades in second layer */}
-                  <motion.div 
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: p.elementDelay, duration: 0.3 }}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '0.3vw',
-                      width: '100%',
-                      padding: '0.3vw 0',
-                      borderTop: '1px solid #f1f5f9',
-                      borderBottom: '1px solid #f1f5f9',
-                      marginBottom: '0.4vw'
-                    }}
-                  >
-                    <RotateCw size={10} className="text-[#00008f] animate-spin" style={{ animationDuration: '6s' }} />
-                    <span style={{ fontSize: '0.55vw', fontWeight: 800, color: '#64748b', textTransform: 'uppercase' }}>
-                      Daily Sync & Loop
-                    </span>
-                  </motion.div>
-
-                  {/* Increment delivered - fades in second layer */}
-                  <motion.div 
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: p.elementDelay + 0.1, duration: 0.3 }}
-                    style={{ 
-                      display: 'flex', 
-                      alignItems: 'center', 
-                      gap: '0.25vw', 
-                      width: '100%',
-                      background: '#10b9810a',
-                      padding: '0.2vw 0.4vw',
-                      borderRadius: '6px',
-                      border: '1px solid #10b9811a'
-                    }}
-                  >
-                    <CheckCircle2 size={12} className="text-[#10b981] fill-[#10b981]/10 flex-shrink-0" />
+                    <CheckCircle2 size={14} className="text-[#10b981] flex-shrink-0" />
                     <span style={{ 
-                      fontSize: '0.7vw', 
+                      fontSize: '0.75vw', 
                       fontWeight: 800, 
-                      color: '#10b981',
+                      color: '#059669',
                       whiteSpace: 'nowrap',
                       overflow: 'hidden',
                       textOverflow: 'ellipsis'
                     }}>
-                      {p.increment}
+                      {p.tag}
                     </span>
-                  </motion.div>
+                  </div>
                 </motion.div>
 
                 {/* Transition chevron between cards */}
@@ -319,14 +260,14 @@ export default function MethodologySlide({ n }: SlideProps) {
                     animate="visible"
                     style={{
                       position: 'absolute',
-                      right: '-0.7vw',
+                      right: '-0.75vw',
                       top: '50%',
                       transform: 'translateY(-50%)',
                       zIndex: 4,
                       pointerEvents: 'none'
                     }}
                   >
-                    <ChevronRight size={22} className="text-[#cbd6e7] stroke-[3]" />
+                    <ChevronRight size={24} className="text-[#94a3b8] stroke-[3]" />
                   </motion.div>
                 )}
               </div>
@@ -336,7 +277,6 @@ export default function MethodologySlide({ n }: SlideProps) {
 
         {/* Bottom Key Deliverables / Concrete Results Mini-Section */}
         <div style={{
-          marginTop: '0.6vw',
           paddingTop: '0.8vw',
           borderTop: '1px dashed #cbd6e7',
           display: 'flex',
@@ -355,14 +295,14 @@ export default function MethodologySlide({ n }: SlideProps) {
             <Sparkles size={16} className="text-[#00008f]" />
             <h4 style={{ 
               margin: 0, 
-              fontSize: '0.85vw', 
+              fontSize: '0.9vw', 
               fontWeight: 900, 
               color: '#00008f', 
               textTransform: 'uppercase', 
               letterSpacing: '0.05em', 
               textAlign: 'left' 
             }}>
-              Résultats Opérationnels Clés Livrés
+              Livrables Opérationnels
             </h4>
           </motion.div>
           
@@ -376,21 +316,21 @@ export default function MethodologySlide({ n }: SlideProps) {
                 animate="visible"
                 style={{
                   flex: 1,
-                  background: '#00008f04',
-                  border: '1px solid #00008f0d',
-                  borderRadius: '8px',
-                  padding: '0.5vw 1vw',
+                  background: '#ffffff',
+                  border: '1.5px solid #e2e8f0',
+                  borderRadius: '10px',
+                  padding: '0.6vw 1vw',
                   display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'flex-start',
-                  textAlign: 'left'
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  boxShadow: '0 2px 6px rgba(0,0,0,0.02)'
                 }}
               >
-                <strong style={{ fontSize: '1vw', fontWeight: 900, color: '#00008f' }}>
+                <strong style={{ fontSize: '1.1vw', fontWeight: 900, color: '#00008f' }}>
                   {m.label}
                 </strong>
-                <span style={{ fontSize: '0.8vw', fontWeight: 600, color: '#475569', marginTop: '0.1vw' }}>
-                  {m.desc}
+                <span style={{ fontSize: '0.75vw', fontWeight: 800, color: '#475569', background: '#f1f5f9', padding: '0.2vw 0.5vw', borderRadius: '6px' }}>
+                  {m.tag}
                 </span>
               </motion.div>
             ))}

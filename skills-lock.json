@@ -1,6 +1,12 @@
 {
   "version": 1,
   "skills": {
+    "demo-day-theater": {
+      "source": "omer-metin/skills-for-antigravity",
+      "sourceType": "github",
+      "skillPath": "skills/demo-day-theater/SKILL.md",
+      "computedHash": "775d766d06abd3b1874ed370a71d7266dbef3e789941775bb4e9a31f0722f98b"
+    },
     "find-skills": {
       "source": "vercel-labs/skills",
       "sourceType": "github",
@@ -13,11 +19,23 @@
       "skillPath": "skills/improve-animations/SKILL.md",
       "computedHash": "ff9991a8d6dabb24411daaf6de570e3b6826323459d514d90d7f6371bbdbdbe1"
     },
+    "launch-storytelling": {
+      "source": "omer-metin/skills-for-antigravity",
+      "sourceType": "github",
+      "skillPath": "skills/launch-storytelling/SKILL.md",
+      "computedHash": "da43f154ff8928688a01027349b57b98ce18e6365b1eff3e5279bc0158e87c24"
+    },
     "nextjs-app-router-patterns": {
       "source": "wshobson/agents",
       "sourceType": "github",
       "skillPath": "plugins/frontend-mobile-development/skills/nextjs-app-router-patterns/SKILL.md",
       "computedHash": "3a46e9093baecb3a85819529ce05006f817663f48d9e872868c32ae6049c0d5c"
+    },
+    "pitch-narrative": {
+      "source": "omer-metin/skills-for-antigravity",
+      "sourceType": "github",
+      "skillPath": "skills/pitch-narrative/SKILL.md",
+      "computedHash": "2c9664ef48da74ea0bdb4c2112c01153885a3fc99f6da283fba8f299e119271c"
     },
     "ui-ux-pro-max": {
       "source": "nextlevelbuilder/ui-ux-pro-max-skill",

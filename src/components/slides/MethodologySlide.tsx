@@ -87,6 +87,7 @@ export default function MethodologySlide({ n }: SlideProps) {
       title="Méthodologie et Organisation du Projet" 
       n={n} 
       dense
+      keywords={['Agile / Scrum (5 Sprints)', '4 VMs Virtualisées', '5 Canaux', '2 Scénarios Pentest', '3 Plateformes Ops']}
     >
       <div style={{ 
         display: 'flex',

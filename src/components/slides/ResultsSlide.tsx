@@ -43,7 +43,7 @@ export default function ResultsSlide({ n }: SlideProps) {
     ],
   ];
   return (
-    <Shell section="PERSPECTIVES" title="Perspectives d'Évolution" n={n}>
+    <Shell section="PERSPECTIVES" title="Perspectives d'Évolution" n={n} keywords={['DLP Proxy (Skyhigh)', 'Analyse Comportementale (UEBA)', 'Console Unifiée DLP']}>
       <div style={{ display: 'flex', flexDirection: 'column', height: '100%', justifyContent: 'center', padding: '0.5vw 0' }}>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.4vw', width: '100%', alignItems: 'stretch' }}>
           {cards.map(([title, metric, sub, list, Icon], i) => (

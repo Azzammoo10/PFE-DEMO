@@ -124,6 +124,7 @@ export default function ArchitectureSlide({ n }: SlideProps) {
       title="Conception du Laboratoire DLP"
       n={n}
       dense
+      keywords={['Virtualisation 4 VMs', 'Micro-agents Python REST', 'Hook Watchdog/WMI', 'Pentest Metasploit', 'SOC Wazuh Active Response']}
     >
       <div className="w-full h-full flex flex-col items-center justify-between relative overflow-hidden p-0">
         

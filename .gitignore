@@ -11,3 +11,9 @@ dist/
 PFE-DATA_REPORT/
 
 .vercel
+
+# Pitch files and directory
+pitch
+pitch/
+PITCH*
+

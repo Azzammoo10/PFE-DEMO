@@ -54,6 +54,7 @@ export default function ProblemSlide({ n }: SlideProps) {
       section="PROBLÉMATIQUE" 
       title="Problématique et Défis Opérationnels" 
       n={n}
+      keywords={['Coût Licences Élevé', 'Manque d\'Open-Source', 'Surcharge Analystes SOC', 'Conflits de Règles']}
     >
       <div style={{
         position: 'relative',

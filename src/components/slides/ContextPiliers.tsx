@@ -54,7 +54,7 @@ export default function ContextPiliers({ n }: SlideProps) {
   ];
 
   return (
-    <Shell section="CONTEXTE" title="Les 4 Piliers de la Protection DLP" n={n}>
+    <Shell section="CONTEXTE" title="Les 4 Piliers de la Protection DLP" n={n} keywords={['Couverture 360°', 'Cloud (SharePoint)', 'Données (Labels)', 'Réseau (Web/Mail)', 'Devices (USB)']}>
       <div style={{ display: 'flex', flexDirection: 'column', height: '100%', justifyContent: 'center', gap: '1.4vw', padding: '0' }}>
         
         {/* Subtitle Banner */}

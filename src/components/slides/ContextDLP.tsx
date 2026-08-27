@@ -123,6 +123,7 @@ export default function ContextDLP({ n }: SlideProps) {
       title="Cadre Conceptuel DLP"
       n={n}
       dense
+      keywords={['Cycle Continu', 'Surveiller les Flux', 'Détection Contenu', 'Réponse Automatique', 'Analyse & Audit']}
     >
       {/* Animation continue de circulation lumineuse (démarre à t = 3.2s) */}
       <style>{`

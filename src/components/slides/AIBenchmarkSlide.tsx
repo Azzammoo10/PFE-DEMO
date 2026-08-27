@@ -52,6 +52,7 @@ export default function AIBenchmarkSlide({ n }: SlideProps) {
       title="Benchmark Moteurs IA"
       n={n}
       dense
+      keywords={['Rejet Cloud Public (Fuites)', 'Ollama Qwen 2.5 (0€ Offline)', 'Validation PoC en Lab', 'Cible Prod: AXA SecureGPT']}
     >
       <div style={{
         display: 'flex',

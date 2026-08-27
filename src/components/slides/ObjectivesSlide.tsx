@@ -57,6 +57,7 @@ export default function ObjectivesSlide({ n }: SlideProps) {
       title="Objectifs du Projet" 
       n={n} 
       dense
+      keywords={['Architecture Hybride', 'Réduction des Coûts', 'Automatisation SOC', 'Validation SIT']}
     >
       <div style={{ 
         display: 'flex', 

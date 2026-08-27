@@ -737,7 +737,7 @@ export default function DemoDlpSlide({ n }: SlideProps) {
   ];
 
   return (
-    <Shell section="DÉMONSTRATION" kicker={kickers[phase]} title={titles[phase]} n={n} dense>
+    <Shell section="DÉMONSTRATION" kicker={kickers[phase]} title={titles[phase]} n={n} dense keywords={['Simulation Attaque Kali', 'Marquage & Blocage Instantané', 'Active Response Wazuh']}>
       <div className="demo-slide-layout" style={{ display: 'flex', flexDirection: 'column', height: 'calc(100% + 1vw)', width: '100%', marginTop: '-0.8vw' }}>
         
         {/* Top 4-Phase Selector Pills & Speed Multiplier Button */}

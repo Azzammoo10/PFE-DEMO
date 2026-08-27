@@ -129,7 +129,7 @@ const getSlideProgressPercentage = (n: number): number => {
   }
 };
 
-export function Shell({ section, kicker, pulseLabel, title, n, total = 14, children, dense = false }: { section: string; kicker?: string; pulseLabel?: string; title: string | React.ReactNode; n: number; total?: number; children: React.ReactNode; dense?: boolean }) {
+export function Shell({ section, kicker, pulseLabel, title, n, total = 14, keywords, children, dense = false }: { section: string; kicker?: string; pulseLabel?: string; title: string | React.ReactNode; n: number; total?: number; keywords?: string[]; children: React.ReactNode; dense?: boolean }) {
   const planStep = getPlanStepNumber(section);
   const slideProgress = getSlideProgressPercentage(n);
   const showStepNav = section.toUpperCase() !== 'SOMMAIRE' && 
@@ -302,7 +302,61 @@ export function Shell({ section, kicker, pulseLabel, title, n, total = 14, child
         )}
         <motion.h1 initial="hidden" animate="visible" custom={1} variants={fadeUp}>{title}</motion.h1>
       </header>
-      <footer className="slide-body">{children}</footer>
+      <footer className="slide-body">
+        {children}
+        {keywords && keywords.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 4 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.15, duration: 0.3 }}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.6vw',
+              marginTop: '0.5vw',
+              paddingTop: '0.35vw',
+              borderTop: '1px solid #e2e8f0',
+              zIndex: 10,
+              width: '100%',
+              flexShrink: 0
+            }}
+          >
+            <span style={{
+              background: '#00008f',
+              color: '#ffffff',
+              fontSize: '0.6vw',
+              fontWeight: 800,
+              padding: '0.18vw 0.55vw',
+              borderRadius: '4px',
+              letterSpacing: '0.08em',
+              textTransform: 'uppercase',
+              fontFamily: 'system-ui, -apple-system, sans-serif'
+            }}>
+              Mots-clés
+            </span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.4vw', flexWrap: 'wrap' }}>
+              {keywords.map((kw, i) => (
+                <span
+                  key={i}
+                  style={{
+                    background: '#f8fafc',
+                    border: '1px solid #cbd5e1',
+                    color: '#1e293b',
+                    fontSize: '0.65vw',
+                    fontWeight: 700,
+                    padding: '0.15vw 0.5vw',
+                    borderRadius: '5px',
+                    fontFamily: 'system-ui, -apple-system, sans-serif',
+                    letterSpacing: '0.01em'
+                  }}
+                >
+                  {kw}
+                </span>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </footer>
       <Footer n={n} total={total} />
     </section>
   );

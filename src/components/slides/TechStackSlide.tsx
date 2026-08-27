@@ -186,6 +186,7 @@ export default function TechStackSlide({ n }: SlideProps) {
       title="Environnement Technique et Technologies"
       n={n}
       dense
+      keywords={['Endpoint: Python / Watchdog / WMI', 'Backend: Flask / Mitmproxy', 'Consoles: React 18 / TS', 'IA Locale: Ollama Qwen 2.5']}
     >
       <div style={{
         display: 'flex',

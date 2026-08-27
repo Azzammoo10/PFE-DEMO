@@ -124,6 +124,7 @@ export default function PlatformsSlide({ n, total }: SlideProps) {
       n={n}
       total={total}
       dense
+      keywords={['LabelGuard (Autolabeling IA)', 'DLP Monitoring Tool', 'Analyse Conflits Règles', 'OneTrust Tracker (RGPD)']}
     >
       <div className="w-full h-full flex flex-col items-center justify-between relative overflow-hidden p-0">
         

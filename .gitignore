@@ -17,3 +17,20 @@ pitch
 pitch/
 PITCH*
 
+# Agents and Skills (local only)
+.agents/
+skills-lock.json
+
+# LaTeX build & auxiliary files
+*.aux
+*.log
+*.toc
+*.out
+*.synctex.gz
+*.fls
+*.fdb_latexmk
+*.bbl
+*.blg
+*.lof
+*.lot
+

@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -H 127.0.0.1 -p 8080",
     "dev:safe": "systemd-run --user --scope -p MemoryMax=8G -p MemorySwapMax=0 -p MemoryHigh=6G npm run dev",
     "build": "next build",
     "start": "next start",

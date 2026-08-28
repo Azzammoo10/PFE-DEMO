@@ -424,39 +424,18 @@ export default function Presentation() {
     });
   }, []);
 
-  // Permanent Auto-Lock & Startup Fullscreen across entire presentation
+  // Auto Fullscreen handling without continuous event listener blocking
   useEffect(() => {
-    const enforceFullscreen = () => {
-      if (!document.fullscreenElement && document.documentElement.requestFullscreen) {
-        document.documentElement.requestFullscreen().catch(() => {});
-      }
-    };
-
-    // Attempt immediately on mount (works if user navigated with gesture)
-    enforceFullscreen();
-
     const handleFullscreenChange = () => {
-      if (!document.fullscreenElement) {
-        setTimeout(enforceFullscreen, 10);
-      }
-    };
-
-    const handleUserInteraction = () => {
-      enforceFullscreen();
+      // Event listener for full-screen state tracking
     };
 
     document.addEventListener('fullscreenchange', handleFullscreenChange);
     document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
-    window.addEventListener('click', handleUserInteraction, { capture: true });
-    window.addEventListener('pointerdown', handleUserInteraction, { capture: true });
-    window.addEventListener('keydown', handleUserInteraction, { capture: true });
 
     return () => {
       document.removeEventListener('fullscreenchange', handleFullscreenChange);
       document.removeEventListener('webkitfullscreenchange', handleFullscreenChange);
-      window.removeEventListener('click', handleUserInteraction, { capture: true });
-      window.removeEventListener('pointerdown', handleUserInteraction, { capture: true });
-      window.removeEventListener('keydown', handleUserInteraction, { capture: true });
     };
   }, []);
 
@@ -473,10 +452,6 @@ export default function Presentation() {
           setIsMenuOpen(false);
           return;
         }
-        e.preventDefault();
-        if (!document.fullscreenElement && document.documentElement.requestFullscreen) {
-          document.documentElement.requestFullscreen().catch(() => {});
-        }
         return;
       }
 
@@ -484,6 +459,8 @@ export default function Presentation() {
         e.preventDefault();
         if (!document.fullscreenElement && document.documentElement.requestFullscreen) {
           document.documentElement.requestFullscreen().catch(() => {});
+        } else if (document.fullscreenElement && document.exitFullscreen) {
+          document.exitFullscreen().catch(() => {});
         }
         return;
       }
@@ -501,7 +478,7 @@ export default function Presentation() {
     };
 
     const onWheel = (e: WheelEvent) => {
-      if (Math.abs(e.deltaY) < 18) return;
+      if (Math.abs(e.deltaY) < 35) return;
       if (isScrolling.current) return;
 
       isScrolling.current = true;
@@ -513,7 +490,7 @@ export default function Presentation() {
 
       setTimeout(() => {
         isScrolling.current = false;
-      }, 380);
+      }, 450);
     };
 
     window.addEventListener('keydown', onKey);

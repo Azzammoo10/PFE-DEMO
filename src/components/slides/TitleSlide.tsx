@@ -111,17 +111,23 @@ export default function TitleSlide({ n }: SlideProps) {
           <motion.div custom={6} variants={fadeUp} style={{
             display: 'inline-flex',
             alignItems: 'center',
-            gap: '0.4vw',
-            background: 'rgba(11, 102, 213, 0.15)',
-            border: '1px solid rgba(56, 189, 248, 0.3)',
-            padding: '0.25vw 0.9vw',
-            borderRadius: '8px',
-            color: '#38bdf8',
-            fontWeight: 700,
-            fontSize: '0.85vw'
+            gap: '0.8vw'
           }}>
-            <Calendar size={14} style={{ color: '#38bdf8' }} />
-            <span>Soutenu le : X / X / X</span>
+            <div style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.4vw',
+              background: 'rgba(11, 102, 213, 0.15)',
+              border: '1px solid rgba(56, 189, 248, 0.3)',
+              padding: '0.25vw 0.9vw',
+              borderRadius: '8px',
+              color: '#38bdf8',
+              fontWeight: 700,
+              fontSize: '0.85vw'
+            }}>
+              <Calendar size={14} style={{ color: '#38bdf8' }} />
+              <span>Soutenu le : X / X / X</span>
+            </div>
           </motion.div>
         </div>
       </motion.div>

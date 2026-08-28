@@ -1,6 +1,72 @@
 {
   "version": 1,
   "skills": {
+    "academic-paper": {
+      "source": "Imbad0202/academic-research-skills",
+      "sourceType": "github",
+      "skillPath": "academic-paper/SKILL.md",
+      "computedHash": "8695aef502c8f09196c743ea2ca6522805dd20538bbe1e2cf28de432edc8136d"
+    },
+    "academic-paper-review": {
+      "source": "bytedance/deer-flow",
+      "sourceType": "github",
+      "skillPath": "skills/public/academic-paper-review/SKILL.md",
+      "computedHash": "ea1355279516468115f4e54c48bcfc20fd12ef6a67b48898f701ac8da5470fa4"
+    },
+    "academic-paper-reviewer": {
+      "source": "Imbad0202/academic-research-skills",
+      "sourceType": "github",
+      "skillPath": "academic-paper-reviewer/SKILL.md",
+      "computedHash": "622c8d0f50cbe1571b07c5cfd8a5cbf08c84ea3b2c2e6870b8dfd1ffc0cb3515"
+    },
+    "academic-pipeline": {
+      "source": "Imbad0202/academic-research-skills",
+      "sourceType": "github",
+      "skillPath": "academic-pipeline/SKILL.md",
+      "computedHash": "a8f9dac750caeb68cd42b49aece4ca26ec5c48ccda6e7f91afb5f98b2f5a731d"
+    },
+    "bootstrap": {
+      "source": "bytedance/deer-flow",
+      "sourceType": "github",
+      "skillPath": "skills/public/bootstrap/SKILL.md",
+      "computedHash": "46f18cd32f0f2f0007f79d70e2d708e0383801baee127ff1a3bd747ce4888360"
+    },
+    "chart-visualization": {
+      "source": "bytedance/deer-flow",
+      "sourceType": "github",
+      "skillPath": "skills/public/chart-visualization/SKILL.md",
+      "computedHash": "5abff376b10bd146ddd102aeafde601e4e86b35557c33fb8b8f9a6b64c4a902d"
+    },
+    "claude-to-deerflow": {
+      "source": "bytedance/deer-flow",
+      "sourceType": "github",
+      "skillPath": "skills/public/claude-to-deerflow/SKILL.md",
+      "computedHash": "d32e99ba4bc878ccc0d67ecaeae0cb0fdaaf33e8b86a966b322effaf26588b5d"
+    },
+    "code-documentation": {
+      "source": "bytedance/deer-flow",
+      "sourceType": "github",
+      "skillPath": "skills/public/code-documentation/SKILL.md",
+      "computedHash": "ec9a1d364fa9e90e425c7c3e8cff85a0cb21ca1b7321b6e4964ece5b693227b1"
+    },
+    "consulting-analysis": {
+      "source": "bytedance/deer-flow",
+      "sourceType": "github",
+      "skillPath": "skills/public/consulting-analysis/SKILL.md",
+      "computedHash": "3242c2149e8ca3290ade56ce380d1751c75473bc5420c092f7ee70718dd34597"
+    },
+    "data-analysis": {
+      "source": "bytedance/deer-flow",
+      "sourceType": "github",
+      "skillPath": "skills/public/data-analysis/SKILL.md",
+      "computedHash": "211ddc0f87fc304e2430200ba973dc7fa02fbe5ec7eb249bfe76050fd1e17cc9"
+    },
+    "deep-research": {
+      "source": "Imbad0202/academic-research-skills",
+      "sourceType": "github",
+      "skillPath": "deep-research/SKILL.md",
+      "computedHash": "f3e498aa6262b0a771b00af1faa3ee56013e9ba68fa9f1651a77ff1822153f45"
+    },
     "demo-day-theater": {
       "source": "omer-metin/skills-for-antigravity",
       "sourceType": "github",
@@ -8,10 +74,28 @@
       "computedHash": "775d766d06abd3b1874ed370a71d7266dbef3e789941775bb4e9a31f0722f98b"
     },
     "find-skills": {
-      "source": "vercel-labs/skills",
+      "source": "bytedance/deer-flow",
       "sourceType": "github",
-      "skillPath": "skills/find-skills/SKILL.md",
-      "computedHash": "781bd6d3f9b19f8c9af6b53d8d0e4876d0183841b565db34ca7092ffa412d111"
+      "skillPath": "skills/public/find-skills/SKILL.md",
+      "computedHash": "202da6ad9e3c65949fa70371e89b1f55a1f5bd6d11b20b4491af17de495a0caf"
+    },
+    "frontend-design": {
+      "source": "bytedance/deer-flow",
+      "sourceType": "github",
+      "skillPath": "skills/public/frontend-design/SKILL.md",
+      "computedHash": "8925cd22a5b6dba32095df9dee7b69fe2797bd0e0ba89d3fd8bdaee5543deffc"
+    },
+    "github-deep-research": {
+      "source": "bytedance/deer-flow",
+      "sourceType": "github",
+      "skillPath": "skills/public/github-deep-research/SKILL.md",
+      "computedHash": "f58cb23e922082c682dab353cd0b521164a987cb89c32ee23799e31f79953cd8"
+    },
+    "image-generation": {
+      "source": "bytedance/deer-flow",
+      "sourceType": "github",
+      "skillPath": "skills/public/image-generation/SKILL.md",
+      "computedHash": "52d2c5c142368c20aeeb0cf43c735100d1f4a1b60a0aedbdd8cf330caebe0280"
     },
     "improve-animations": {
       "source": "emilkowalski/skills",
@@ -19,11 +103,29 @@
       "skillPath": "skills/improve-animations/SKILL.md",
       "computedHash": "ff9991a8d6dabb24411daaf6de570e3b6826323459d514d90d7f6371bbdbdbe1"
     },
+    "latex-document-skill": {
+      "source": "ndpvt-web/latex-document-skill",
+      "sourceType": "github",
+      "skillPath": "SKILL.md",
+      "computedHash": "14957a9b2b9e91115e17f82d2f71b7f72d69bea21fb78d151d42ecb28ee5dc6e"
+    },
     "launch-storytelling": {
       "source": "omer-metin/skills-for-antigravity",
       "sourceType": "github",
       "skillPath": "skills/launch-storytelling/SKILL.md",
       "computedHash": "da43f154ff8928688a01027349b57b98ce18e6365b1eff3e5279bc0158e87c24"
+    },
+    "music-generation": {
+      "source": "bytedance/deer-flow",
+      "sourceType": "github",
+      "skillPath": "skills/public/music-generation/SKILL.md",
+      "computedHash": "8272bd86d9738b190f3e0a1467b4b4c0b0562d5ad42c351a8c77866784738b0f"
+    },
+    "newsletter-generation": {
+      "source": "bytedance/deer-flow",
+      "sourceType": "github",
+      "skillPath": "skills/public/newsletter-generation/SKILL.md",
+      "computedHash": "131ae0626c801fec0aebcbe823583f33231b68c646c3bbe1afd265c6ce299133"
     },
     "nextjs-app-router-patterns": {
       "source": "wshobson/agents",
@@ -37,11 +139,65 @@
       "skillPath": "skills/pitch-narrative/SKILL.md",
       "computedHash": "2c9664ef48da74ea0bdb4c2112c01153885a3fc99f6da283fba8f299e119271c"
     },
+    "podcast-generation": {
+      "source": "bytedance/deer-flow",
+      "sourceType": "github",
+      "skillPath": "skills/public/podcast-generation/SKILL.md",
+      "computedHash": "9f00374ffd18d8e7ff431337b5582afa23c6e4e3951352661662e94b9b6f9765"
+    },
+    "ppt-generation": {
+      "source": "bytedance/deer-flow",
+      "sourceType": "github",
+      "skillPath": "skills/public/ppt-generation/SKILL.md",
+      "computedHash": "1f95cca84b78975d6552da8e19c31fcb610ac80acc16f29c96c57bc6bc4d2173"
+    },
+    "skill-creator": {
+      "source": "bytedance/deer-flow",
+      "sourceType": "github",
+      "skillPath": "skills/public/skill-creator/SKILL.md",
+      "computedHash": "3c120c041b990cee6e27048fcbdccc162aa055b2a7c7f0db27ba56a1ba175355"
+    },
+    "skill-reviewer": {
+      "source": "bytedance/deer-flow",
+      "sourceType": "github",
+      "skillPath": "skills/public/skill-reviewer/SKILL.md",
+      "computedHash": "8d47cb520e8f788f2eb4af664f87b573ceb23539ac288a4afeafa5bcc6cfdb58"
+    },
+    "surprise-me": {
+      "source": "bytedance/deer-flow",
+      "sourceType": "github",
+      "skillPath": "skills/public/surprise-me/SKILL.md",
+      "computedHash": "5f1e90e27bbf451bb0c1878ff4621b39a8f2c47f56e9a9b98426e736fbd1d37a"
+    },
+    "systematic-literature-review": {
+      "source": "bytedance/deer-flow",
+      "sourceType": "github",
+      "skillPath": "skills/public/systematic-literature-review/SKILL.md",
+      "computedHash": "a4f42cb232c1b25a971c35c09933a1f26ef5c432439c0c7ca59137d0275cc4c1"
+    },
     "ui-ux-pro-max": {
       "source": "nextlevelbuilder/ui-ux-pro-max-skill",
       "sourceType": "github",
       "skillPath": ".claude/skills/ui-ux-pro-max/SKILL.md",
       "computedHash": "ce0af583006d2fd4731663adc50c0a5df1121f0d49a5bb9c308eca4ee295c60a"
+    },
+    "vercel-deploy": {
+      "source": "bytedance/deer-flow",
+      "sourceType": "github",
+      "skillPath": "skills/public/vercel-deploy-claimable/SKILL.md",
+      "computedHash": "a93f4d00fbe0233466bb142e3881fb86af5c6465cd17da03d7235a92af210267"
+    },
+    "video-generation": {
+      "source": "bytedance/deer-flow",
+      "sourceType": "github",
+      "skillPath": "skills/public/video-generation/SKILL.md",
+      "computedHash": "1bc42cd686e5471731ec8eb06eb8a1d40bcabfb5e6ac9791d3ca8000dffc46ab"
+    },
+    "web-design-guidelines": {
+      "source": "bytedance/deer-flow",
+      "sourceType": "github",
+      "skillPath": "skills/public/web-design-guidelines/SKILL.md",
+      "computedHash": "a6a44d5498f7e8f68289902f3dedfc6f38ae0cee1e96527c80724cf27f727c2a"
     }
   }
 }

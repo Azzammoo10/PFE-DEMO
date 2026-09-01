@@ -403,10 +403,16 @@ export default function Presentation() {
   const [[index, direction, isSameSection], setPage] = useState([0, 0, false]);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const isScrolling = useRef(false);
+  const lastNavTime = useRef(0);
 
   const Active = useMemo(() => slides[index].component, [index]);
 
   const go = useCallback((d: number) => {
+    const now = Date.now();
+    // Anti-rebond (250ms) pour éliminer les signaux Bluetooth en double et rendre le tap instantané
+    if (now - lastNavTime.current < 250) return;
+    lastNavTime.current = now;
+
     setPage(([i]) => {
       const next = Math.max(0, Math.min(slides.length - 1, i + d));
       const dir = next > i ? 1 : next < i ? -1 : 0;
@@ -465,11 +471,20 @@ export default function Presentation() {
         return;
       }
 
-      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'ArrowDown' || e.key === 'PageDown') {
+      // Flèches clavier uniquement
+      if (
+        e.key === 'ArrowRight' ||
+        e.key === 'ArrowDown' ||
+        e.key === 'PageDown'
+      ) {
         e.preventDefault();
         go(1);
       }
-      if (e.key === 'ArrowLeft' || e.key === 'ArrowUp' || e.key === 'PageUp') {
+      if (
+        e.key === 'ArrowLeft' ||
+        e.key === 'ArrowUp' ||
+        e.key === 'PageUp'
+      ) {
         e.preventDefault();
         go(-1);
       }
@@ -493,11 +508,11 @@ export default function Presentation() {
       }, 450);
     };
 
-    window.addEventListener('keydown', onKey);
+    window.addEventListener('keydown', onKey, { capture: true });
     window.addEventListener('wheel', onWheel, { passive: true });
 
     return () => {
-      window.removeEventListener('keydown', onKey);
+      window.removeEventListener('keydown', onKey, { capture: true });
       window.removeEventListener('wheel', onWheel);
     };
   }, [go, goTo, isMenuOpen]);
@@ -505,7 +520,7 @@ export default function Presentation() {
   return (
     <main className="stage">
       <MobileBlocker />
-      <AnimatePresence mode="wait" custom={{ direction, isSameSection }}>
+      <AnimatePresence mode="popLayout" custom={{ direction, isSameSection }}>
         <motion.div
           key={index}
           className="slide-holder"
@@ -516,8 +531,8 @@ export default function Presentation() {
           animate="center"
           exit="exit"
           transition={{
-            y: { duration: isSameSection ? 0.22 : 0.25, ease: [0.25, 1, 0.5, 1] },
-            opacity: { duration: isSameSection ? 0.18 : 0.22, ease: 'easeOut' }
+            y: { duration: isSameSection ? 0.12 : 0.15, ease: [0.25, 1, 0.5, 1] },
+            opacity: { duration: isSameSection ? 0.1 : 0.14, ease: 'easeOut' }
           }}
         >
           <Active n={index + 1} total={slides.length}/>

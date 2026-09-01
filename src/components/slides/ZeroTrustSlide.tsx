@@ -24,7 +24,6 @@ export default function ZeroTrustSlide({ n }: SlideProps) {
       pulseLabel="Conclusion"
       title=""
       n={n}
-      keywords={['Architecture DLP Hybride', 'Philosophie Zero Trust', 'Souveraineté & Efficience']}
     >
       <div style={{
         display: 'flex',

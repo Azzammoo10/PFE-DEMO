@@ -578,30 +578,7 @@ export default function DemoDlpSlide({ n }: SlideProps) {
     }
   };
 
-  // Auto-restore container fullscreen if browser drops out of fullscreen
-  useEffect(() => {
-    const handleFullscreenChange = () => {
-      if (!document.fullscreenElement) {
-        let container: HTMLDivElement | null = null;
-        const currentPhase = phaseRef.current;
-        if (currentPhase === 0) container = containerRef1.current;
-        else if (currentPhase === 1) container = containerRef2.current;
-        else if (currentPhase === 2) container = containerRef3.current;
-        else if (currentPhase === 3) container = containerRef4.current;
 
-        if (container && container.requestFullscreen) {
-          container.requestFullscreen().catch(() => {});
-        }
-      }
-    };
-
-    document.addEventListener('fullscreenchange', handleFullscreenChange);
-    document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
-    return () => {
-      document.removeEventListener('fullscreenchange', handleFullscreenChange);
-      document.removeEventListener('webkitfullscreenchange', handleFullscreenChange);
-    };
-  }, []);
 
   // Capture wheel and keyboard events for internal phase navigation
   useEffect(() => {
@@ -939,13 +916,17 @@ export default function DemoDlpSlide({ n }: SlideProps) {
                   <video
                     ref={videoRef1}
                     src="/DLP-DEMO-final.mp4"
-                    preload="metadata"
+                    preload={phase === 0 ? "auto" : "none"}
+                    playsInline
                     controls
                     controlsList="nofullscreen noremoteplayback"
                     disablePictureInPicture
                     onTimeUpdate={() => {
-                      if (videoRef1.current && Math.abs(videoRef1.current.currentTime - currentTime1) >= 0.5) {
-                        setCurrentTime1(videoRef1.current.currentTime);
+                      if (!videoRef1.current) return;
+                      const time = videoRef1.current.currentTime;
+                      const sc = DEMO_SCENARIOS.slice().reverse().find((s) => time >= s.time) || null;
+                      if ((sc?.id ?? null) !== (activeScenario1?.id ?? null) || Math.abs(time - currentTime1) > 2) {
+                        setCurrentTime1(time);
                       }
                     }}
                     onLoadedMetadata={() => {
@@ -1240,13 +1221,17 @@ export default function DemoDlpSlide({ n }: SlideProps) {
                   <video
                     ref={videoRef2}
                     src="/Phase Pentest -Final.mp4"
-                    preload="metadata"
+                    preload={phase === 1 ? "auto" : "none"}
+                    playsInline
                     controls
                     controlsList="nofullscreen noremoteplayback"
                     disablePictureInPicture
                     onTimeUpdate={() => {
-                      if (videoRef2.current && Math.abs(videoRef2.current.currentTime - currentTime2) >= 0.5) {
-                        setCurrentTime2(videoRef2.current.currentTime);
+                      if (!videoRef2.current) return;
+                      const time = videoRef2.current.currentTime;
+                      const sc = PENTEST_SCENARIOS.slice().reverse().find((s) => time >= s.time) || null;
+                      if ((sc?.id ?? null) !== (activeScenario2?.id ?? null) || Math.abs(time - currentTime2) > 2) {
+                        setCurrentTime2(time);
                       }
                     }}
                     onLoadedMetadata={() => {
@@ -1540,13 +1525,17 @@ export default function DemoDlpSlide({ n }: SlideProps) {
                   <video
                     ref={videoRef3}
                     src="/DLP-SOC.mp4"
-                    preload="metadata"
+                    preload={phase === 2 ? "auto" : "none"}
+                    playsInline
                     controls
                     controlsList="nofullscreen noremoteplayback"
                     disablePictureInPicture
                     onTimeUpdate={() => {
-                      if (videoRef3.current && Math.abs(videoRef3.current.currentTime - currentTime3) >= 0.5) {
-                        setCurrentTime3(videoRef3.current.currentTime);
+                      if (!videoRef3.current) return;
+                      const time = videoRef3.current.currentTime;
+                      const sc = SOC_SCENARIOS.slice().reverse().find((s) => time >= s.time) || null;
+                      if ((sc?.id ?? null) !== (activeScenario3?.id ?? null) || Math.abs(time - currentTime3) > 2) {
+                        setCurrentTime3(time);
                       }
                     }}
                     onLoadedMetadata={() => {
@@ -1840,13 +1829,17 @@ export default function DemoDlpSlide({ n }: SlideProps) {
                   <video
                     ref={videoRef4}
                     src="/Platform PFE.mp4"
-                    preload="metadata"
+                    preload={phase === 3 ? "auto" : "none"}
+                    playsInline
                     controls
                     controlsList="nofullscreen noremoteplayback"
                     disablePictureInPicture
                     onTimeUpdate={() => {
-                      if (videoRef4.current && Math.abs(videoRef4.current.currentTime - currentTime4) >= 0.5) {
-                        setCurrentTime4(videoRef4.current.currentTime);
+                      if (!videoRef4.current) return;
+                      const time = videoRef4.current.currentTime;
+                      const sc = PLATFORM_SCENARIOS.slice().reverse().find((s) => time >= s.time) || null;
+                      if ((sc?.id ?? null) !== (activeScenario4?.id ?? null) || Math.abs(time - currentTime4) > 2) {
+                        setCurrentTime4(time);
                       }
                     }}
                     onLoadedMetadata={() => {

@@ -78,7 +78,7 @@ export default function ArchitectureSlide({ n }: SlideProps) {
     };
 
     const handleKey = (e: KeyboardEvent) => {
-      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'ArrowDown' || e.key === 'PageDown') {
+      if (e.key === 'ArrowDown') {
         if (subStepRef.current < 4) {
           e.preventDefault();
           e.stopPropagation();
@@ -86,7 +86,7 @@ export default function ArchitectureSlide({ n }: SlideProps) {
           setSlideDirection(1);
           setSubStep((prev) => (prev + 1) as 1 | 2 | 3 | 4);
         }
-      } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp' || e.key === 'PageUp') {
+      } else if (e.key === 'ArrowUp') {
         if (subStepRef.current > 1) {
           e.preventDefault();
           e.stopPropagation();
@@ -121,7 +121,7 @@ export default function ArchitectureSlide({ n }: SlideProps) {
     <Shell
       section="CONCEPTION"
       pulseLabel="Conception Lab"
-      title="Conception du Laboratoire DLP"
+      title={subStep === 1 ? "Conception du Laboratoire DLP" : ""}
       n={n}
       dense
       keywords={['Virtualisation 4 VMs', 'Micro-agents Python REST', 'Hook Watchdog/WMI', 'Pentest Metasploit', 'SOC Wazuh Active Response']}
@@ -134,25 +134,25 @@ export default function ArchitectureSlide({ n }: SlideProps) {
           alignItems: 'center',
           justifyContent: 'flex-start',
           width: '100%',
-          marginBottom: '0.4vw',
+          marginBottom: subStep === 2 ? '0.15vw' : '0.4vw',
           zIndex: 20
         }}>
           {/* Active Sub-step Badge / Subtitle Banner */}
           <div style={{
             display: 'flex',
             alignItems: 'center',
-            gap: '0.6vw',
+            gap: '0.5vw',
             background: '#ffffff',
-            border: '2px solid #0b66d5',
-            borderRadius: '24px',
-            padding: '0.45vw 1.2vw',
-            fontSize: '1.05vw',
+            border: '1.5px solid #0b66d5',
+            borderRadius: '20px',
+            padding: subStep === 2 ? '0.2vw 0.8vw' : '0.45vw 1.2vw',
+            fontSize: subStep === 2 ? '0.82vw' : '1.05vw',
             fontWeight: 900,
             color: '#0f172a',
-            boxShadow: '0 4px 14px rgba(11, 102, 213, 0.12)'
+            boxShadow: '0 2px 10px rgba(11, 102, 213, 0.1)'
           }}>
             {subStep === 1 && <Network style={{ width: '1.2vw', height: '1.2vw', color: '#0b66d5' }} />}
-            {subStep === 2 && <Cpu style={{ width: '1.2vw', height: '1.2vw', color: '#0b66d5' }} />}
+            {subStep === 2 && <Cpu style={{ width: '1vw', height: '1vw', color: '#0b66d5' }} />}
             {subStep === 3 && <Flame style={{ width: '1.2vw', height: '1.2vw', color: '#dc2626' }} />}
             {subStep === 4 && <ShieldAlert style={{ width: '1.2vw', height: '1.2vw', color: '#00008f' }} />}
             <span style={{ color: subStep === 3 ? '#b91c1c' : (subStep === 4 ? '#00008f' : '#0b66d5') }}>
@@ -161,11 +161,11 @@ export default function ArchitectureSlide({ n }: SlideProps) {
           </div>
         </div>
 
-        {/* Main Stage Display */}
+        {/* Main Stage Display (Maximized Height for all 4 Volets) */}
         <div style={{
           position: 'relative',
           width: '100%',
-          height: 'calc(100% - 3.6vw)',
+          height: 'calc(100% - 1.8vw)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -292,49 +292,6 @@ export default function ArchitectureSlide({ n }: SlideProps) {
             )}
 
           </AnimatePresence>
-        </div>
-
-        {/* Bottom Navigation Control */}
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', paddingTop: '2px', zIndex: 10 }}>
-          <button
-            onClick={() => {
-              if (subStep < 4) {
-                setSlideDirection(1);
-                setSubStep((prev) => (prev + 1) as 1 | 2 | 3 | 4);
-              }
-            }}
-            style={{
-              background: 'none',
-              border: 'none',
-              cursor: subStep < 4 ? 'pointer' : 'default',
-              padding: 0
-            }}
-          >
-            <motion.div
-              animate={{ y: [0, 3, 0] }}
-              transition={{ repeat: Infinity, duration: 1.8, ease: 'easeInOut' }}
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '6px',
-                background: subStep === 4 ? 'rgba(16, 185, 129, 0.08)' : 'rgba(11, 102, 213, 0.05)',
-                border: `1.5px solid ${subStep === 4 ? 'rgba(16, 185, 129, 0.25)' : 'rgba(11, 102, 213, 0.15)'}`,
-                color: subStep === 4 ? '#047857' : '#0b66d5',
-                padding: '2px 12px',
-                borderRadius: '20px',
-                fontSize: '0.68vw',
-                fontWeight: 700
-              }}
-            >
-              <span>
-                {subStep === 1 && 'Scroll vers le bas pour le Volet 2/4 (DLP Manager & Agents)'}
-                {subStep === 2 && 'Scroll vers le bas pour le Volet 3/4 (Validation Offensive Pentest)'}
-                {subStep === 3 && 'Scroll vers le bas pour le Volet 4/4 (SOC Wazuh & Active Response)'}
-                {subStep === 4 && 'Dernier volet du DLP Lab — Continuer vers la slide suivante'}
-              </span>
-              <span style={{ fontSize: '0.78vw', fontWeight: 900 }}>↓</span>
-            </motion.div>
-          </button>
         </div>
 
       </div>

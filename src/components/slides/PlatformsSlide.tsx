@@ -78,7 +78,7 @@ export default function PlatformsSlide({ n, total }: SlideProps) {
     };
 
     const handleKey = (e: KeyboardEvent) => {
-      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'ArrowDown' || e.key === 'PageDown') {
+      if (e.key === 'ArrowDown') {
         if (subStepRef.current < 3) {
           e.preventDefault();
           e.stopPropagation();
@@ -86,7 +86,7 @@ export default function PlatformsSlide({ n, total }: SlideProps) {
           setSlideDirection(1);
           setSubStep((prev) => (prev + 1) as 1 | 2 | 3);
         }
-      } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp' || e.key === 'PageUp') {
+      } else if (e.key === 'ArrowUp') {
         if (subStepRef.current > 1) {
           e.preventDefault();
           e.stopPropagation();
@@ -120,7 +120,7 @@ export default function PlatformsSlide({ n, total }: SlideProps) {
     <Shell
       section="CONCEPTION"
       pulseLabel="Plateformes Ops"
-      title="Conception des Plateformes Opérationnelles"
+      title={subStep === 1 ? "Conception des Plateformes Opérationnelles" : ""}
       n={n}
       total={total}
       dense
@@ -160,11 +160,11 @@ export default function PlatformsSlide({ n, total }: SlideProps) {
           </div>
         </div>
 
-        {/* Main Stage Display */}
+        {/* Main Stage Display (Maximized Height for all 3 Volets) */}
         <div style={{
           position: 'relative',
           width: '100%',
-          height: 'calc(100% - 3.6vw)',
+          height: 'calc(100% - 1.8vw)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -245,48 +245,6 @@ export default function PlatformsSlide({ n, total }: SlideProps) {
             )}
 
           </AnimatePresence>
-        </div>
-
-        {/* Bottom Navigation Control with Scroll Down Arrow Prompt */}
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', paddingTop: '2px', zIndex: 10 }}>
-          <button
-            onClick={() => {
-              if (subStep < 3) {
-                setSlideDirection(1);
-                setSubStep((prev) => (prev + 1) as 1 | 2 | 3);
-              }
-            }}
-            style={{
-              background: 'none',
-              border: 'none',
-              cursor: subStep < 3 ? 'pointer' : 'default',
-              padding: 0
-            }}
-          >
-            <motion.div
-              animate={{ y: [0, 3, 0] }}
-              transition={{ repeat: Infinity, duration: 1.8, ease: 'easeInOut' }}
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '6px',
-                background: subStep === 3 ? 'rgba(16, 185, 129, 0.08)' : 'rgba(0, 0, 143, 0.05)',
-                border: `1.5px solid ${subStep === 3 ? 'rgba(16, 185, 129, 0.25)' : 'rgba(0, 0, 143, 0.15)'}`,
-                color: subStep === 3 ? '#047857' : '#00008f',
-                padding: '2px 12px',
-                borderRadius: '20px',
-                fontSize: '0.68vw',
-                fontWeight: 700
-              }}
-            >
-              <span>
-                {subStep === 1 && 'Scroll vers le bas pour le Volet 2/3 (DLP Monitoring Tool)'}
-                {subStep === 2 && 'Scroll vers le bas pour le Volet 3/3 (OneTrust Tracker & RGPD)'}
-                {subStep === 3 && 'Dernier volet des Plateformes — Continuer vers la slide suivante'}
-              </span>
-              <span style={{ fontSize: '0.78vw', fontWeight: 900 }}>↓</span>
-            </motion.div>
-          </button>
         </div>
 
       </div>

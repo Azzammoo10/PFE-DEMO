@@ -662,14 +662,16 @@ export default function DemoDlpSlide({ n }: SlideProps) {
         return;
       }
 
-      if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === 'PageDown') {
+      if (e.key === 'ArrowDown') {
         if (phaseRef.current < 3) {
+          e.preventDefault();
           e.stopPropagation();
           e.stopImmediatePropagation();
           setPhase((p) => (p + 1) as 0 | 1 | 2 | 3);
         }
-      } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp' || e.key === 'PageUp') {
+      } else if (e.key === 'ArrowUp') {
         if (phaseRef.current > 0) {
+          e.preventDefault();
           e.stopPropagation();
           e.stopImmediatePropagation();
           setPhase((p) => (p - 1) as 0 | 1 | 2 | 3);

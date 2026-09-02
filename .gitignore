@@ -34,3 +34,6 @@ skills-lock.json
 *.lof
 *.lot
 
+# Diagram design repo
+diagram-design
+diagram-design/

@@ -313,9 +313,9 @@ export function Shell({ section, kicker, pulseLabel, title, n, total = 14, keywo
               display: 'flex',
               alignItems: 'center',
               gap: '0.6vw',
-              marginTop: '0.5vw',
-              paddingTop: '0.35vw',
-              borderTop: '1px solid #e2e8f0',
+              marginTop: 'auto',
+              paddingTop: '0.3vw',
+              borderTop: '1px solid #cbd5e1',
               zIndex: 10,
               width: '100%',
               flexShrink: 0
@@ -471,10 +471,9 @@ export default function Presentation() {
         return;
       }
 
-      // Flèches clavier uniquement
+      // Navigation entre slides (Flèche Droite → / Flèche Gauche ←)
       if (
         e.key === 'ArrowRight' ||
-        e.key === 'ArrowDown' ||
         e.key === 'PageDown'
       ) {
         e.preventDefault();
@@ -482,7 +481,6 @@ export default function Presentation() {
       }
       if (
         e.key === 'ArrowLeft' ||
-        e.key === 'ArrowUp' ||
         e.key === 'PageUp'
       ) {
         e.preventDefault();

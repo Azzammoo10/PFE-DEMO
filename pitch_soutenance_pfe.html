@@ -2,11 +2,11 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
 <title>Soutenance PFE — Architecture DLP Hybride avec Supervision SOC</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
     --bg-primary:#0A1626;
@@ -28,9 +28,9 @@
     --font-mono:'IBM Plex Mono', monospace;
   }
 
-  *{box-sizing:border-box; margin:0; padding:0;}
+  *{box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent;}
 
-  html{scroll-behavior:smooth;}
+  html{scroll-behavior:smooth; -webkit-text-size-adjust:100%;}
 
   body{
     background:
@@ -41,35 +41,59 @@
     font-family:var(--font-body);
     line-height:1.55;
     min-height:100vh;
-    padding-bottom:80px;
+    padding-bottom:50px;
   }
 
-  a{color:inherit;}
+  a{color:inherit; text-decoration:none;}
 
-  /* ===== CONSOLE BAR (signature element) ===== */
+  /* ===== CONSOLE BAR (Sticky & Responsive for Mobile) ===== */
   .console-bar{
     position:sticky;
     top:0;
     z-index:50;
-    background:rgba(10,22,38,0.92);
-    backdrop-filter:blur(10px);
+    background:rgba(10,22,38,0.95);
+    backdrop-filter:blur(12px);
+    -webkit-backdrop-filter:blur(12px);
     border-bottom:1px solid var(--border);
-    padding:14px 28px;
+    padding:10px 14px;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+  }
+
+  @media (min-width: 640px){
+    .console-bar{
+      flex-direction:row;
+      align-items:center;
+      justify-content:space-between;
+      padding:12px 24px;
+      gap:16px;
+    }
+  }
+
+  .console-top-row{
     display:flex;
     align-items:center;
     justify-content:space-between;
-    gap:20px;
-    flex-wrap:wrap;
+    width:100%;
+  }
+
+  @media (min-width: 640px){
+    .console-top-row{
+      width:auto;
+      gap:14px;
+    }
   }
 
   .console-id{
     display:flex;
     align-items:center;
-    gap:10px;
+    gap:8px;
     font-family:var(--font-mono);
     font-size:12px;
     color:var(--text-muted);
     letter-spacing:0.04em;
+    font-weight:600;
   }
 
   .console-id .dot{
@@ -77,6 +101,7 @@
     background:var(--accent-cyan);
     box-shadow:0 0 8px var(--accent-cyan);
     animation:pulse 2.4s ease-in-out infinite;
+    flex-shrink:0;
   }
 
   @keyframes pulse{
@@ -84,11 +109,47 @@
     50%{opacity:0.35;}
   }
 
+  .progress-label{
+    font-family:var(--font-mono);
+    font-size:11.5px;
+    color:var(--accent-cyan);
+    font-weight:600;
+  }
+
+  .progress-bar-container{
+    width:100%;
+    height:4px;
+    background:var(--border-soft);
+    border-radius:2px;
+    overflow:hidden;
+  }
+
+  @media (min-width: 640px){
+    .progress-bar-container{
+      width:140px;
+    }
+  }
+
+  .progress-bar-fill{
+    height:100%;
+    background:var(--accent-cyan);
+    width:0%;
+    transition:width 0.3s ease;
+  }
+
   .console-controls{
     display:flex;
     align-items:center;
-    gap:18px;
-    flex-wrap:wrap;
+    justify-content:space-between;
+    gap:10px;
+    width:100%;
+  }
+
+  @media (min-width: 640px){
+    .console-controls{
+      width:auto;
+      gap:16px;
+    }
   }
 
   .timer-block{
@@ -99,218 +160,254 @@
   }
 
   .timer-value{
-    font-size:22px;
-    font-weight:600;
+    font-size:20px;
+    font-weight:700;
     color:var(--accent-cyan);
-    min-width:74px;
-    text-align:right;
     font-variant-numeric:tabular-nums;
   }
 
   .timer-target{
-    font-size:12px;
+    font-size:11px;
     color:var(--text-muted);
+  }
+
+  .btn-group{
+    display:flex;
+    align-items:center;
+    gap:8px;
   }
 
   .console-btn{
     font-family:var(--font-mono);
     font-size:12px;
-    letter-spacing:0.03em;
+    font-weight:600;
+    letter-spacing:0.02em;
     background:var(--bg-panel-alt);
     color:var(--text-primary);
     border:1px solid var(--border);
     border-radius:6px;
-    padding:8px 14px;
+    padding:6px 12px;
+    min-height:36px;
     cursor:pointer;
     transition:all 0.15s ease;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    touch-action:manipulation;
   }
 
-  .console-btn:hover{
+  .console-btn:hover, .console-btn:active{
     border-color:var(--accent-cyan);
     color:var(--accent-cyan);
   }
 
-  .console-btn.reset:hover{
+  .console-btn.reset:hover, .console-btn.reset:active{
     border-color:var(--accent-red);
     color:var(--accent-red);
   }
 
-  .progress-track{
-    display:flex;
-    align-items:center;
-    gap:4px;
-  }
-
-  .progress-track .seg{
-    width:9px;height:9px;
-    border-radius:2px;
-    background:var(--border);
-    transition:background 0.2s ease;
-  }
-
-  .progress-track .seg.done{
-    background:var(--accent-cyan);
-  }
-
-  .progress-label{
-    font-family:var(--font-mono);
-    font-size:11px;
-    color:var(--text-muted);
-    margin-left:6px;
-  }
-
-  /* ===== HERO ===== */
+  /* ===== HERO SECTION ===== */
   .hero{
-    padding:64px 28px 40px;
-    max-width:1080px;
+    padding:24px 16px 20px;
+    max-width:960px;
     margin:0 auto;
     border-bottom:1px solid var(--border-soft);
   }
 
+  @media (min-width: 640px){
+    .hero{
+      padding:36px 24px 28px;
+    }
+  }
+
   .hero-eyebrow{
     font-family:var(--font-mono);
-    font-size:12px;
-    letter-spacing:0.12em;
+    font-size:11px;
+    letter-spacing:0.1em;
     text-transform:uppercase;
     color:var(--accent-amber);
-    margin-bottom:18px;
+    margin-bottom:8px;
+    font-weight:600;
   }
 
   .hero h1{
     font-family:var(--font-display);
     font-weight:700;
-    font-size:clamp(28px, 4.2vw, 46px);
-    line-height:1.12;
+    font-size:clamp(20px, 5vw, 34px);
+    line-height:1.2;
     letter-spacing:-0.01em;
-    max-width:820px;
   }
 
   .hero .accent{color:var(--accent-cyan);}
 
   .hero-meta{
-    display:flex;
-    flex-wrap:wrap;
-    gap:28px;
-    margin-top:32px;
-    padding-top:24px;
+    display:grid;
+    grid-template-columns:1fr;
+    gap:10px;
+    margin-top:16px;
+    padding-top:14px;
     border-top:1px solid var(--border-soft);
+  }
+
+  @media (min-width: 540px){
+    .hero-meta{
+      grid-template-columns:repeat(3, 1fr);
+      gap:14px;
+    }
   }
 
   .hero-meta-item{
     font-family:var(--font-mono);
-    font-size:12px;
   }
 
   .hero-meta-item .label{
     color:var(--text-muted);
     display:block;
-    margin-bottom:4px;
+    margin-bottom:2px;
     letter-spacing:0.04em;
     text-transform:uppercase;
-    font-size:10.5px;
+    font-size:10px;
   }
 
   .hero-meta-item .value{
     color:var(--text-primary);
-    font-size:13.5px;
+    font-size:12.5px;
+    font-weight:500;
   }
 
-  /* ===== SECTION NAV ===== */
+  /* ===== SECTION NAV (Horizontal Touch Scroll) ===== */
   .section-nav{
     position:sticky;
-    top:61px;
+    top:92px;
     z-index:40;
-    background:rgba(10,22,38,0.88);
-    backdrop-filter:blur(8px);
+    background:rgba(10,22,38,0.92);
+    backdrop-filter:blur(10px);
+    -webkit-backdrop-filter:blur(10px);
     border-bottom:1px solid var(--border-soft);
-    padding:0 28px;
+    padding:8px 16px;
     display:flex;
-    gap:2px;
+    gap:8px;
     overflow-x:auto;
-    max-width:1080px;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+    max-width:960px;
     margin:0 auto;
+  }
+
+  @media (min-width: 640px){
+    .section-nav{
+      top:63px;
+      padding:10px 24px;
+    }
+  }
+
+  .section-nav::-webkit-scrollbar{
+    display:none;
   }
 
   .section-nav a{
     font-family:var(--font-mono);
     font-size:11.5px;
-    letter-spacing:0.03em;
+    font-weight:500;
     color:var(--text-muted);
-    text-decoration:none;
-    padding:14px 16px;
+    padding:6px 12px;
     white-space:nowrap;
-    border-bottom:2px solid transparent;
+    border-radius:20px;
+    background:var(--bg-card);
+    border:1px solid var(--border-soft);
     transition:all 0.15s ease;
-  }
-
-  .section-nav a:hover{
-    color:var(--text-primary);
+    flex-shrink:0;
   }
 
   .section-nav a.active{
-    color:var(--accent-cyan);
-    border-bottom-color:var(--accent-cyan);
+    color:var(--bg-primary);
+    background:var(--accent-cyan);
+    border-color:var(--accent-cyan);
+    font-weight:600;
+  }
+
+  .section-nav a.amber-nav.active{
+    background:var(--accent-amber);
+    border-color:var(--accent-amber);
+    color:var(--bg-primary);
   }
 
   /* ===== MAIN CONTENT ===== */
   main{
-    max-width:1080px;
+    max-width:960px;
     margin:0 auto;
-    padding:0 28px;
+    padding:0 14px;
+  }
+
+  @media (min-width: 640px){
+    main{
+      padding:0 24px;
+    }
   }
 
   .phase{
-    padding-top:56px;
+    padding-top:32px;
   }
 
   .phase-header{
     display:flex;
     align-items:baseline;
-    gap:16px;
-    margin-bottom:8px;
+    gap:10px;
+    margin-bottom:4px;
   }
 
   .phase-num{
     font-family:var(--font-mono);
-    font-size:13px;
+    font-size:12px;
     color:var(--accent-amber);
+    font-weight:600;
   }
 
   .phase-header h2{
     font-family:var(--font-display);
-    font-size:24px;
-    font-weight:600;
-    letter-spacing:-0.005em;
+    font-size:19px;
+    font-weight:700;
   }
 
   .phase-sub{
-    font-size:14px;
+    font-size:13px;
     color:var(--text-secondary);
-    margin-bottom:28px;
-    max-width:640px;
+    margin-bottom:16px;
   }
 
-  /* ===== SLIDE CARD ===== */
+  /* ===== SLIDE CARDS (Phone Optimised) ===== */
   .slide-card{
     background:var(--bg-card);
     border:1px solid var(--border-soft);
     border-radius:var(--radius);
-    margin-bottom:16px;
+    margin-bottom:10px;
     overflow:hidden;
-    transition:border-color 0.2s ease;
+    transition:border-color 0.2s ease, background 0.2s ease;
   }
 
   .slide-card.checked{
     border-color:var(--accent-cyan-dim);
+    background:rgba(13, 32, 54, 0.6);
   }
 
   .slide-head{
     display:flex;
     align-items:center;
-    gap:16px;
-    padding:18px 22px;
+    gap:10px;
+    padding:12px 14px;
     cursor:pointer;
     user-select:none;
+    -webkit-user-select:none;
+    touch-action:manipulation;
+    min-height:50px;
+  }
+
+  .slide-check-wrapper{
+    padding:8px 4px 8px 0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
   }
 
   .slide-check{
@@ -323,7 +420,9 @@
     flex-shrink:0;
     transition:all 0.15s ease;
     font-size:13px;
+    font-weight:bold;
     color:transparent;
+    background:var(--bg-primary);
   }
 
   .slide-card.checked .slide-check{
@@ -334,9 +433,10 @@
 
   .slide-number{
     font-family:var(--font-mono);
-    font-size:13px;
+    font-size:12px;
     color:var(--text-muted);
-    min-width:26px;
+    min-width:20px;
+    font-weight:600;
   }
 
   .slide-title-block{
@@ -347,18 +447,20 @@
   .slide-title{
     font-family:var(--font-display);
     font-weight:600;
-    font-size:16.5px;
+    font-size:14.5px;
+    line-height:1.3;
     color:var(--text-primary);
   }
 
   .slide-duration{
     font-family:var(--font-mono);
-    font-size:11.5px;
+    font-size:10.5px;
+    font-weight:600;
     color:var(--accent-amber);
-    background:rgba(232,163,78,0.09);
+    background:rgba(232,163,78,0.12);
     border:1px solid rgba(232,163,78,0.25);
     border-radius:5px;
-    padding:4px 9px;
+    padding:3px 7px;
     flex-shrink:0;
     white-space:nowrap;
   }
@@ -366,9 +468,11 @@
   .slide-chevron{
     font-family:var(--font-mono);
     color:var(--text-muted);
-    font-size:13px;
+    font-size:15px;
     transition:transform 0.2s ease;
     flex-shrink:0;
+    width:16px;
+    text-align:center;
   }
 
   .slide-card.open .slide-chevron{
@@ -377,7 +481,8 @@
 
   .slide-body{
     display:none;
-    padding:0 22px 22px 64px;
+    padding:12px 14px 16px;
+    border-top:1px dashed var(--border-soft);
   }
 
   .slide-card.open .slide-body{
@@ -385,26 +490,31 @@
   }
 
   .volet{
-    margin-bottom:16px;
+    margin-top:10px;
+    padding:10px 12px;
+    background:var(--bg-primary);
+    border-radius:6px;
+    border:1px solid var(--border-soft);
   }
-
-  .volet:last-child{margin-bottom:0;}
 
   .volet-tag{
     font-family:var(--font-mono);
     font-size:10.5px;
+    font-weight:600;
     color:var(--accent-cyan);
     letter-spacing:0.03em;
     text-transform:uppercase;
-    margin-bottom:6px;
+    margin-bottom:4px;
     display:block;
   }
 
   .speech{
-    font-size:15px;
+    font-size:14px;
+    line-height:1.6;
     color:var(--text-secondary);
-    border-left:2px solid var(--border);
-    padding-left:16px;
+    border-left:3px solid var(--border);
+    padding-left:12px;
+    margin-top:6px;
     white-space:pre-line;
   }
 
@@ -413,14 +523,14 @@
     font-weight:600;
   }
 
-  /* Keyword banner — mirrors the app's bottom keyword strip */
+  /* Keyword banner */
   .keyword-banner{
-    margin-top:18px;
-    padding-top:16px;
-    border-top:1px dashed var(--border);
+    margin-top:12px;
+    padding-top:10px;
+    border-top:1px dashed var(--border-soft);
     display:flex;
     align-items:center;
-    gap:10px;
+    gap:6px;
     flex-wrap:wrap;
   }
 
@@ -429,17 +539,27 @@
     font-size:10px;
     color:var(--text-muted);
     text-transform:uppercase;
-    letter-spacing:0.06em;
-    margin-right:2px;
+    letter-spacing:0.05em;
+    width:100%;
+    margin-bottom:2px;
+  }
+
+  @media (min-width: 480px){
+    .keyword-banner-label{
+      width:auto;
+      margin-bottom:0;
+      margin-right:2px;
+    }
   }
 
   .keyword-pill{
     font-family:var(--font-mono);
-    font-size:11.5px;
+    font-size:10.5px;
     color:var(--bg-primary);
     background:var(--accent-cyan);
-    border-radius:20px;
-    padding:5px 12px;
+    font-weight:600;
+    border-radius:12px;
+    padding:3px 9px;
     white-space:nowrap;
   }
 
@@ -449,600 +569,84 @@
 
   /* ===== FOOTER ===== */
   footer{
-    max-width:1080px;
-    margin:64px auto 0;
-    padding:24px 28px;
+    max-width:960px;
+    margin:40px auto 0;
+    padding:20px 16px;
     border-top:1px solid var(--border-soft);
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    flex-wrap:wrap;
-    gap:12px;
+    text-align:center;
   }
 
   footer p{
     font-family:var(--font-mono);
     font-size:11px;
     color:var(--text-muted);
+    line-height:1.6;
   }
 
   /* ===== PRINT ===== */
   @media print{
     body{background:#fff; color:#111;}
-    .console-bar, .section-nav{position:static; background:none; backdrop-filter:none;}
-    .slide-body{display:block !important; padding-left:22px;}
+    .console-bar, .section-nav{position:static; background:none; backdrop-filter:none; border:none;}
+    .slide-body{display:block !important;}
     .slide-chevron{display:none;}
-    .slide-card{break-inside:avoid; border:1px solid #ccc;}
+    .slide-card{break-inside:avoid; border:1px solid #ccc; background:#fff;}
     .speech{color:#222; border-left-color:#999;}
     .keyword-pill{background:#eee; color:#111; border:1px solid #999;}
-    .timer-block, .progress-track, .console-btn{display:none;}
-  }
-
-  @media (max-width: 640px){
-    .console-bar{padding:12px 16px;}
-    .hero{padding:44px 16px 28px;}
-    main{padding:0 16px;}
-    .slide-body{padding-left:22px;}
-    .timer-value{font-size:18px; min-width:60px;}
-  }
-
-  /* ===== AUDIO STUDIO & CONTENT ADAPTABILITY ===== */
-  .audio-studio{
-    background:var(--bg-panel);
-    border-bottom:1px solid var(--border);
-    max-width:1080px;
-    margin:0 auto;
-    border-radius:0 0 var(--radius) var(--radius);
-    padding:20px 28px;
-    display:none;
-    animation:fadeIn 0.25s ease-out;
-  }
-  .audio-studio.open{
-    display:block;
-  }
-
-  @keyframes fadeIn{
-    from{opacity:0; transform:translateY(-6px);}
-    to{opacity:1; transform:translateY(0);}
-  }
-
-  .studio-header{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    flex-wrap:wrap;
-    gap:14px;
-    padding-bottom:14px;
-    border-bottom:1px solid var(--border-soft);
-    margin-bottom:18px;
-  }
-
-  .studio-title-box{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    font-family:var(--font-mono);
-    font-size:13px;
-    color:var(--text-primary);
-    font-weight:600;
-  }
-
-  .rec-dot{
-    width:10px; height:10px;
-    border-radius:50%;
-    background:var(--accent-red);
-    display:inline-block;
-    opacity:0.4;
-  }
-  .rec-dot.active{
-    opacity:1;
-    animation:pulseRed 1s infinite alternate;
-  }
-  @keyframes pulseRed{
-    from{box-shadow:0 0 2px var(--accent-red); opacity:0.6;}
-    to{box-shadow:0 0 12px var(--accent-red); opacity:1;}
-  }
-
-  .studio-controls{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    flex-wrap:wrap;
-  }
-
-  .btn-rec{
-    font-family:var(--font-mono);
-    font-size:12px;
-    font-weight:600;
-    background:rgba(226,96,79,0.15);
-    color:var(--accent-red);
-    border:1px solid var(--accent-red);
-    border-radius:6px;
-    padding:8px 16px;
-    cursor:pointer;
-    display:flex;
-    align-items:center;
-    gap:6px;
-    transition:all 0.15s ease;
-  }
-  .btn-rec:hover:not(:disabled){
-    background:var(--accent-red);
-    color:#fff;
-  }
-  .btn-rec:disabled, .btn-pause:disabled, .btn-stop:disabled{
-    opacity:0.4;
-    cursor:not-allowed;
-  }
-
-  .btn-pause{
-    font-family:var(--font-mono);
-    font-size:12px;
-    background:var(--bg-panel-alt);
-    color:var(--accent-amber);
-    border:1px solid var(--accent-amber);
-    border-radius:6px;
-    padding:8px 14px;
-    cursor:pointer;
-    transition:all 0.15s ease;
-  }
-  .btn-pause:hover:not(:disabled){
-    background:var(--accent-amber);
-    color:var(--bg-primary);
-  }
-
-  .btn-stop{
-    font-family:var(--font-mono);
-    font-size:12px;
-    background:var(--bg-panel-alt);
-    color:var(--text-secondary);
-    border:1px solid var(--border);
-    border-radius:6px;
-    padding:8px 14px;
-    cursor:pointer;
-    transition:all 0.15s ease;
-  }
-  .btn-stop:hover:not(:disabled){
-    border-color:var(--text-primary);
-    color:var(--text-primary);
-  }
-
-  .rec-timer-badge{
-    font-family:var(--font-mono);
-    font-size:15px;
-    font-weight:600;
-    color:var(--accent-cyan);
-    min-width:65px;
-    text-align:center;
-    background:var(--bg-primary);
-    padding:6px 12px;
-    border-radius:6px;
-    border:1px solid var(--border-soft);
-  }
-
-  .vis-row{
-    background:var(--bg-primary);
-    border:1px solid var(--border-soft);
-    border-radius:8px;
-    padding:12px 18px;
-    margin-bottom:18px;
-  }
-
-  #waveformCanvas{
-    width:100%;
-    height:46px;
-    display:block;
-  }
-
-  .mic-notice{
-    font-family:var(--font-mono);
-    font-size:11.5px;
-    color:var(--text-muted);
-    margin-top:6px;
-  }
-
-  .audio-playback-box{
-    margin-bottom:18px;
-    padding:14px 18px;
-    background:var(--bg-card);
-    border:1px solid var(--border-soft);
-    border-radius:8px;
-    display:none;
-    align-items:center;
-    justify-content:space-between;
-    gap:16px;
-    flex-wrap:wrap;
-  }
-
-  .audio-playback-box audio{
-    height:36px;
-    max-width:380px;
-    flex:1;
-    outline:none;
-  }
-
-  .adaptability-card{
-    background:var(--bg-card);
-    border:1px solid var(--border);
-    border-radius:8px;
-    padding:18px 20px;
-  }
-
-  .adapt-card-header{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:12px;
-    margin-bottom:14px;
-    flex-wrap:wrap;
-  }
-
-  .adapt-title{
-    font-family:var(--font-mono);
-    font-size:12px;
-    text-transform:uppercase;
-    letter-spacing:0.06em;
-    color:var(--text-muted);
-    display:flex;
-    align-items:center;
-    gap:8px;
-  }
-
-  .adapt-badge{
-    font-family:var(--font-mono);
-    font-size:11px;
-    font-weight:600;
-    padding:4px 10px;
-    border-radius:20px;
-    background:var(--bg-panel-alt);
-    color:var(--text-secondary);
-    border:1px solid var(--border);
-  }
-  .adapt-badge.success{ background:rgba(79,209,197,0.15); color:var(--accent-cyan); border-color:var(--accent-cyan); }
-  .adapt-badge.warning{ background:rgba(232,163,78,0.15); color:var(--accent-amber); border-color:var(--accent-amber); }
-  .adapt-badge.danger{ background:rgba(226,96,79,0.15); color:var(--accent-red); border-color:var(--accent-red); }
-
-  .adapt-metrics-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit, minmax(160px, 1fr));
-    gap:12px;
-    margin-bottom:14px;
-  }
-
-  .metric-tile{
-    background:var(--bg-primary);
-    border:1px solid var(--border-soft);
-    border-radius:6px;
-    padding:10px 14px;
-  }
-  .metric-tile .m-label{
-    font-family:var(--font-mono);
-    font-size:10.5px;
-    color:var(--text-muted);
-    text-transform:uppercase;
-    display:block;
-    margin-bottom:4px;
-  }
-  .metric-tile .m-val{
-    font-family:var(--font-mono);
-    font-size:18px;
-    font-weight:600;
-    color:var(--text-primary);
-  }
-  .metric-tile .m-sub{
-    font-size:11px;
-    color:var(--text-secondary);
-  }
-
-  .adapt-analysis-text{
-    font-size:13.5px;
-    line-height:1.5;
-    color:var(--text-secondary);
-    background:var(--bg-primary);
-    border-left:3px solid var(--accent-cyan);
-    padding:12px 16px;
-    border-radius:0 6px 6px 0;
-  }
-
-  .keyword-match-box{
-    margin-top:12px;
-    display:flex;
-    align-items:center;
-    gap:8px;
-    flex-wrap:wrap;
-    font-family:var(--font-mono);
-    font-size:11px;
-  }
-
-  /* Transcript & Slide Matrix Styling */
-  .transcript-box{
-    margin-bottom:18px;
-    background:var(--bg-primary);
-    border:1px solid var(--border-soft);
-    border-radius:8px;
-    padding:14px 18px;
-  }
-
-  .transcript-header{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:10px;
-    margin-bottom:8px;
-  }
-
-  .transcript-label{
-    font-family:var(--font-mono);
-    font-size:11px;
-    text-transform:uppercase;
-    color:var(--accent-cyan);
-    letter-spacing:0.04em;
-  }
-
-  .transcript-area{
-    width:100%;
-    height:80px;
-    background:var(--bg-panel-alt);
-    border:1px solid var(--border);
-    border-radius:6px;
-    color:var(--text-primary);
-    font-family:var(--font-body);
-    font-size:13px;
-    line-height:1.5;
-    padding:10px 12px;
-    resize:vertical;
-    outline:none;
-  }
-  .transcript-area:focus{
-    border-color:var(--accent-cyan);
-  }
-
-  .matrix-section{
-    margin-top:14px;
-    margin-bottom:14px;
-  }
-
-  .matrix-header{
-    font-family:var(--font-mono);
-    font-size:11px;
-    color:var(--text-muted);
-    text-transform:uppercase;
-    margin-bottom:8px;
-    letter-spacing:0.04em;
-    display:flex;
-    justify-content:space-between;
-  }
-
-  .matrix-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fill, minmax(115px, 1fr));
-    gap:8px;
-  }
-
-  .slide-badge-item{
-    font-family:var(--font-mono);
-    font-size:11px;
-    padding:6px 10px;
-    border-radius:6px;
-    background:var(--bg-primary);
-    border:1px solid var(--border-soft);
-    color:var(--text-muted);
-    display:flex;
-    align-items:center;
-    gap:6px;
-    cursor:default;
-    white-space:nowrap;
-    overflow:hidden;
-    text-overflow:ellipsis;
-  }
-  .slide-badge-item.covered{
-    border-color:var(--accent-cyan-dim);
-    color:var(--accent-cyan);
-    background:rgba(79,209,197,0.08);
-  }
-  .slide-badge-item.missed{
-    border-color:rgba(226,96,79,0.3);
-    color:var(--accent-red);
-    background:rgba(226,96,79,0.08);
-  }
-
-  /* Live Subtitle Overlay HUD (Plein écran / Démo) */
-  .subtitle-hud{
-    position:fixed;
-    bottom:24px;
-    left:50%;
-    transform:translateX(-50%);
-    width:92%;
-    max-width:920px;
-    z-index:9999;
-    background:rgba(10, 22, 38, 0.94);
-    backdrop-filter:blur(14px);
-    border:1px solid var(--accent-cyan);
-    border-radius:12px;
-    padding:14px 22px;
-    box-shadow:0 12px 32px rgba(0, 0, 0, 0.7), 0 0 15px rgba(79, 209, 197, 0.2);
-    display:none;
-    align-items:center;
-    gap:16px;
-    animation:hudSlide 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  .subtitle-hud.active{
-    display:flex;
-  }
-
-  @keyframes hudSlide{
-    from{opacity:0; transform:translate(-50%, 20px);}
-    to{opacity:1; transform:translate(-50%, 0);}
-  }
-
-  .hud-badge{
-    font-family:var(--font-mono);
-    font-size:11px;
-    font-weight:600;
-    color:var(--bg-primary);
-    background:var(--accent-cyan);
-    padding:4px 10px;
-    border-radius:4px;
-    white-space:nowrap;
-    letter-spacing:0.04em;
-    display:flex;
-    align-items:center;
-    gap:6px;
-  }
-
-  .hud-text{
-    font-family:var(--font-body);
-    font-size:16px;
-    font-weight:500;
-    color:var(--text-primary);
-    line-height:1.45;
-    flex:1;
-    overflow:hidden;
-    text-overflow:ellipsis;
-    white-space:nowrap;
-  }
-
-  .hud-close{
-    background:none;
-    border:none;
-    color:var(--text-muted);
-    font-size:14px;
-    cursor:pointer;
-    padding:4px 8px;
-    border-radius:4px;
-    font-family:var(--font-mono);
-  }
-  .hud-close:hover{
-    color:var(--accent-red);
-    background:rgba(226,96,79,0.1);
   }
 </style>
 </head>
 <body>
 
 <div class="console-bar">
-  <div class="console-id">
-    <span class="dot"></span>
-    RÉPÉTITION — MODE CONSOLE
+  <div class="console-top-row">
+    <div class="console-id">
+      <span class="dot"></span>
+      RÉPÉTITION PFE
+    </div>
+    <span class="progress-label" id="progressLabel">0 / 16 slides</span>
   </div>
+
+  <div class="progress-bar-container">
+    <div class="progress-bar-fill" id="progressBarFill"></div>
+  </div>
+
   <div class="console-controls">
-    <div class="progress-track" id="progressTrack"></div>
-    <span class="progress-label" id="progressLabel">0 / 16 slides répétées</span>
     <div class="timer-block">
       <span class="timer-value" id="timerValue">00:00</span>
-      <span class="timer-target">/ cible 14:10</span>
+      <span class="timer-target">/ 14:10</span>
     </div>
-    <button class="console-btn" id="timerToggle">Démarrer</button>
-    <button class="console-btn reset" id="timerReset">Réinitialiser</button>
-    <button class="console-btn" id="studioToggle">🎙️ Studio Micro</button>
-    <button class="console-btn" id="btnLiveHud">📺 Sous-titres Live</button>
-  </div>
-</div>
-
-<!-- Floating Live Subtitles HUD Overlay -->
-<div class="subtitle-hud" id="subtitleHud">
-  <span class="hud-badge">🔴 SOUS-TITRES LIVE</span>
-  <div class="hud-text" id="hudText">Parlez dans le micro pour afficher vos sous-titres en direct pendant la démonstration...</div>
-  <button class="hud-close" id="btnCloseHud">✕ Fermer</button>
-</div>
-
-<div class="audio-studio" id="audioStudio">
-  <div class="studio-header">
-    <div class="studio-title-box">
-      <span class="rec-dot" id="recDot"></span>
-      🎙️ ENREGISTREUR VOCAL & ANALYSEUR D'ÉLOCUTION
+    <div class="btn-group">
+      <button class="console-btn" id="timerToggle">▶ Démarrer</button>
+      <button class="console-btn reset" id="timerReset">↻ Reset</button>
     </div>
-    <div class="studio-controls">
-      <span class="rec-timer-badge" id="recTimerBadge">00:00</span>
-      <button class="btn-rec" id="btnRecord">🔴 Enregistrer</button>
-      <button class="btn-pause" id="btnPause" disabled>⏸️ Pause</button>
-      <button class="btn-stop" id="btnStop" disabled>⏹️ Arrêter</button>
-    </div>
-  </div>
-
-  <div class="vis-row">
-    <canvas id="waveformCanvas"></canvas>
-    <div class="mic-notice" id="micNotice">
-      Autorisez le microphone pour enregistrer vos paroles pendant votre répétition et vérifier l'adaptation au contenu.
-    </div>
-  </div>
-
-  <div class="audio-playback-box" id="playbackBox">
-    <audio id="audioPlayback" controls></audio>
-    <a id="btnDownload" class="console-btn" download="soutenance_pfe_repetition.webm">💾 Télécharger (.webm)</a>
-  </div>
-
-  <div class="transcript-box">
-    <div class="transcript-header">
-      <span class="transcript-label">📝 Transcription vocale / Texte récité à l'oral</span>
-      <button class="console-btn" id="btnAnalyzeText" style="padding:4px 10px; font-size:11px;">🔍 Analyser ce texte</button>
-    </div>
-    <textarea class="transcript-area" id="transcriptArea" placeholder="Parlez dans le micro pour transcrire vos paroles en direct, ou coller/saisir le texte de votre présentation ici..."></textarea>
-  </div>
-
-  <div class="adaptability-card">
-    <div class="adapt-card-header">
-      <div class="adapt-title">📊 ANALYSE SÉMANTIQUE & COUVERTURE DU PITCH</div>
-      <span class="adapt-badge" id="adaptBadge">En attente d'analyse...</span>
-    </div>
-
-    <div class="adapt-metrics-grid">
-      <div class="metric-tile">
-        <span class="m-label">Couverture Pitch</span>
-        <span class="m-val" id="metricCoverage">0%</span>
-        <span class="m-sub" id="metricCoverageSub">0 / 16 slides abordées</span>
-      </div>
-      <div class="metric-tile">
-        <span class="m-label">Durée Parlée</span>
-        <span class="m-val" id="metricTime">00:00</span>
-        <span class="m-sub">Cible : 14 min 10 s</span>
-      </div>
-      <div class="metric-tile">
-        <span class="m-label">Débit Est.</span>
-        <span class="m-val" id="metricWpm">0 WPM</span>
-        <span class="m-sub">Objectif : 120 - 150 WPM</span>
-      </div>
-    </div>
-
-    <div class="matrix-section">
-      <div class="matrix-header">
-        <span>Matrice de Couverture des 16 Slides à l'Oral</span>
-        <span id="matrixCoverageLabel">0 / 16</span>
-      </div>
-      <div class="matrix-grid" id="slideMatrixGrid"></div>
-    </div>
-
-    <div class="adapt-analysis-text" id="adaptText">
-      Cliquez sur <strong>🔴 Enregistrer</strong> et parlez à voix haute. Vos paroles seront transcrites et comparées avec le contenu des 16 slides pour vérifier si votre discours est parfaitement adapté au pitch de votre soutenance.
-    </div>
-    <div id="keywordMatchList"></div>
   </div>
 </div>
 
 <section class="hero">
-  <div class="hero-eyebrow">Guide de soutenance — Projet de Fin d'Études</div>
-  <h1>Conception et Mise en Œuvre d'une <span class="accent">Architecture DLP Hybride</span> avec Supervision SOC</h1>
+  <div class="hero-eyebrow">Guide de Soutenance PFE — EMSI / AXA GO</div>
+  <h1>Architecture DLP Hybride <span class="accent">avec Supervision SOC</span></h1>
   <div class="hero-meta">
     <div class="hero-meta-item">
       <span class="label">Établissement</span>
-      <span class="value">EMSI — Diplôme d'Ingénieur en Informatique et Réseaux</span>
+      <span class="value">EMSI — Ingénieur IR</span>
     </div>
     <div class="hero-meta-item">
       <span class="label">Structure d'accueil</span>
-      <span class="value">AXA Group Operations (AXA GBS) — Pôle Data Protection</span>
+      <span class="value">AXA Group Operations</span>
     </div>
     <div class="hero-meta-item">
       <span class="label">Format</span>
-      <span class="value">16 slides · 4 sections · durée cible 14 min 10 s</span>
+      <span class="value">16 Slides · Cible 14m10s</span>
     </div>
   </div>
 </section>
 
 <nav class="section-nav" id="sectionNav">
-  <a href="#section-1">01 — Introduction &amp; Contexte</a>
-  <a href="#section-2">02 — Problématique &amp; Objectifs</a>
-  <a href="#section-3">03 — Conception &amp; Architecture</a>
-  <a href="#section-4">04 — Conclusion &amp; Perspectives</a>
-  <a href="#section-5" style="color:var(--accent-amber);">05 — Questions Pièges ("Grillades") 🔥</a>
+  <a href="#section-1" class="active">01 — Intro &amp; Contexte</a>
+  <a href="#section-2">02 — Problématique</a>
+  <a href="#section-3">03 — Architecture</a>
+  <a href="#section-4">04 — Conclusion</a>
+  <a href="#section-5" class="amber-nav">05 — Grillades 🔥</a>
 </nav>
 
 <main>
@@ -1057,7 +661,7 @@
 
     <article class="slide-card" data-duration="30">
       <div class="slide-head">
-        <span class="slide-check"></span>
+        <div class="slide-check-wrapper"><span class="slide-check"></span></div>
         <span class="slide-number">01</span>
         <div class="slide-title-block"><span class="slide-title">Page de Garde et Présentation</span></div>
         <span class="slide-duration">30 s</span>
@@ -1079,7 +683,7 @@ Le sujet s'intitule : <strong>Conception et Mise en Œuvre d'une Architecture DL
 
     <article class="slide-card" data-duration="20">
       <div class="slide-head">
-        <span class="slide-check"></span>
+        <div class="slide-check-wrapper"><span class="slide-check"></span></div>
         <span class="slide-number">02</span>
         <div class="slide-title-block"><span class="slide-title">Sommaire</span></div>
         <span class="slide-duration">20 s</span>
@@ -1098,7 +702,7 @@ Le sujet s'intitule : <strong>Conception et Mise en Œuvre d'une Architecture DL
 
     <article class="slide-card" data-duration="40">
       <div class="slide-head">
-        <span class="slide-check"></span>
+        <div class="slide-check-wrapper"><span class="slide-check"></span></div>
         <span class="slide-number">03</span>
         <div class="slide-title-block"><span class="slide-title">Contexte Général AXA GO</span></div>
         <span class="slide-duration">40 s</span>
@@ -1120,7 +724,7 @@ J'ai rejoint l'équipe Data Protection, dont la mission est de garantir la confi
 
     <article class="slide-card" data-duration="40">
       <div class="slide-head">
-        <span class="slide-check"></span>
+        <div class="slide-check-wrapper"><span class="slide-check"></span></div>
         <span class="slide-number">04</span>
         <div class="slide-title-block"><span class="slide-title">Cadre Conceptuel DLP</span></div>
         <span class="slide-duration">40 s</span>
@@ -1145,7 +749,7 @@ J'ai rejoint l'équipe Data Protection, dont la mission est de garantir la confi
 
     <article class="slide-card" data-duration="35">
       <div class="slide-head">
-        <span class="slide-check"></span>
+        <div class="slide-check-wrapper"><span class="slide-check"></span></div>
         <span class="slide-number">05</span>
         <div class="slide-title-block"><span class="slide-title">Les 4 Piliers de Protection DLP</span></div>
         <span class="slide-duration">35 s</span>
@@ -1179,7 +783,7 @@ J'ai rejoint l'équipe Data Protection, dont la mission est de garantir la confi
 
     <article class="slide-card" data-duration="50">
       <div class="slide-head">
-        <span class="slide-check"></span>
+        <div class="slide-check-wrapper"><span class="slide-check"></span></div>
         <span class="slide-number">06</span>
         <div class="slide-title-block"><span class="slide-title">Problématique et Défis Opérationnels</span></div>
         <span class="slide-duration">50 s</span>
@@ -1204,7 +808,7 @@ La question centrale a donc été : Comment offrir une protection DLP puissante,
 
     <article class="slide-card" data-duration="40">
       <div class="slide-head">
-        <span class="slide-check"></span>
+        <div class="slide-check-wrapper"><span class="slide-check"></span></div>
         <span class="slide-number">07</span>
         <div class="slide-title-block"><span class="slide-title">Objectifs du Projet</span></div>
         <span class="slide-duration">40 s</span>
@@ -1228,7 +832,7 @@ La question centrale a donc été : Comment offrir une protection DLP puissante,
 
     <article class="slide-card" data-duration="45">
       <div class="slide-head">
-        <span class="slide-check"></span>
+        <div class="slide-check-wrapper"><span class="slide-check"></span></div>
         <span class="slide-number">08</span>
         <div class="slide-title-block"><span class="slide-title">Méthodologie et Organisation</span></div>
         <span class="slide-duration">45 s</span>
@@ -1260,7 +864,7 @@ Résultats : 4 VMs, 5 canaux surveillés, 2 scénarios d'attaque réelle et 3 pl
 
     <article class="slide-card" data-duration="120">
       <div class="slide-head">
-        <span class="slide-check"></span>
+        <div class="slide-check-wrapper"><span class="slide-check"></span></div>
         <span class="slide-number">09</span>
         <div class="slide-title-block"><span class="slide-title">Analyse et Conception du Laboratoire DLP</span></div>
         <span class="slide-duration">2 min</span>
@@ -1296,7 +900,7 @@ Résultats : 4 VMs, 5 canaux surveillés, 2 scénarios d'attaque réelle et 3 pl
 
     <article class="slide-card" data-duration="90">
       <div class="slide-head">
-        <span class="slide-check"></span>
+        <div class="slide-check-wrapper"><span class="slide-check"></span></div>
         <span class="slide-number">10</span>
         <div class="slide-title-block"><span class="slide-title">Conception des Plateformes Opérationnelles</span></div>
         <span class="slide-duration">1 min 30 s</span>
@@ -1327,7 +931,7 @@ Résultats : 4 VMs, 5 canaux surveillés, 2 scénarios d'attaque réelle et 3 pl
 
     <article class="slide-card" data-duration="60">
       <div class="slide-head">
-        <span class="slide-check"></span>
+        <div class="slide-check-wrapper"><span class="slide-check"></span></div>
         <span class="slide-number">11</span>
         <div class="slide-title-block"><span class="slide-title">Environnement Technique et Technologies</span></div>
         <span class="slide-duration">1 min</span>
@@ -1350,7 +954,7 @@ Résultats : 4 VMs, 5 canaux surveillés, 2 scénarios d'attaque réelle et 3 pl
 
     <article class="slide-card" data-duration="75">
       <div class="slide-head">
-        <span class="slide-check"></span>
+        <div class="slide-check-wrapper"><span class="slide-check"></span></div>
         <span class="slide-number">12</span>
         <div class="slide-title-block"><span class="slide-title">Benchmark Moteurs IA</span></div>
         <span class="slide-duration">1 min 15 s</span>
@@ -1374,7 +978,7 @@ Le déploiement d'Ollama Qwen 2.5 en Lab valide le PoC à zéro coût avant la m
 
     <article class="slide-card" data-duration="105">
       <div class="slide-head">
-        <span class="slide-check"></span>
+        <div class="slide-check-wrapper"><span class="slide-check"></span></div>
         <span class="slide-number">13</span>
         <div class="slide-title-block"><span class="slide-title">Validation Expérimentale et Démo Live</span></div>
         <span class="slide-duration">1 min 45 s</span>
@@ -1406,7 +1010,7 @@ Le déploiement d'Ollama Qwen 2.5 en Lab valide le PoC à zéro coût avant la m
 
     <article class="slide-card" data-duration="35">
       <div class="slide-head">
-        <span class="slide-check"></span>
+        <div class="slide-check-wrapper"><span class="slide-check"></span></div>
         <span class="slide-number">14</span>
         <div class="slide-title-block"><span class="slide-title">Conclusion et Alignement Zero Trust</span></div>
         <span class="slide-duration">35 s</span>
@@ -1425,7 +1029,7 @@ Le déploiement d'Ollama Qwen 2.5 en Lab valide le PoC à zéro coût avant la m
 
     <article class="slide-card" data-duration="40">
       <div class="slide-head">
-        <span class="slide-check"></span>
+        <div class="slide-check-wrapper"><span class="slide-check"></span></div>
         <span class="slide-number">15</span>
         <div class="slide-title-block"><span class="slide-title">Perspectives d'Évolution</span></div>
         <span class="slide-duration">40 s</span>
@@ -1444,7 +1048,7 @@ Le déploiement d'Ollama Qwen 2.5 en Lab valide le PoC à zéro coût avant la m
 
     <article class="slide-card" data-duration="25">
       <div class="slide-head">
-        <span class="slide-check"></span>
+        <div class="slide-check-wrapper"><span class="slide-check"></span></div>
         <span class="slide-number">16</span>
         <div class="slide-title-block"><span class="slide-title">Remerciements et Échange</span></div>
         <span class="slide-duration">25 s</span>
@@ -1468,13 +1072,13 @@ Je suis à votre disposition pour vos questions.</div>
   <section class="phase" id="section-5">
     <div class="phase-header">
       <span class="phase-num">Section 05</span>
-      <h2 style="color: var(--accent-amber);">Anticipation des Questions Pièges du Jury ("Grillades") 🔥</h2>
+      <h2 style="color: var(--accent-amber);">Anticipation des Questions Pièges ("Grillades") 🔥</h2>
     </div>
-    <p class="phase-sub">Les 5 questions techniques et stratégiques redoutées par le jury senior, avec les réponses d'ingénieur béton et la contre-argumentation préparée.</p>
+    <p class="phase-sub">Les 5 questions techniques et stratégiques redoutées par le jury senior, avec les réponses d'ingénieur béton.</p>
 
     <article class="slide-card" data-duration="Q&amp;A">
       <div class="slide-head">
-        <span class="slide-check"></span>
+        <div class="slide-check-wrapper"><span class="slide-check"></span></div>
         <span class="slide-number">Q1</span>
         <div class="slide-title-block"><span class="slide-title">Scalabilité &amp; Montée en Charge (Flask &amp; dlp.json)</span></div>
         <span class="slide-duration" style="background: rgba(226,96,79,0.15); border-color: var(--accent-red); color: var(--accent-red);">Question Piège</span>
@@ -1505,7 +1109,7 @@ Pour un passage en production à l'échelle du groupe AXA (150 000+ postes), le 
 
     <article class="slide-card" data-duration="Q&amp;A">
       <div class="slide-head">
-        <span class="slide-check"></span>
+        <div class="slide-check-wrapper"><span class="slide-check"></span></div>
         <span class="slide-number">Q2</span>
         <div class="slide-title-block"><span class="slide-title">Contournement par Chiffrement ou Archives Zip Mot de Passe</span></div>
         <span class="slide-duration" style="background: rgba(226,96,79,0.15); border-color: var(--accent-red); color: var(--accent-red);">Question Piège</span>
@@ -1536,7 +1140,7 @@ En complément de l'agent DLP :
 
     <article class="slide-card" data-duration="Q&amp;A">
       <div class="slide-head">
-        <span class="slide-check"></span>
+        <div class="slide-check-wrapper"><span class="slide-check"></span></div>
         <span class="slide-number">Q3</span>
         <div class="slide-title-block"><span class="slide-title">Inspection du Trafic HTTPS / Cloud Uploads (Dropbox, GDrive)</span></div>
         <span class="slide-duration" style="background: rgba(226,96,79,0.15); border-color: var(--accent-red); color: var(--accent-red);">Question Piège</span>
@@ -1566,7 +1170,7 @@ Dans un environnement d'entreprise comme AXA :
 
     <article class="slide-card" data-duration="Q&amp;A">
       <div class="slide-head">
-        <span class="slide-check"></span>
+        <div class="slide-check-wrapper"><span class="slide-check"></span></div>
         <span class="slide-number">Q4</span>
         <div class="slide-title-block"><span class="slide-title">Confidentialité &amp; RGPD (Surveillance Presse-papiers)</span></div>
         <span class="slide-duration" style="background: rgba(226,96,79,0.15); border-color: var(--accent-red); color: var(--accent-red);">Question Piège</span>
@@ -1579,7 +1183,7 @@ Dans un environnement d'entreprise comme AXA :
         </div>
         <div class="volet">
           <span class="volet-tag" style="color: var(--accent-cyan);">Réponse Strategique d'Ingénieur :</span>
-          <div class="speech" style="border-left-color: var(--accent-cyan);">« Nous respectons strictement le principe de minimisation du RGPD (Article 5) :
+          <div class="speech" style="border-left-color: var(--accent-cyan);">« Nous respectons strictly le principe de minimisation du RGPD (Article 5) :
 1. L'agent analyse le presse-papiers uniquement en mémoire volatile locale et filtre le contenu via des expressions régulières ciblées (IBAN, numéros de cartes bancaires),
 2. Aucun texte à caractère personnel non-sensible (messages privés, emails) n'est jamais stocké ni transmis au serveur central,
 3. Seules les empreintes et fragments d'alertes validées font l'objet d'un journal d'audit restreint à l'équipe SecOps. »</div>
@@ -1596,7 +1200,7 @@ Dans un environnement d'entreprise comme AXA :
 
     <article class="slide-card" data-duration="Q&amp;A">
       <div class="slide-head">
-        <span class="slide-check"></span>
+        <div class="slide-check-wrapper"><span class="slide-check"></span></div>
         <span class="slide-number">Q5</span>
         <div class="slide-title-block"><span class="slide-title">Métriques de Performance &amp; Taux de Faux Positifs</span></div>
         <span class="slide-duration" style="background: rgba(226,96,79,0.15); border-color: var(--accent-red); color: var(--accent-red);">Question Piège</span>
@@ -1628,58 +1232,61 @@ Dans un environnement d'entreprise comme AXA :
 </main>
 
 <footer>
-  <p>Guide de répétition — cocher chaque slide une fois maîtrisée. Progression enregistrée localement dans ce navigateur.</p>
-  <p>Version imprimable : Ctrl/Cmd + P</p>
+  <p>Guide de répétition mobile PFE — Cochez chaque slide après l'avoir répétée.<br>Progression automatiquement enregistrée sur votre téléphone.</p>
 </footer>
 
 <script>
 (function(){
   var cards = Array.prototype.slice.call(document.querySelectorAll('.slide-card'));
-  var storageKey = 'pfe-pitch-progress-v1';
+  var storageKey = 'pfe-pitch-progress-v2';
   var state = {};
   try { state = JSON.parse(localStorage.getItem(storageKey)) || {}; } catch(e) { state = {}; }
 
-  var progressTrack = document.getElementById('progressTrack');
   var progressLabel = document.getElementById('progressLabel');
+  var progressBarFill = document.getElementById('progressBarFill');
 
-  // build progress segments
-  cards.forEach(function(card, i){
-    var seg = document.createElement('span');
-    seg.className = 'seg';
-    seg.dataset.index = i;
-    progressTrack.appendChild(seg);
-  });
+  // Count target slides (only numeric numbered slides, e.g. 01..16)
+  var totalSlidesCount = cards.filter(function(card){
+    var num = card.querySelector('.slide-number');
+    return num && !num.textContent.trim().startsWith('Q');
+  }).length;
 
   function updateProgress(){
-    var segs = progressTrack.querySelectorAll('.seg');
     var doneCount = 0;
     cards.forEach(function(card, i){
       var isDone = !!state[i];
-      segs[i].classList.toggle('done', isDone);
-      if(isDone) doneCount++;
+      var num = card.querySelector('.slide-number');
+      if(isDone && num && !num.textContent.trim().startsWith('Q')) doneCount++;
     });
-    progressLabel.textContent = doneCount + ' / ' + cards.length + ' slides répétées';
+    
+    progressLabel.textContent = doneCount + ' / ' + totalSlidesCount + ' slides';
+    var pct = Math.round((doneCount / totalSlidesCount) * 100);
+    progressBarFill.style.width = pct + '%';
   }
 
   cards.forEach(function(card, i){
     var head = card.querySelector('.slide-head');
+    var checkWrapper = card.querySelector('.slide-check-wrapper');
     var check = card.querySelector('.slide-check');
 
     if(state[i]){
       card.classList.add('checked');
-      check.textContent = '✓';
+      if(check) check.textContent = '✓';
+    }
+
+    if(checkWrapper){
+      checkWrapper.addEventListener('click', function(e){
+        e.stopPropagation();
+        state[i] = !state[i];
+        card.classList.toggle('checked', !!state[i]);
+        if(check) check.textContent = state[i] ? '✓' : '';
+        localStorage.setItem(storageKey, JSON.stringify(state));
+        updateProgress();
+      });
     }
 
     head.addEventListener('click', function(e){
-      if(e.target === check){
-        state[i] = !state[i];
-        card.classList.toggle('checked', !!state[i]);
-        check.textContent = state[i] ? '✓' : '';
-        localStorage.setItem(storageKey, JSON.stringify(state));
-        updateProgress();
-      } else {
-        card.classList.toggle('open');
-      }
+      card.classList.toggle('open');
     });
   });
 
@@ -1708,10 +1315,10 @@ Dans un environnement d'entreprise comme AXA :
     running = !running;
     if(running){
       intervalId = setInterval(tick, 1000);
-      timerToggle.textContent = 'Pause';
+      timerToggle.textContent = '⏸ Pause';
     } else {
       clearInterval(intervalId);
-      timerToggle.textContent = 'Reprendre';
+      timerToggle.textContent = '▶ Reprendre';
     }
   });
 
@@ -1720,392 +1327,32 @@ Dans un environnement d'entreprise comme AXA :
     running = false;
     elapsed = 0;
     timerValue.textContent = '00:00';
-    timerToggle.textContent = 'Démarrer';
+    timerToggle.textContent = '▶ Démarrer';
   });
 
-  // Section nav active state
+  // Section nav active state on scroll
   var navLinks = Array.prototype.slice.call(document.querySelectorAll('.section-nav a'));
   var sections = navLinks.map(function(link){
     return document.querySelector(link.getAttribute('href'));
   });
 
   function updateNav(){
-    var scrollPos = window.scrollY + 140;
+    var scrollPos = window.scrollY + 130;
     var activeIndex = 0;
     sections.forEach(function(sec, i){
       if(sec && sec.offsetTop <= scrollPos) activeIndex = i;
     });
     navLinks.forEach(function(link, i){
-      link.classList.toggle('active', i === activeIndex);
+      var isActive = (i === activeIndex);
+      link.classList.toggle('active', isActive);
+      if (isActive) {
+        link.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      }
     });
   }
 
   window.addEventListener('scroll', updateNav);
   updateNav();
-
-  // Audio Studio & Content Adaptability Script
-  var studioToggle = document.getElementById('studioToggle');
-  var audioStudio = document.getElementById('audioStudio');
-  var btnRecord = document.getElementById('btnRecord');
-  var btnPause = document.getElementById('btnPause');
-  var btnStop = document.getElementById('btnStop');
-  var recTimerBadge = document.getElementById('recTimerBadge');
-  var recDot = document.getElementById('recDot');
-  var waveformCanvas = document.getElementById('waveformCanvas');
-  var micNotice = document.getElementById('micNotice');
-  var playbackBox = document.getElementById('playbackBox');
-  var audioPlayback = document.getElementById('audioPlayback');
-  var btnDownload = document.getElementById('btnDownload');
-  var transcriptArea = document.getElementById('transcriptArea');
-  var btnAnalyzeText = document.getElementById('btnAnalyzeText');
-  var adaptBadge = document.getElementById('adaptBadge');
-  var metricCoverage = document.getElementById('metricCoverage');
-  var metricCoverageSub = document.getElementById('metricCoverageSub');
-  var metricTime = document.getElementById('metricTime');
-  var metricWpm = document.getElementById('metricWpm');
-  var slideMatrixGrid = document.getElementById('slideMatrixGrid');
-  var matrixCoverageLabel = document.getElementById('matrixCoverageLabel');
-  var adaptText = document.getElementById('adaptText');
-  var keywordMatchList = document.getElementById('keywordMatchList');
-
-  var mediaRecorder = null;
-  var audioChunks = [];
-  var audioStream = null;
-  var audioCtx = null;
-  var analyserNode = null;
-  var animFrameId = null;
-  var recInterval = null;
-  var recSeconds = 0;
-  var isPaused = false;
-
-  // Extract Slide Knowledge Base dynamically from DOM
-  function extractSlideKnowledge() {
-    var list = [];
-    var cards = document.querySelectorAll('.slide-card');
-    cards.forEach(function(card, idx){
-      var num = card.querySelector('.slide-number') ? card.querySelector('.slide-number').textContent.trim() : (idx + 1);
-      var title = card.querySelector('.slide-title') ? card.querySelector('.slide-title').textContent.trim() : ('Slide ' + num);
-      var speech = card.querySelector('.speech') ? card.querySelector('.speech').textContent.trim() : '';
-      var pills = Array.prototype.slice.call(card.querySelectorAll('.keyword-pill')).map(function(p){ return p.textContent.trim(); });
-      
-      list.push({
-        index: idx,
-        number: num,
-        title: title,
-        speech: speech,
-        keywords: pills
-      });
-    });
-    return list;
-  }
-
-  var slideKnowledge = extractSlideKnowledge();
-
-  // Speech Recognition (Web Speech API)
-  var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-  var recognition = null;
-  var spokenTranscript = "";
-  if (SpeechRecognition) {
-    try {
-      recognition = new SpeechRecognition();
-      recognition.continuous = true;
-      recognition.interimResults = true;
-      recognition.lang = 'fr-FR';
-      recognition.onresult = function(event) {
-        var finalTranscript = '';
-        var interimTranscript = '';
-        for (var i = 0; i < event.results.length; ++i) {
-          var res = event.results[i];
-          if (res.isFinal) {
-            finalTranscript += res[0].transcript + ' ';
-          } else {
-            interimTranscript += res[0].transcript;
-          }
-        }
-        spokenTranscript = finalTranscript.trim();
-        var fullDisplay = finalTranscript + interimTranscript;
-        transcriptArea.value = fullDisplay.trim();
-        
-        // Update Live Subtitle HUD overlay for demonstration & slides
-        var hudText = document.getElementById('hudText');
-        if (hudText && fullDisplay.trim()) {
-          hudText.textContent = fullDisplay.trim().slice(-140);
-        }
-      };
-    } catch(e) {}
-  }
-
-  studioToggle.addEventListener('click', function(){
-    audioStudio.classList.toggle('open');
-    studioToggle.classList.toggle('active');
-  });
-
-  var btnLiveHud = document.getElementById('btnLiveHud');
-  var subtitleHud = document.getElementById('subtitleHud');
-  var btnCloseHud = document.getElementById('btnCloseHud');
-
-  if (btnLiveHud && subtitleHud) {
-    btnLiveHud.addEventListener('click', function(){
-      subtitleHud.classList.toggle('active');
-      btnLiveHud.classList.toggle('active');
-    });
-  }
-  if (btnCloseHud && subtitleHud) {
-    btnCloseHud.addEventListener('click', function(){
-      subtitleHud.classList.remove('active');
-      if (btnLiveHud) btnLiveHud.classList.remove('active');
-    });
-  }
-
-  btnAnalyzeText.addEventListener('click', function(){
-    analyzeContentAdaptability();
-  });
-
-  function drawWaveform() {
-    if (!analyserNode || !waveformCanvas) return;
-    var ctx = waveformCanvas.getContext('2d');
-    var width = waveformCanvas.width = waveformCanvas.parentElement.clientWidth;
-    var height = waveformCanvas.height = 46;
-    var bufferLength = analyserNode.frequencyBinCount;
-    var dataArray = new Uint8Array(bufferLength);
-
-    function render() {
-      animFrameId = requestAnimationFrame(render);
-      analyserNode.getByteTimeDomainData(dataArray);
-
-      ctx.fillStyle = '#0A1626';
-      ctx.fillRect(0, 0, width, height);
-
-      ctx.lineWidth = 2;
-      ctx.strokeStyle = isPaused ? '#E8A34E' : '#4FD1C5';
-      ctx.beginPath();
-
-      var sliceWidth = width * 1.0 / bufferLength;
-      var x = 0;
-
-      for (var i = 0; i < bufferLength; i++) {
-        var v = dataArray[i] / 128.0;
-        var y = v * (height / 2);
-        if (i === 0) ctx.moveTo(x, y);
-        else ctx.lineTo(x, y);
-        x += sliceWidth;
-      }
-
-      ctx.lineTo(width, height / 2);
-      ctx.stroke();
-    }
-    render();
-  }
-
-  function formatSec(s) {
-    var m = Math.floor(s / 60);
-    var sec = s % 60;
-    return (m < 10 ? '0' : '') + m + ':' + (sec < 10 ? '0' : '') + sec;
-  }
-
-  btnRecord.addEventListener('click', function(){
-    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-      alert("L'API Enregistrement vocal (getUserMedia) n'est pas supportée sur ce navigateur.");
-      return;
-    }
-
-    navigator.mediaDevices.getUserMedia({ audio: true })
-      .then(function(stream){
-        audioStream = stream;
-        audioChunks = [];
-        spokenTranscript = "";
-        transcriptArea.value = "";
-
-        // Web Audio Context for Waveform
-        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        var source = audioCtx.createMediaStreamSource(stream);
-        analyserNode = audioCtx.createAnalyser();
-        analyserNode.fftSize = 2048;
-        source.connect(analyserNode);
-
-        // MediaRecorder setup
-        var options = {};
-        if (MediaRecorder.isTypeSupported('audio/webm')) options.mimeType = 'audio/webm';
-        else if (MediaRecorder.isTypeSupported('audio/mp4')) options.mimeType = 'audio/mp4';
-
-        mediaRecorder = new MediaRecorder(stream, options);
-        mediaRecorder.ondataavailable = function(e){
-          if (e.data.size > 0) audioChunks.push(e.data);
-        };
-        mediaRecorder.onstop = function(){
-          var blob = new Blob(audioChunks, { type: mediaRecorder.mimeType || 'audio/webm' });
-          var audioUrl = URL.createObjectURL(blob);
-          audioPlayback.src = audioUrl;
-          btnDownload.href = audioUrl;
-          btnDownload.download = "soutenance_pfe_repetition_" + new Date().toISOString().slice(0,10) + ".webm";
-          playbackBox.style.display = 'flex';
-          analyzeContentAdaptability();
-        };
-
-        mediaRecorder.start(200);
-        if (recognition) { try { recognition.start(); } catch(e){} }
-
-        recSeconds = 0;
-        isPaused = false;
-        recTimerBadge.textContent = "00:00";
-        recDot.classList.add('active');
-        micNotice.textContent = "🎙️ Microphone actif — Transcription en cours...";
-
-        btnRecord.disabled = true;
-        btnPause.disabled = false;
-        btnStop.disabled = false;
-
-        recInterval = setInterval(function(){
-          if (!isPaused) {
-            recSeconds++;
-            recTimerBadge.textContent = formatSec(recSeconds);
-          }
-        }, 1000);
-
-        drawWaveform();
-      })
-      .catch(function(err){
-        micNotice.textContent = "❌ Accès micro refusé ou indisponible: " + err.message;
-      });
-  });
-
-  btnPause.addEventListener('click', function(){
-    if (!mediaRecorder) return;
-    if (mediaRecorder.state === 'recording') {
-      mediaRecorder.pause();
-      isPaused = true;
-      btnPause.textContent = "▶️ Reprendre";
-      recDot.classList.remove('active');
-      micNotice.textContent = "⏸️ Enregistrement en pause.";
-    } else if (mediaRecorder.state === 'paused') {
-      mediaRecorder.resume();
-      isPaused = false;
-      btnPause.textContent = "⏸️ Pause";
-      recDot.classList.add('active');
-      micNotice.textContent = "🎙️ Microphone actif — Transcription en cours...";
-    }
-  });
-
-  btnStop.addEventListener('click', function(){
-    if (!mediaRecorder) return;
-    mediaRecorder.stop();
-    if (recognition) { try { recognition.stop(); } catch(e){} }
-    if (audioStream) audioStream.getTracks().forEach(function(t){ t.stop(); });
-    if (animFrameId) cancelAnimationFrame(animFrameId);
-    clearInterval(recInterval);
-
-    recDot.classList.remove('active');
-    micNotice.textContent = "⏹️ Enregistrement terminé. Écoutez votre prestation et consultez l'analyse sémantique ci-dessous.";
-
-    btnRecord.disabled = false;
-    btnPause.disabled = true;
-    btnPause.textContent = "⏸️ Pause";
-    btnStop.disabled = true;
-  });
-
-  function analyzeContentAdaptability() {
-    var text = (transcriptArea.value || spokenTranscript || "").trim();
-    if (!text) {
-      adaptBadge.className = "adapt-badge warning";
-      adaptBadge.textContent = "PAS DE PAROLES DÉTECTÉES";
-      adaptText.innerHTML = "Aucun discours n'a été transcrit. Activez le micro ou saisissez votre texte dans la zone ci-dessus.";
-      return;
-    }
-
-    var lowerText = text.toLowerCase();
-    var words = text.split(/\s+/).filter(Boolean);
-    var wordCount = words.length;
-
-    metricTime.textContent = formatSec(recSeconds);
-    var wpm = recSeconds > 0 ? Math.round((wordCount / recSeconds) * 60) : 0;
-    metricWpm.textContent = wpm > 0 ? wpm + " WPM" : "N/A";
-
-    // Analyze Slide Coverage
-    var coveredSlidesCount = 0;
-    var slideBadgesHtml = "";
-
-    slideKnowledge.forEach(function(slide){
-      var isCovered = false;
-      var keyMatches = 0;
-
-      // Check keywords of slide
-      slide.keywords.forEach(function(kw){
-        var cleanKw = kw.toLowerCase().replace(/[^\w\sàâäéèêëîïôöùûüç]/g, '');
-        if (cleanKw.length > 2 && lowerText.indexOf(cleanKw) !== -1) {
-          keyMatches++;
-        }
-      });
-
-      // Check title terms
-      var titleWords = slide.title.toLowerCase().split(/\s+/).filter(function(w){ return w.length > 4; });
-      titleWords.forEach(function(tw){
-        if (lowerText.indexOf(tw) !== -1) keyMatches++;
-      });
-
-      if (keyMatches >= 1) isCovered = true;
-
-      if (isCovered) {
-        coveredSlidesCount++;
-        slideBadgesHtml += '<div class="slide-badge-item covered" title="Slide ' + slide.number + ': ' + slide.title + '">✓ S' + slide.number + ' ' + slide.title.substring(0, 11) + '...</div>';
-      } else {
-        slideBadgesHtml += '<div class="slide-badge-item missed" title="Slide ' + slide.number + ': ' + slide.title + '">✕ S' + slide.number + ' ' + slide.title.substring(0, 11) + '...</div>';
-      }
-    });
-
-    slideMatrixGrid.innerHTML = slideBadgesHtml;
-    var coveragePct = Math.round((coveredSlidesCount / slideKnowledge.length) * 100);
-    metricCoverage.textContent = coveragePct + "%";
-    metricCoverageSub.textContent = coveredSlidesCount + " / 16 slides abordées";
-    matrixCoverageLabel.textContent = coveredSlidesCount + " / 16 slides";
-
-    // Core pitch concepts check
-    var globalKeywords = [
-      { name: "Zero Trust", term: "zero trust" },
-      { name: "DLP Hybride", term: "dlp" },
-      { name: "SOC Wazuh", term: "wazuh" },
-      { name: "McAfee ePO", term: "mcafee" },
-      { name: "Skyhigh Proxy", term: "skyhigh" },
-      { name: "Souveraineté", term: "souverainet" },
-      { name: "OpenSearch / Alertes", term: "opensearch" },
-      { name: "Démonstration / Tests", term: "démo" },
-      { name: "Politiques & Règles", term: "politique" },
-      { name: "Matrice ROI & Coût", term: "roi" },
-      { name: "Perspectives UEBA", term: "ueba" }
-    ];
-
-    var spokenPills = [];
-    var missedPills = [];
-
-    globalKeywords.forEach(function(k){
-      if (lowerText.indexOf(k.term) !== -1) {
-        spokenPills.push('<span class="keyword-pill amber" style="font-size:10.5px; padding:3px 8px;">✓ ' + k.name + '</span>');
-      } else {
-        missedPills.push('<span class="keyword-pill" style="font-size:10.5px; padding:3px 8px; background:rgba(226,96,79,0.15); color:var(--accent-red); border:1px solid var(--accent-red);">✕ ' + k.name + '</span>');
-      }
-    });
-
-    // Detailed Speech Content Alignment Feedback
-    if (coveragePct >= 70) {
-      adaptBadge.className = "adapt-badge success";
-      adaptBadge.textContent = "✅ EXCELLENT ALIGNEMENT AVEC LE PITCH (" + coveragePct + "% de couverture)";
-      adaptText.innerHTML = "<strong>Vos paroles sont très bien adaptées au pitch !</strong> Vous avez abordé " + coveredSlidesCount + " slides sur 16. Les sujets clés (Architecture DLP Hybride, supervision SOC Wazuh et philosophie Zero Trust) sont clairement exprimés à l'oral.";
-    } else if (coveragePct >= 40) {
-      adaptBadge.className = "adapt-badge warning";
-      adaptBadge.textContent = "⚠️ ALIGNEMENT PARTIEL AVEC LE PITCH (" + coveragePct + "% de couverture)";
-      adaptText.innerHTML = "<strong>Discours partiellement adapté :</strong> Vos paroles couvrent " + coveredSlidesCount + " slides sur 16. Vous avez bien présenté l'introduction et l'architecture, mais pensez à mentionner les sections en rouge (ex: Démo, Matrice ROI ou Perspectives UEBA).";
-    } else {
-      adaptBadge.className = "adapt-badge danger";
-      adaptBadge.textContent = "🚨 ALIGNEMENT INSUFFISANT (" + coveragePct + "% de couverture)";
-      adaptText.innerHTML = "<strong>Sujets majeurs manquants dans votre discours :</strong> Vous n'avez abordé que " + coveredSlidesCount + " slides sur 16 (" + coveragePct + "%). Assurez-vous d'oraliser les piliers techniques essentiels (McAfee ePO, Skyhigh Proxy DLP, SOC Wazuh) et la démonstration.";
-    }
-
-    keywordMatchList.innerHTML = '<div class="keyword-match-box" style="margin-top:12px;">' +
-      '<span style="color:var(--text-muted); width:100%; display:block;">Concepts clés exprimés à l\'oral :</span>' +
-      (spokenPills.length ? spokenPills.join(' ') : '<span style="color:var(--text-muted);">Aucun mot-clé majeur détecté.</span>') +
-      '<span style="color:var(--text-muted); width:100%; display:block; margin-top:8px;">Concepts clés non mentionnés :</span>' +
-      (missedPills.length ? missedPills.join(' ') : '<span style="color:var(--accent-cyan);">Tous les concepts clés ont été abordés !</span>') +
-      '</div>';
-  }
 })();
 </script>
 

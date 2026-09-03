@@ -29,8 +29,8 @@ export default function ProblemSlide({ n }: SlideProps) {
     },
     {
       id: '03',
-      title: 'Triage Manuel & Surcharge SOC',
-      tag: 'Opérations SOC',
+      title: 'Triage Manuel & Surcharge DLP',
+      tag: 'Opérations DLP',
       icon: SearchCheck,
       color: '#475569', // Slate
       bgLight: '#f8fafc',
@@ -54,7 +54,7 @@ export default function ProblemSlide({ n }: SlideProps) {
       section="PROBLÉMATIQUE" 
       title="Problématique et Défis Opérationnels" 
       n={n}
-      keywords={['Coût Licences Élevé', 'Manque d\'Open-Source', 'Surcharge Analystes SOC', 'Conflits de Règles']}
+      keywords={['Coût Licences Élevé', 'Manque d\'Open-Source', 'Surcharge Opérations DLP', 'Conflits de Règles']}
     >
       <div style={{
         position: 'relative',

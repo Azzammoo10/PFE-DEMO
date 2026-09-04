@@ -37,7 +37,7 @@ export default function Volet1InfrastructureSchema() {
     },
     {
       id: 'go',
-      name: 'AXA GO (.30)',
+      name: 'AXA GBS (.30)',
       type: 'Windows 11 LTSC',
       ip: '192.168.100.30',
       color: '#0284c7',
@@ -163,7 +163,7 @@ export default function Volet1InfrastructureSchema() {
             <animateMotion dur="2.2s" repeatCount="indefinite" path="M 390,265 L 200,265" />
           </circle>
 
-          {/* 2. RIGHT CANAL: AXA GO (.30) <---> Ubuntu Server (.10) */}
+          {/* 2. RIGHT CANAL: AXA GBS (.30) <---> Ubuntu Server (.10) */}
           <line x1="800" y1="235" x2="610" y2="235" stroke="#0284c7" strokeWidth="2.5" strokeDasharray="6 6" markerEnd="url(#arrowHeadCyan)" />
           <text x="705" y="226" fill="#0284c7" fontSize="10" fontWeight="900" fontFamily="monospace" textAnchor="middle">
             HTTP POST :5000
@@ -241,14 +241,14 @@ export default function Volet1InfrastructureSchema() {
             <text x="408" y="270" fill="#475569" fontSize="9" fontWeight="600" fontFamily="sans-serif">Wazuh Manager SOC</text>
           </g>
 
-          {/* 4. RIGHT NODE: AXA GO (192.168.100.30) */}
+          {/* 4. RIGHT NODE: AXA GBS (192.168.100.30) */}
           <g onClick={() => setSelectedVm('go')} style={{ cursor: 'pointer' }}>
             <rect x="800" y="200" width="190" height="105" rx="12" fill="#ffffff" stroke="#0284c7" strokeWidth={selectedVm === 'go' ? "3" : "2"} filter="url(#softGlow)" />
             <rect x="800" y="200" width="8" height="105" rx="4" fill="#0284c7" />
 
             <image href="/logos/windows.png" x="930" y="222" width="48" height="48" preserveAspectRatio="xMidYMid meet" />
 
-            <text x="816" y="228" fill="#0f172a" fontSize="12.5" fontWeight="900" fontFamily="sans-serif">AXA GO (.30)</text>
+            <text x="816" y="228" fill="#0f172a" fontSize="12.5" fontWeight="900" fontFamily="sans-serif">AXA GBS (.30)</text>
             <text x="816" y="244" fill="#0284c7" fontSize="10" fontWeight="800" fontFamily="monospace">192.168.100.30</text>
             <text x="816" y="264" fill="#475569" fontSize="9" fontWeight="600" fontFamily="sans-serif">Windows 11 LTSC</text>
             <text x="816" y="282" fill="#64748b" fontSize="8" fontWeight="700" fontFamily="sans-serif">Sonde DLP + Agent Wazuh</text>

@@ -29,9 +29,14 @@ export default function MethodologySlide({ n }: SlideProps) {
   const steps = [
     {
       id: '01',
-      title: 'Infrastructure & Laboratoire',
+      title: 'Infrastructure & Lab DLP',
       icon: Network,
-      tag: 'VMs & Réseau',
+      tag: 'VMs & Réseau Validé',
+      details: [
+        '4 VMs (Win11, Ubuntu, Kali, Wazuh)',
+        'Isolation VNet 192.168.100.x',
+        'Sondes Endpoint & Proxies'
+      ],
       cardCustom: 1,
       chevronCustom: 2,
     },
@@ -39,41 +44,54 @@ export default function MethodologySlide({ n }: SlideProps) {
       id: '02',
       title: 'Développement DLP Custom',
       icon: Code2,
-      tag: 'API & Sondes',
+      tag: 'API & Micro-Agents',
+      details: [
+        'Micro-Agents (RAM, USB, Net)',
+        'API Flask REST Ingestion :5000',
+        'Engine & Scoring Règles JSON'
+      ],
       cardCustom: 3,
       chevronCustom: 4,
     },
     {
       id: '03',
-      title: 'Validation & Tests d\'Attaque',
+      title: 'Validation Offensive Kali',
       icon: AlertTriangle,
-      tag: 'Scénarios Kali',
+      tag: 'Scénarios Pentest',
+      details: [
+        'Attaques Exfiltration & Payloads',
+        'Reverse Shell TCP & Data Injection',
+        'Validation Blocage & Marquage'
+      ],
       cardCustom: 5,
       chevronCustom: 6,
     },
     {
       id: '04',
-      title: 'Supervision & Triage SOC',
+      title: 'Supervision SOC Wazuh',
       icon: Gauge,
-      tag: 'Console Web',
+      tag: 'SIEM & Active Response',
+      details: [
+        'Manager SIEM Central Wazuh',
+        'Active Response (Blocage Auto)',
+        'Corrélation MITRE ATT&CK'
+      ],
       cardCustom: 7,
       chevronCustom: 8,
     },
     {
       id: '05',
-      title: 'Plateformes & Suivi DLP',
+      title: 'Consoles Ops & Release',
       icon: LayoutDashboard,
-      tag: 'Release Finale',
+      tag: 'UI Unifiée & Recette',
+      details: [
+        'Console Web DLP & Analytics',
+        'Console LabelGuard UI Unifiée',
+        'Recette Finale & Doc PFE'
+      ],
       cardCustom: 9,
       chevronCustom: null,
     }
-  ];
-
-  const metrics = [
-    { label: '4 VMs', tag: 'Environnement Virtuel', custom: 10 },
-    { label: '5 Canaux', tag: 'Couverture DLP', custom: 11 },
-    { label: '2 Scénarios', tag: 'Attaques Offensives', custom: 12 },
-    { label: '3 Plateformes', tag: 'Outillage Développé', custom: 13 }
   ];
 
   if (!isMounted) {
@@ -84,7 +102,7 @@ export default function MethodologySlide({ n }: SlideProps) {
     <Shell 
       section="MÉTHODOLOGIE" 
       pulseLabel="Méthodologie" 
-      title="Méthodologie et Organisation du Projet" 
+      title="Démarche d'Ingénierie du Projet" 
       n={n} 
       dense
       keywords={['Agile / Scrum (5 Sprints)', '4 VMs Virtualisées', '5 Canaux', '2 Scénarios Pentest', '3 Plateformes Ops']}
@@ -92,11 +110,11 @@ export default function MethodologySlide({ n }: SlideProps) {
       <div style={{ 
         display: 'flex',
         flexDirection: 'column',
-        gap: '1.2vw',
+        gap: '0.8vw',
         width: '100%', 
         height: '100%', 
         justifyContent: 'space-between',
-        padding: '0 1.5vw',
+        padding: '0 0.8vw',
         overflow: 'hidden'
       }}>
         
@@ -107,14 +125,15 @@ export default function MethodologySlide({ n }: SlideProps) {
           initial="hidden"
           animate="visible"
           style={{
-            background: 'linear-gradient(90deg, rgba(0, 0, 143, 0.05) 0%, rgba(0, 0, 143, 0.01) 100%)',
+            background: 'linear-gradient(90deg, rgba(0, 0, 143, 0.06) 0%, rgba(0, 0, 143, 0.01) 100%)',
             borderLeft: '4px solid #00008f',
             borderRadius: '10px',
-            padding: '0.8vw 1.4vw',
+            padding: '0.6vw 1.2vw',
             display: 'flex',
             alignItems: 'center',
-            gap: '1.2vw',
-            boxShadow: '0 4px 12px rgba(0,0,143,0.02)'
+            gap: '1vw',
+            boxShadow: '0 4px 12px rgba(0,0,143,0.02)',
+            flexShrink: 0
           }}
         >
           <motion.div
@@ -122,7 +141,7 @@ export default function MethodologySlide({ n }: SlideProps) {
             transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
             style={{
               background: '#00008f10',
-              padding: '0.6vw',
+              padding: '0.5vw',
               borderRadius: '50%',
               color: '#00008f',
               display: 'flex',
@@ -131,11 +150,11 @@ export default function MethodologySlide({ n }: SlideProps) {
               flexShrink: 0
             }}
           >
-            <Zap size={24} className="text-[#00008f]" />
+            <Zap size={22} className="text-[#00008f]" />
           </motion.div>
           <div style={{ display: 'flex', flexDirection: 'column', textAlign: 'left' }}>
-            <strong style={{ fontSize: '1.2vw', fontWeight: 900, color: '#00008f' }}>
-              Approche Itérative Agile / Scrum (Sprints de 2 à 3 Semaines)
+            <strong style={{ fontSize: '1.15vw', fontWeight: 900, color: '#00008f' }}>
+              Approche Itérative Agile / Scrum (5 Sprints de 2 à 3 Semaines)
             </strong>
           </div>
         </motion.div>
@@ -147,7 +166,7 @@ export default function MethodologySlide({ n }: SlideProps) {
           alignItems: 'center', 
           justifyContent: 'space-between', 
           position: 'relative',
-          padding: '0.8vw 0',
+          padding: '0.4vw 0',
           flex: 1,
         }}>
 
@@ -170,17 +189,17 @@ export default function MethodologySlide({ n }: SlideProps) {
                   custom={p.cardCustom}
                   initial="hidden"
                   animate="visible"
-                  whileHover={{ y: -4, boxShadow: '0 12px 28px rgba(0,0,143,0.08)' }}
+                  whileHover={{ y: -4, boxShadow: '0 14px 30px rgba(0,0,143,0.11)' }}
                   style={{
-                    width: '15.5vw',
-                    height: '11.5vw',
+                    width: '16.8vw',
+                    height: '21.5vw',
                     background: '#ffffff',
                     borderWidth: '5px 1.5px 1.5px 1.5px',
                     borderStyle: 'solid',
                     borderColor: '#00008f #cbd6e7 #cbd6e7 #cbd6e7',
                     borderRadius: '14px',
-                    padding: '1.2vw 1.1vw',
-                    boxShadow: '0 4px 14px rgba(0,0,0,0.03)',
+                    padding: '1.1vw 1vw',
+                    boxShadow: '0 4px 16px rgba(0,0,0,0.04)',
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'space-between',
@@ -192,11 +211,11 @@ export default function MethodologySlide({ n }: SlideProps) {
                   {/* Card Header row */}
                   <div style={{ display: 'flex', width: '100%', justifyContent: 'space-between', alignItems: 'center' }}>
                     <span style={{
-                      fontSize: '0.68vw',
+                      fontSize: '0.75vw',
                       fontWeight: 900,
                       color: '#ffffff',
                       background: '#00008f',
-                      padding: '0.2vw 0.6vw',
+                      padding: '0.2vw 0.65vw',
                       borderRadius: '6px',
                       textTransform: 'uppercase',
                       letterSpacing: '0.05em'
@@ -218,31 +237,53 @@ export default function MethodologySlide({ n }: SlideProps) {
 
                   {/* Main Title */}
                   <h5 style={{
-                    margin: '0.4vw 0',
+                    margin: '0.5vw 0 0.4vw 0',
                     fontSize: '1.05vw',
                     fontWeight: 900,
                     color: '#0f172a',
-                    lineHeight: 1.25
+                    lineHeight: 1.2
                   }}>
                     {p.title}
                   </h5>
+
+                  {/* 3 Detail Bullet Points - BIGGER & CLEARER */}
+                  <ul style={{
+                    margin: '0.4vw 0',
+                    paddingLeft: '1vw',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '0.55vw',
+                    flex: 1
+                  }}>
+                    {p.details.map((pt, idx) => (
+                      <li key={idx} style={{
+                        fontSize: '0.78vw',
+                        fontWeight: 700,
+                        color: '#1e293b',
+                        lineHeight: 1.3
+                      }}>
+                        {pt}
+                      </li>
+                    ))}
+                  </ul>
 
                   {/* Tag / Delivered Status */}
                   <div style={{ 
                     display: 'flex', 
                     alignItems: 'center', 
-                    gap: '0.3vw', 
+                    gap: '0.4vw', 
                     width: '100%',
-                    background: '#10b9810d',
+                    background: '#10b98112',
                     padding: '0.35vw 0.6vw',
                     borderRadius: '8px',
-                    border: '1px solid #10b98125'
+                    border: '1px solid #10b98130',
+                    marginTop: 'auto'
                   }}>
-                    <CheckCircle2 size={14} className="text-[#10b981] flex-shrink-0" />
+                    <CheckCircle2 size={15} className="text-[#059669] flex-shrink-0" />
                     <span style={{ 
-                      fontSize: '0.75vw', 
-                      fontWeight: 800, 
-                      color: '#059669',
+                      fontSize: '0.78vw', 
+                      fontWeight: 900, 
+                      color: '#047857',
                       whiteSpace: 'nowrap',
                       overflow: 'hidden',
                       textOverflow: 'ellipsis'
@@ -274,68 +315,6 @@ export default function MethodologySlide({ n }: SlideProps) {
               </div>
             );
           })}
-        </div>
-
-        {/* Bottom Key Deliverables / Concrete Results Mini-Section */}
-        <div style={{
-          paddingTop: '0.8vw',
-          borderTop: '1px dashed #cbd6e7',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '0.6vw',
-          width: '100%'
-        }}>
-          {/* Section title */}
-          <motion.div 
-            variants={fadeUp}
-            custom={60}
-            initial="hidden"
-            animate="visible"
-            style={{ display: 'flex', alignItems: 'center', gap: '0.5vw' }}
-          >
-            <Sparkles size={16} className="text-[#00008f]" />
-            <h4 style={{ 
-              margin: 0, 
-              fontSize: '0.9vw', 
-              fontWeight: 900, 
-              color: '#00008f', 
-              textTransform: 'uppercase', 
-              letterSpacing: '0.05em', 
-              textAlign: 'left' 
-            }}>
-              Livrables Opérationnels
-            </h4>
-          </motion.div>
-          
-          <div style={{ display: 'flex', justifyContent: 'space-between', gap: '1.2vw' }}>
-            {metrics.map((m) => (
-              <motion.div
-                key={m.label}
-                variants={fadeUp}
-                custom={m.custom}
-                initial="hidden"
-                animate="visible"
-                style={{
-                  flex: 1,
-                  background: '#ffffff',
-                  border: '1.5px solid #e2e8f0',
-                  borderRadius: '10px',
-                  padding: '0.6vw 1vw',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  boxShadow: '0 2px 6px rgba(0,0,0,0.02)'
-                }}
-              >
-                <strong style={{ fontSize: '1.1vw', fontWeight: 900, color: '#00008f' }}>
-                  {m.label}
-                </strong>
-                <span style={{ fontSize: '0.75vw', fontWeight: 800, color: '#475569', background: '#f1f5f9', padding: '0.2vw 0.5vw', borderRadius: '6px' }}>
-                  {m.tag}
-                </span>
-              </motion.div>
-            ))}
-          </div>
         </div>
 
       </div>

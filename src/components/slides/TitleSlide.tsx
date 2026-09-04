@@ -162,7 +162,7 @@ export default function TitleSlide({ n }: SlideProps) {
               Mme. Zineb MACHROUH <em style={{ fontStyle: 'normal', color: '#94a3b8', fontWeight: 500 }}>(Académique EMSI)</em>
             </span>
             <span style={{ color: '#f1f5f9', fontSize: '0.78vw', fontWeight: 700 }}>
-              M. Soufiane RSIOUI & Mme. Oumaima FARAJI <em style={{ fontStyle: 'normal', color: '#94a3b8', fontWeight: 500 }}>(AXA GBS)</em>
+              M. Soufiane RSIOUI<em style={{ fontStyle: 'normal', color: '#94a3b8', fontWeight: 500 }}>(AXA GBS)</em>
             </span>
           </div>
         </div>

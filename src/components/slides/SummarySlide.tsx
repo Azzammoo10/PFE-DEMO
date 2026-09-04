@@ -14,7 +14,7 @@ export default function SummarySlide({ n }: SlideProps) {
   const items: PlanItem[] = [
     {
       num: '01',
-      label: 'Contexte et Enjeux',
+      label: 'Contexte : Périmètre AXA GBS',
       Icon: Building2,
     },
     {
@@ -24,21 +24,16 @@ export default function SummarySlide({ n }: SlideProps) {
     },
     {
       num: '03',
-      label: 'Méthodologie et Démarche',
-      Icon: Target,
-    },
-    {
-      num: '04',
       label: 'Conception et Architecture',
       Icon: Network,
     },
     {
-      num: '05',
-      label: 'Réalisation et Démonstration',
+      num: '04',
+      label: 'Validation Opérationnelle (PoC)',
       Icon: Code2,
     },
     {
-      num: '06',
+      num: '05',
       label: 'Conclusion et Perspectives',
       Icon: CheckCircle2,
     },

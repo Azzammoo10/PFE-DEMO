@@ -34,7 +34,7 @@ export default function LogicalArchitectureSchema() {
   }, [hoveredNode]);
 
   const stepsData = [
-    { num: 1, title: 'Step 1 : Surveillance Endpoints et Agents Python', desc: 'Les sondes Python surveillent la mémoire, les USB, emails, SCP et uploads cloud des postes Windows AXA GO.' },
+    { num: 1, title: 'Step 1 : Surveillance Endpoints et Agents Python', desc: 'Les sondes Python surveillent la mémoire, les USB, emails, SCP et uploads cloud des postes Windows AXA GBS.' },
     { num: 2, title: 'Step 2 : Traitement Moteur DLP LAB', desc: 'Ingestion, parsing, normalisation JSON et calcul du Risk Scoring au sein du Laboratoire DLP Hybride.' },
     { num: 3, title: 'Step 3 : Politiques et Décision Locale', desc: 'Évaluation contre le référentiel de classification et déclenchement immédiat du blocage ou de l\'alerte.' },
     { num: 4, title: 'Step 4 : Corrélation Wazuh SOC et Active Response', desc: 'Centralisation des logs JSON dans Wazuh SOC, mapping MITRE ATT&CK et blocage automatique des Reverse Shells.' },
@@ -170,7 +170,7 @@ export default function LogicalArchitectureSchema() {
                   ENDPOINTS WINDOWS
                 </h4>
                 <span style={{ background: '#dbeafe', color: '#1e40af', fontSize: '0.54vw', fontWeight: 800, padding: '0.08vw 0.35vw', borderRadius: '4px' }}>
-                  AXA AMS / AXA GO
+                  AXA AMS / AXA GBS
                 </span>
               </div>
               <p style={{ margin: '0.1vw 0 0 0', fontSize: '0.62vw', color: '#475569', fontWeight: 600 }}>

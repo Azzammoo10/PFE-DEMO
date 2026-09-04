@@ -77,20 +77,18 @@ const getPlanStepNumber = (sec: string): number => {
   const s = sec.toUpperCase();
   if (s === 'CONTEXTE') return 1;
   if (s === 'PROBLÉMATIQUE' || s === 'OBJECTIFS') return 2;
-  if (s === 'MÉTHODOLOGIE') return 3;
-  if (s === 'CONCEPTION') return 4;
-  if (s === 'RÉALISATION' || s === 'DÉMONSTRATION' || s === 'SUPERVISION' || s === 'VALIDATION') return 5;
-  if (s === 'CONCLUSION' || s === 'PERSPECTIVES') return 6;
+  if (s === 'CONCEPTION' || s === 'MÉTHODOLOGIE') return 3;
+  if (s === 'RÉALISATION' || s === 'DÉMONSTRATION' || s === 'SUPERVISION' || s === 'VALIDATION') return 4;
+  if (s === 'CONCLUSION' || s === 'PERSPECTIVES') return 5;
   return 1;
 };
 
 const planSteps = [
   { num: '01', title: 'Contexte' },
   { num: '02', title: 'Problématique' },
-  { num: '03', title: 'Méthodologie' },
-  { num: '04', title: 'Conception' },
-  { num: '05', title: 'Réalisation' },
-  { num: '06', title: 'Perspectives' },
+  { num: '03', title: 'Conception' },
+  { num: '04', title: 'Validation (PoC)' },
+  { num: '05', title: 'Perspectives' },
 ];
 
 const getSlideProgressPercentage = (n: number): number => {
@@ -98,32 +96,32 @@ const getSlideProgressPercentage = (n: number): number => {
     case 1:
     case 2:
     case 3:
-      return 0; // Step 01 Contexte (0%)
+      return 0; // Step 01 Contexte
     case 4:
-      return 7; // Moving inside Contexte
+      return 8;
     case 5:
-      return 14; // End of Contexte
+      return 18;
     case 6:
-      return 20; // Step 02 Problématique (20%)
+      return 25; // Step 02 Problématique
     case 7:
-      return 30; // Step 02 Objectifs
+      return 38; // Step 02 Objectifs / Méthodologie
     case 8:
-      return 40; // Step 03 Méthodologie (40%)
+      return 45;
     case 9:
-      return 60; // Step 04 Conception - Architecture (60%) -> Reaches Conception badge!
+      return 50; // Step 03 Conception - Architecture
     case 10:
-      return 70; // Step 04 Conception - Plateformes
+      return 62; // Step 03 Conception - Plateformes
     case 11:
-      return 80; // Step 05 Réalisation - TechStack (80%) -> Reaches Réalisation badge!
+      return 75; // Step 04 Validation - TechStack
     case 12:
-      return 86; // Step 05 Réalisation - AI Benchmark
+      return 82; // Step 04 Validation - AI Benchmark
     case 13:
-      return 92; // Step 05 Démonstration DLP
+      return 88; // Step 04 Validation - Démo DLP
     case 14:
-      return 96; // Step 06 Perspectives - Conclusion
+      return 94; // Step 05 Perspectives
     case 15:
     case 16:
-      return 100; // Step 06 Perspectives - Thanks (100%)
+      return 100; // Step 05 Perspectives / End
     default:
       return 0;
   }
@@ -313,8 +311,8 @@ export function Shell({ section, kicker, pulseLabel, title, n, total = 14, keywo
               display: 'flex',
               alignItems: 'center',
               gap: '0.6vw',
-              marginTop: 'auto',
-              paddingTop: '0.3vw',
+              marginTop: '0.8vw',
+              paddingTop: '0.35vw',
               borderTop: '1px solid #cbd5e1',
               zIndex: 10,
               width: '100%',
@@ -364,21 +362,21 @@ export function Shell({ section, kicker, pulseLabel, title, n, total = 14, keywo
 
 const slides: Slide[] = [
   { section: 'TITLE', title: 'Page de Garde', component: TitleSlide },
-  { section: 'SOMMAIRE', title: 'Sommaire', component: SummarySlide },
-  { section: 'CONTEXTE', title: 'Présentation AXA GO', component: ContextAxaPresentation },
+  { section: 'SOMMAIRE', title: 'Plan de la Présentation', component: SummarySlide },
+  { section: 'CONTEXTE', title: 'Contexte : Périmètre AXA GBS', component: ContextAxaPresentation },
   { section: 'CONTEXTE', title: 'Cadre Conceptuel DLP', component: ContextDLP },
   { section: 'CONTEXTE', title: 'Les 4 Piliers de la Protection DLP', component: ContextPiliers },
-  { section: 'PROBLÉMATIQUE', title: 'Problématique', component: ProblemSlide },
-  { section: 'OBJECTIFS', title: 'Objectifs', component: ObjectivesSlide },
-  { section: 'MÉTHODOLOGIE', title: 'Méthodologie', component: MethodologySlide },
-  { section: 'CONCEPTION', title: 'Analyse et Conception du Laboratoire DLP', component: ArchitectureSlide },
+  { section: 'PROBLÉMATIQUE', title: 'Problématique et Défis Opérationnels', component: ProblemSlide },
+  { section: 'OBJECTIFS', title: 'Objectifs du Projet', component: ObjectivesSlide },
+  { section: 'MÉTHODOLOGIE', title: 'Démarche d\'Ingénierie du Projet', component: MethodologySlide },
+  { section: 'CONCEPTION', title: 'Conception et Architecture du Laboratoire', component: ArchitectureSlide },
   { section: 'CONCEPTION', title: 'Conception des Plateformes Opérationnelles', component: PlatformsSlide },
   { section: 'RÉALISATION', title: 'Environnement Technique', component: TechStackSlide },
-  { section: 'RÉALISATION', title: 'Benchmark IA', component: AIBenchmarkSlide },
-  { section: 'DÉMONSTRATION', title: 'Validation Expérimentale', component: DemoDlpSlide },
-  { section: 'CONCLUSION', title: 'Conclusion', component: ZeroTrustSlide },
-  { section: 'PERSPECTIVES', title: 'Perspectives d\'Évolution', component: ResultsSlide },
-  { section: 'CONCLUSION', title: 'Remerciements et Échange avec le Jury', component: ThanksSlide },
+  { section: 'RÉALISATION', title: 'Benchmark Moteurs IA', component: AIBenchmarkSlide },
+  { section: 'DÉMONSTRATION', title: 'Validation Opérationnelle (PoC)', component: DemoDlpSlide },
+  { section: 'CONCLUSION', title: 'Conclusion Zero Trust', component: ZeroTrustSlide },
+  { section: 'PERSPECTIVES', title: 'Conclusion et Perspectives', component: ResultsSlide },
+  { section: 'CONCLUSION', title: 'Remerciements & Échange Jury', component: ThanksSlide },
 ];
 
 const slideVariants = {

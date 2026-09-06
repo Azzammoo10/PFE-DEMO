@@ -185,8 +185,8 @@ export default function OneTrustSchema() {
                   borderBottom: isActiveSequence ? (isGreenStep ? '2px solid #059669' : '2px solid #3b82f6') : '1.5px solid #cbd5e1',
                   borderTop: `4px solid ${step.color}`,
                   borderRadius: '10px',
-                  padding: '0.6vw 0.55vw',
-                  height: '96%',
+                  padding: '0.5vw 0.5vw',
+                  height: '92%',
                   display: 'flex',
                   flexDirection: 'column',
                   justifyContent: 'space-between',
@@ -218,7 +218,7 @@ export default function OneTrustSchema() {
                 </div>
 
                 {/* Items List */}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.45vw', flex: 1, justifyContent: 'center', padding: '0.2vw 0' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35vw', flex: 1, justifyContent: 'center', padding: '0.2vw 0' }}>
                   {step.items.map((item, i) => {
                     const ItemIcon = 'icon' in item ? item.icon : null;
                     const isSuccess = 'isSuccess' in item && Boolean((item as Record<string, unknown>).isSuccess);

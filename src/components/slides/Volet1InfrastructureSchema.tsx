@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Lock, Zap } from 'lucide-react';
+import { Lock } from 'lucide-react';
 
 export default function Volet1InfrastructureSchema() {
   const [selectedVm, setSelectedVm] = useState<string>('ubuntu');
@@ -254,44 +254,6 @@ export default function Volet1InfrastructureSchema() {
             <text x="816" y="282" fill="#64748b" fontSize="8" fontWeight="700" fontFamily="sans-serif">Sonde DLP + Agent Wazuh</text>
           </g>
         </svg>
-      </div>
-
-      {/* Bottom Specs Details Panel */}
-      <div style={{
-        background: '#ffffff',
-        border: `1.5px solid ${currentVmData.borderColor}`,
-        borderRadius: '10px',
-        padding: '0.45vw 0.9vw'
-      }}>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.25vw' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.4vw' }}>
-            <Zap size={14} color={currentVmData.color} />
-            <h4 style={{ margin: 0, fontSize: '0.8vw', fontWeight: 900, color: '#0f172a' }}>
-              Spécifications Réseau de {currentVmData.name} ({currentVmData.type})
-            </h4>
-          </div>
-          <span style={{ fontSize: '0.6vw', fontWeight: 700, color: currentVmData.color }}>
-            Cliquer sur une machine pour inspecter ses caractéristiques
-          </span>
-        </div>
-
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.5vw' }}>
-          {currentVmData.specs.map((spec, idx) => (
-            <div key={idx} style={{
-              background: '#f8fafc',
-              border: '1px solid #e2e8f0',
-              borderRadius: '6px',
-              padding: '0.2vw 0.45vw'
-            }}>
-              <span style={{ fontSize: '0.56vw', color: '#64748b', fontWeight: 700, display: 'block' }}>
-                {spec.label}
-              </span>
-              <strong style={{ fontSize: '0.64vw', color: '#0f172a', fontWeight: 800 }}>
-                {spec.val}
-              </strong>
-            </div>
-          ))}
-        </div>
       </div>
     </div>
   );

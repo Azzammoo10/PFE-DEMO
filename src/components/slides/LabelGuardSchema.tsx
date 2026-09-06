@@ -191,7 +191,7 @@ export default function LabelGuardSchema() {
             alignItems: 'center',
             justifyContent: 'center',
             textAlign: 'center',
-            height: '96%',
+            height: '92%',
             boxSizing: 'border-box'
           }}
         >
@@ -277,11 +277,11 @@ export default function LabelGuardSchema() {
                   borderBottom: isActiveSequence ? (isGreenStep ? '2px solid #059669' : '2px solid #3b82f6') : '1.5px solid #cbd5e1',
                   borderTop: `4px solid ${step.color}`,
                   borderRadius: '10px',
-                  padding: '0.55vw 0.55vw',
+                  padding: '0.5vw 0.5vw',
                   display: 'flex',
                   flexDirection: 'column',
                   justifyContent: 'space-between',
-                  height: '96%',
+                  height: '92%',
                   boxSizing: 'border-box'
                 }}
               >

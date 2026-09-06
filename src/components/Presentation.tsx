@@ -91,7 +91,18 @@ const planSteps = [
   { num: '05', title: 'Perspectives' },
 ];
 
-const getSlideProgressPercentage = (n: number): number => {
+const getSlideProgressPercentage = (n: number, subStep: number = 1): number => {
+  if (n === 9) {
+    // Conception Lab: 5 sub-volets (subStep 1 to 5), spanning from 45% to 60%
+    const stepOffset = Math.min(Math.max(subStep, 1), 5) - 1;
+    return 45 + stepOffset * 3.75;
+  }
+  if (n === 10) {
+    // Conception Platforms: 3 sub-volets (subStep 1 to 3), spanning from 63.75% to 71.25%
+    const stepOffset = Math.min(Math.max(subStep, 1), 3) - 1;
+    return 63.75 + stepOffset * 3.75;
+  }
+
   switch (n) {
     case 1:
     case 2:
@@ -107,10 +118,6 @@ const getSlideProgressPercentage = (n: number): number => {
       return 38; // Step 02 Objectifs / Méthodologie
     case 8:
       return 45;
-    case 9:
-      return 50; // Step 03 Conception - Architecture
-    case 10:
-      return 62; // Step 03 Conception - Plateformes
     case 11:
       return 75; // Step 04 Validation - TechStack
     case 12:
@@ -127,9 +134,9 @@ const getSlideProgressPercentage = (n: number): number => {
   }
 };
 
-export function Shell({ section, kicker, pulseLabel, title, n, total = 14, keywords, children, dense = false }: { section: string; kicker?: string; pulseLabel?: string; title: string | React.ReactNode; n: number; total?: number; keywords?: string[]; children: React.ReactNode; dense?: boolean }) {
+export function Shell({ section, kicker, pulseLabel, title, n, total = 14, keywords, children, dense = false, subStep = 1 }: { section: string; kicker?: string; pulseLabel?: string; title: string | React.ReactNode; n: number; total?: number; keywords?: string[]; children: React.ReactNode; dense?: boolean; subStep?: number }) {
   const planStep = getPlanStepNumber(section);
-  const slideProgress = getSlideProgressPercentage(n);
+  const slideProgress = getSlideProgressPercentage(n, subStep);
   const showStepNav = section.toUpperCase() !== 'SOMMAIRE' && 
                       section.toUpperCase() !== 'TITLE';
 
@@ -298,63 +305,64 @@ export function Shell({ section, kicker, pulseLabel, title, n, total = 14, keywo
             {kicker}
           </motion.span>
         )}
-        <motion.h1 initial="hidden" animate="visible" custom={1} variants={fadeUp}>{title}</motion.h1>
+        {title ? <motion.h1 initial="hidden" animate="visible" custom={1} variants={fadeUp}>{title}</motion.h1> : null}
       </header>
-      <footer className="slide-body">
+      <div className="slide-body">
         {children}
-        {keywords && keywords.length > 0 && (
-          <motion.div
-            initial={{ opacity: 0, y: 4 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.15, duration: 0.3 }}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.6vw',
-              marginTop: '0.8vw',
-              paddingTop: '0.35vw',
-              borderTop: '1px solid #cbd5e1',
-              zIndex: 10,
-              width: '100%',
-              flexShrink: 0
-            }}
-          >
-            <span style={{
-              background: '#00008f',
-              color: '#ffffff',
-              fontSize: '0.6vw',
-              fontWeight: 800,
-              padding: '0.18vw 0.55vw',
-              borderRadius: '4px',
-              letterSpacing: '0.08em',
-              textTransform: 'uppercase',
-              fontFamily: 'system-ui, -apple-system, sans-serif'
-            }}>
-              Mots-clés
-            </span>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.4vw', flexWrap: 'wrap' }}>
-              {keywords.map((kw, i) => (
-                <span
-                  key={i}
-                  style={{
-                    background: '#f8fafc',
-                    border: '1px solid #cbd5e1',
-                    color: '#1e293b',
-                    fontSize: '0.65vw',
-                    fontWeight: 700,
-                    padding: '0.15vw 0.5vw',
-                    borderRadius: '5px',
-                    fontFamily: 'system-ui, -apple-system, sans-serif',
-                    letterSpacing: '0.01em'
-                  }}
-                >
-                  {kw}
-                </span>
-              ))}
-            </div>
-          </motion.div>
-        )}
-      </footer>
+      </div>
+
+      {keywords && keywords.length > 0 && (
+        <motion.div
+          initial={{ opacity: 0, y: 4 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.15, duration: 0.3 }}
+          style={{
+            position: 'absolute',
+            bottom: '8.2%',
+            left: '4.2%',
+            right: '4.2%',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.5vw',
+            zIndex: 10
+          }}
+        >
+          <span style={{
+            background: '#00008f',
+            color: '#ffffff',
+            fontSize: '0.58vw',
+            fontWeight: 800,
+            padding: '0.15vw 0.5vw',
+            borderRadius: '4px',
+            letterSpacing: '0.06em',
+            textTransform: 'uppercase',
+            fontFamily: 'system-ui, -apple-system, sans-serif'
+          }}>
+            Mots-clés
+          </span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.35vw', flexWrap: 'wrap' }}>
+            {keywords.map((kw, i) => (
+              <span
+                key={i}
+                style={{
+                  background: '#ffffff',
+                  border: '1px solid #cbd5e1',
+                  color: '#1e293b',
+                  fontSize: '0.62vw',
+                  fontWeight: 700,
+                  padding: '0.12vw 0.45vw',
+                  borderRadius: '4px',
+                  fontFamily: 'system-ui, -apple-system, sans-serif',
+                  boxShadow: '0 2px 6px rgba(0, 0, 0, 0.04)'
+                }}
+              >
+                {kw}
+              </span>
+            ))}
+          </div>
+        </motion.div>
+      )}
+
       <Footer n={n} total={total} />
     </section>
   );

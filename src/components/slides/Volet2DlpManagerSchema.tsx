@@ -1,525 +1,296 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  Laptop, 
-  Server, 
-  Database, 
-  FileText, 
-  HardDrive, 
-  Clipboard, 
-  Mail, 
-  CheckCircle2, 
-  AlertTriangle, 
-  XCircle,
-  ArrowRight,
-  LayoutDashboard,
-  Bell,
-  FolderCheck,
-  Users,
-  Sliders,
-  Send,
-  RefreshCw,
-  Activity,
-  Check,
-  ShieldCheck
-} from 'lucide-react';
-
 export default function Volet2DlpManagerSchema() {
-  const primaryBlue = '#0b66d5';
-  const darkNavy = '#0f172a';
-  const slateBorder = '#cbd5e1';
-
-  // Pipeline Sequential Timeline Step: 1 -> 2 -> 3 -> 4
-  const [pipelineStep, setPipelineStep] = useState<1 | 2 | 3 | 4>(1);
-
-  // Console Dashboard Tabs for Column 3
-  const consoleTabs = [
-    { label: 'Dashboard', icon: LayoutDashboard, kpi: '14 Alertes (100% OK)' },
-    { label: 'Alertes + Détails N+1', icon: Bell, kpi: 'Investiguer / Escalade' },
-    { label: 'Classified Files', icon: FolderCheck, kpi: 'CONFIDENTIAL / SECRET' },
-    { label: 'Section Teams (N+1)', icon: Users, kpi: 'Organigramme Résolu' },
-    { label: 'Section Rules', icon: Sliders, kpi: 'Règles Actives' }
-  ];
-
-  // Auto-advance sequential 4-step pipeline every 2.4 seconds
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setPipelineStep((prev) => (prev === 4 ? 1 : (prev + 1) as 1 | 2 | 3 | 4));
-    }, 2400);
-    return () => clearInterval(timer);
-  }, []);
-
   return (
     <div style={{
       width: '100%',
       height: '100%',
       display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'space-between',
+      alignItems: 'center',
+      justifyContent: 'center',
       position: 'relative',
       background: '#ffffff',
-      color: darkNavy,
-      border: `1.5px solid ${slateBorder}`,
+      border: '1.5px solid #cbd5e1',
       borderRadius: '16px',
-      padding: '0.8vw 1.2vw',
-      boxShadow: '0 4px 20px rgba(15, 23, 42, 0.05)',
+      padding: '0.8vw 1vw',
       boxSizing: 'border-box',
       overflow: 'hidden',
       fontFamily: 'system-ui, -apple-system, sans-serif'
     }}>
 
-      {/* TOP PIPELINE TIMELINE STEP BAR (1 -> 2 -> 3 -> 4) */}
+      {/* COMPLETE ARCHITECTURE SCHEMA INCLUDING SOC WAZUH INTEGRATION */}
       <div style={{
+        position: 'relative',
+        width: '100%',
+        height: '100%',
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'space-between',
-        width: '100%',
-        marginBottom: '0.6vw',
-        padding: '0.4vw 0.8vw',
-        background: '#f8fafc',
-        border: '1.5px solid #e2e8f0',
-        borderRadius: '10px'
+        justifyContent: 'center'
       }}>
-        {[
-          { num: 1, title: '1. Capture Sondes', color: '#0b66d5' },
-          { num: 2, title: '2. Analyse rules.json', color: '#6366f1' },
-          { num: 3, title: '3. Console DLP Web', color: '#0284c7' },
-          { num: 4, title: '4. Ingestion SOC', color: '#059669' }
-        ].map((st) => {
-          const isActive = pipelineStep === st.num;
-          return (
-            <div
-              key={st.num}
-              onClick={() => setPipelineStep(st.num as 1 | 2 | 3 | 4)}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.4vw',
-                cursor: 'pointer',
-                opacity: isActive ? 1 : 0.6,
-                transform: isActive ? 'scale(1.03)' : 'scale(1)',
-                transition: 'all 0.25s ease'
-              }}
-            >
-              <div style={{
-                width: '1.4vw',
-                height: '1.4vw',
-                borderRadius: '50%',
-                background: isActive ? st.color : '#cbd5e1',
-                color: '#ffffff',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontSize: '0.75vw',
-                fontWeight: 900,
-                boxShadow: isActive ? `0 0 10px ${st.color}50` : 'none'
-              }}>
-                {isActive ? <Check size={12} strokeWidth={3} /> : st.num}
-              </div>
-              <span style={{
-                fontSize: '0.8vw',
-                fontWeight: isActive ? 900 : 700,
-                color: isActive ? st.color : '#475569'
-              }}>
-                {st.title}
-              </span>
-            </div>
-          );
-        })}
-      </div>
-
-      {/* MAIN 4-COLUMN SEQUENTIAL ARCHITECTURE GRID */}
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: '1.1fr 34px 1.25fr 34px 1.4fr 34px 0.9fr',
-        alignItems: 'stretch',
-        flex: 1,
-        gap: '0.2vw'
-      }}>
-
-        {/* =================================================== */}
-        {/* COLUMN 1: ENDPOINTS & SONDES (ANIMATED WHEN STEP 1) */}
-        {/* =================================================== */}
-        <motion.div
-          animate={{
-            borderColor: pipelineStep === 1 ? primaryBlue : slateBorder,
-            boxShadow: pipelineStep === 1 ? '0 0 16px rgba(11, 102, 213, 0.2)' : '0 2px 8px rgba(0,0,0,0.02)'
-          }}
-          transition={{ duration: 0.3 }}
-          style={{
-            background: pipelineStep === 1 ? '#f0f7ff' : '#f8fafc',
-            border: '1.5px solid #cbd5e1',
-            borderTop: `5px solid ${primaryBlue}`,
-            borderRadius: '12px',
-            padding: '0.8vw',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'space-between'
-          }}
+        <svg
+          viewBox="0 0 1150 460"
+          style={{ width: '100%', height: '100%', overflow: 'visible' }}
         >
-          <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5vw', marginBottom: '0.5vw', paddingBottom: '0.4vw', borderBottom: '2px solid #e2e8f0' }}>
-              <Laptop size={20} color={primaryBlue} />
-              <div>
-                <strong style={{ fontSize: '0.9vw', color: darkNavy, display: 'block', fontWeight: 900 }}>1. SONDES ENDPOINTS</strong>
-                <span style={{ fontSize: '0.7vw', color: primaryBlue, fontFamily: 'monospace', fontWeight: 800 }}>Micro-Agents Python</span>
-              </div>
-            </div>
+          <defs>
+            {/* Arrow Marker Definitions */}
+            <marker id="arrowDark" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#1e293b" />
+            </marker>
+            <marker id="arrowBlue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#0b66d5" />
+            </marker>
+            <marker id="arrowCyan" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#0284c7" />
+            </marker>
+            <marker id="arrowGreen" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#059669" />
+            </marker>
+          </defs>
 
-            {/* 4 PYTHON PROBES */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35vw' }}>
-              {[
-                { name: 'file_scanner.py', desc: 'watchdog I/O', icon: FileText },
-                { name: 'usb_monitor.py', desc: 'psutil / USB', icon: HardDrive },
-                { name: 'clipboard_monitor.py', desc: 'pyperclip', icon: Clipboard },
-                { name: 'email_monitor.py', desc: 'Swaks', icon: Mail }
-              ].map((probe, i) => {
-                const Icon = probe.icon;
-                const isProbeActive = pipelineStep === 1;
-                return (
-                  <motion.div
-                    key={probe.name}
-                    animate={{
-                      borderColor: isProbeActive ? primaryBlue : '#cbd5e1',
-                      background: isProbeActive ? '#ffffff' : '#f8fafc'
-                    }}
-                    transition={{ duration: 0.2, delay: i * 0.1 }}
-                    style={{
-                      padding: '0.35vw 0.5vw',
-                      borderRadius: '6px',
-                      border: '1px solid #cbd5e1',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '0.45vw',
-                      fontSize: '0.78vw',
-                      color: '#1e293b',
-                      fontWeight: 600
-                    }}
-                  >
-                    <Icon size={14} color={primaryBlue} />
-                    <span><code>{probe.name}</code> ({probe.desc})</span>
-                  </motion.div>
-                );
-              })}
-            </div>
-          </div>
+          {/* ========================================================================= */}
+          {/* 1. LEFT CONTAINER: ENDPOINT WINDOWS (AXA-AMS)                            */}
+          {/* ========================================================================= */}
 
-          {/* HTTP POST TRANSMISSION BADGE */}
-          <div style={{
-            background: pipelineStep === 1 ? '#dbeafe' : '#eff6ff',
-            border: `1.5px solid ${pipelineStep === 1 ? '#3b82f6' : '#bfdbfe'}`,
-            borderRadius: '8px',
-            padding: '0.4vw 0.55vw',
-            position: 'relative',
-            overflow: 'hidden',
-            marginTop: '0.4vw'
-          }}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.4vw' }}>
-              <Send size={14} color="#1e40af" />
-              <span style={{ fontSize: '0.75vw', color: '#1e40af', fontWeight: 800 }}>
-                {pipelineStep === 1 ? 'Envoi HTTP POST JSON...' : 'Transport HTTP POST JSON'}
-              </span>
-            </div>
+          {/* Outer Box */}
+          <rect
+            x="15" y="15" width="365" height="425" rx="6"
+            fill="#edf2f7" stroke="#2d3748" strokeWidth="2.5"
+          />
 
-            {pipelineStep === 1 && (
-              <motion.div
-                animate={{ x: ['-100%', '200%'] }}
-                transition={{ repeat: Infinity, duration: 1.2, ease: 'linear' }}
-                style={{
-                  position: 'absolute',
-                  top: 0,
-                  bottom: 0,
-                  width: '40%',
-                  background: 'linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.5), transparent)'
-                }}
-              />
-            )}
-          </div>
-        </motion.div>
+          {/* Top Title Bar */}
+          <rect x="15" y="15" width="365" height="38" rx="5" fill="#2d3748" />
+          <text x="197.5" y="39" fill="#ffffff" fontSize="14.5" fontWeight="700" textAnchor="middle" fontFamily="sans-serif">
+            Endpoint Windows (AXA-AMS)
+          </text>
 
-        {/* CONNECTOR 1 -> 2 */}
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
-          <ArrowRight size={24} strokeWidth={3.5} color={pipelineStep === 1 ? primaryBlue : '#cbd5e1'} />
-          {pipelineStep === 1 && (
-            <motion.div
-              animate={{ x: [-6, 6], opacity: [0.2, 1, 0.2] }}
-              transition={{ repeat: Infinity, duration: 0.8 }}
-              style={{
-                fontSize: '0.55vw',
-                fontWeight: 900,
-                color: primaryBlue,
-                background: '#eff6ff',
-                padding: '1px 4px',
-                borderRadius: '3px',
-                border: '1px solid #93c5fd',
-                marginTop: '4px'
-              }}
-            >
-              JSON
-            </motion.div>
-          )}
-        </div>
+          {/* Inner Subheader Box: Dossier agent/ */}
+          <rect x="27" y="60" width="341" height="365" rx="3" fill="#f7fafc" stroke="#4a5568" strokeWidth="1.5" />
+          <text x="37" y="80" fill="#1a202c" fontSize="12" fontWeight="700" fontFamily="monospace">
+            Dossier : agent/ (Logique de Détection)
+          </text>
 
-        {/* =================================================== */}
-        {/* COLUMN 2: DLP MANAGER & RULES (ANIMATED WHEN STEP 2) */}
-        {/* =================================================== */}
-        <motion.div
-          animate={{
-            borderColor: pipelineStep === 2 ? '#6366f1' : slateBorder,
-            boxShadow: pipelineStep === 2 ? '0 0 16px rgba(99, 102, 241, 0.2)' : '0 2px 8px rgba(0,0,0,0.02)'
-          }}
-          transition={{ duration: 0.3 }}
-          style={{
-            background: pipelineStep === 2 ? '#f5f3ff' : '#f8fafc',
-            border: '1.5px solid #cbd5e1',
-            borderTop: '5px solid #6366f1',
-            borderRadius: '12px',
-            padding: '0.8vw',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'space-between'
-          }}
-        >
-          <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5vw', marginBottom: '0.5vw', paddingBottom: '0.4vw', borderBottom: '2px solid #e2e8f0' }}>
-              <Server size={20} color="#6366f1" />
-              <div>
-                <strong style={{ fontSize: '0.9vw', color: darkNavy, display: 'block', fontWeight: 900 }}>2. DLP MANAGER &amp; RÈGLES</strong>
-                <span style={{ fontSize: '0.7vw', color: '#6366f1', fontFamily: 'monospace', fontWeight: 800 }}>API Flask &amp; rules.json</span>
-              </div>
-            </div>
+          {/* ------------------------------------------------------------------------- */}
+          {/* 5 PROBE BOXES (LEFT STACKED)                                             */}
+          {/* ------------------------------------------------------------------------- */}
 
-            {/* ENGINE STATUS */}
-            <div style={{ background: '#ffffff', padding: '0.35vw 0.5vw', borderRadius: '6px', border: '1px solid #cbd5e1', marginBottom: '0.4vw', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-              <span style={{ fontSize: '0.78vw', color: darkNavy, fontWeight: 800 }}>
-                Analyse &amp; Matrice :
-              </span>
-              <motion.div
-                animate={{ rotate: pipelineStep === 2 ? 360 : 0 }}
-                transition={{ repeat: pipelineStep === 2 ? Infinity : 0, duration: 1.5, ease: 'linear' }}
-                style={{ display: 'flex' }}
-              >
-                <RefreshCw size={14} color="#6366f1" />
-              </motion.div>
-            </div>
+          {/* 1. file_scanner.py */}
+          <rect x="42" y="95" width="145" height="42" rx="2" fill="#ffffff" stroke="#1a202c" strokeWidth="2" />
+          <text x="114.5" y="121" fill="#1a202c" fontSize="11.5" fontWeight="700" fontFamily="monospace" textAnchor="middle">
+            file_scanner.py
+          </text>
 
-            {/* 3 DECISION ACTIONS */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35vw' }}>
-              <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.5vw',
-                background: '#ecfdf5',
-                padding: '0.35vw 0.5vw',
-                borderRadius: '6px',
-                border: '1.5px solid #a7f3d0',
-                opacity: pipelineStep === 2 ? 1 : 0.75
-              }}>
-                <CheckCircle2 size={15} color="#059669" />
-                <span style={{ fontSize: '0.78vw', color: '#065f46', fontWeight: 900 }}>ALLOW (200) : Autorisé</span>
-              </div>
+          {/* 2. clipboard_monitor.py */}
+          <rect x="42" y="155" width="145" height="42" rx="2" fill="#ffffff" stroke="#1a202c" strokeWidth="2" />
+          <text x="114.5" y="181" fill="#1a202c" fontSize="10.5" fontWeight="700" fontFamily="monospace" textAnchor="middle">
+            clipboard_monitor.py
+          </text>
 
-              <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.5vw',
-                background: '#fffbeb',
-                padding: '0.35vw 0.5vw',
-                borderRadius: '6px',
-                border: '1.5px solid #fde68a',
-                opacity: pipelineStep === 2 ? 1 : 0.75
-              }}>
-                <AlertTriangle size={15} color="#d97706" />
-                <span style={{ fontSize: '0.78vw', color: '#92400e', fontWeight: 900 }}>ALERT (200) : Alerte SOC</span>
-              </div>
+          {/* 3. usb_monitor.py */}
+          <rect x="42" y="215" width="145" height="42" rx="2" fill="#ffffff" stroke="#1a202c" strokeWidth="2" />
+          <text x="114.5" y="241" fill="#1a202c" fontSize="11.5" fontWeight="700" fontFamily="monospace" textAnchor="middle">
+            usb_monitor.py
+          </text>
 
-              <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.5vw',
-                background: '#fef2f2',
-                padding: '0.35vw 0.5vw',
-                borderRadius: '6px',
-                border: '1.5px solid #fecaca',
-                opacity: pipelineStep === 2 ? 1 : 0.75
-              }}>
-                <XCircle size={15} color="#dc2626" />
-                <span style={{ fontSize: '0.78vw', color: '#991b1b', fontWeight: 900 }}>BLOCK (403) : Mail N+1</span>
-              </div>
-            </div>
-          </div>
+          {/* 4. email_monitor.py */}
+          <rect x="42" y="275" width="145" height="42" rx="2" fill="#ffffff" stroke="#1a202c" strokeWidth="2" />
+          <text x="114.5" y="301" fill="#1a202c" fontSize="11.5" fontWeight="700" fontFamily="monospace" textAnchor="middle">
+            email_monitor.py
+          </text>
 
-          <div style={{ background: '#eef2ff', border: '1.5px solid #c7d2fe', borderRadius: '8px', padding: '0.4vw 0.55vw', textAlign: 'center', marginTop: '0.4vw' }}>
-            <span style={{ fontSize: '0.75vw', color: '#3730a3', fontWeight: 800, display: 'block' }}>
-              Parsing &amp; Matrice de Règles
-            </span>
-          </div>
-        </motion.div>
+          {/* 5. network_monitor.py */}
+          <rect x="42" y="335" width="145" height="42" rx="2" fill="#ffffff" stroke="#1a202c" strokeWidth="2" />
+          <text x="114.5" y="361" fill="#1a202c" fontSize="11" fontWeight="700" fontFamily="monospace" textAnchor="middle">
+            network_monitor.py
+          </text>
 
-        {/* CONNECTOR 2 -> 3 */}
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-          <ArrowRight size={24} strokeWidth={3.5} color={pipelineStep === 2 ? '#6366f1' : '#cbd5e1'} />
-        </div>
+          {/* ------------------------------------------------------------------------- */}
+          {/* CENTRAL SENDER BOX: alert_sender.py                                      */}
+          {/* ------------------------------------------------------------------------- */}
+          <rect x="225" y="208" width="130" height="56" rx="2" fill="#ffffff" stroke="#1a202c" strokeWidth="2.5" />
+          <text x="290" y="241" fill="#1a202c" fontSize="12.5" fontWeight="700" fontFamily="monospace" textAnchor="middle">
+            alert_sender.py
+          </text>
 
-        {/* =================================================== */}
-        {/* COLUMN 3: CONSOLE DLP (ANIMATED WHEN STEP 3)        */}
-        {/* =================================================== */}
-        <motion.div
-          animate={{
-            borderColor: pipelineStep === 3 ? '#0284c7' : slateBorder,
-            boxShadow: pipelineStep === 3 ? '0 0 16px rgba(2, 132, 199, 0.2)' : '0 2px 8px rgba(0,0,0,0.02)'
-          }}
-          transition={{ duration: 0.3 }}
-          style={{
-            background: pipelineStep === 3 ? '#f0f9ff' : '#f8fafc',
-            border: '1.5px solid #cbd5e1',
-            borderTop: '5px solid #0284c7',
-            borderRadius: '12px',
-            padding: '0.8vw',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'space-between'
-          }}
-        >
-          <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5vw', marginBottom: '0.5vw', paddingBottom: '0.4vw', borderBottom: '2px solid #e2e8f0' }}>
-              <LayoutDashboard size={20} color="#0284c7" />
-              <div>
-                <strong style={{ fontSize: '0.9vw', color: darkNavy, display: 'block', fontWeight: 900 }}>3. CONSOLE DLP (DASHBOARD)</strong>
-                <span style={{ fontSize: '0.7vw', color: '#0284c7', fontFamily: 'monospace', fontWeight: 800 }}>Portail Web Opérationnel</span>
-              </div>
-            </div>
+          {/* ------------------------------------------------------------------------- */}
+          {/* ARROWS: 5 PROBES ➔ alert_sender.py                                        */}
+          {/* ------------------------------------------------------------------------- */}
+          <path d="M 187 116 L 290 116 L 290 208" fill="none" stroke="#1a202c" strokeWidth="1.8" markerEnd="url(#arrowDark)" />
+          <path d="M 187 176 L 245 176 L 245 208" fill="none" stroke="#1a202c" strokeWidth="1.8" markerEnd="url(#arrowDark)" />
+          <path d="M 187 236 L 225 236" fill="none" stroke="#1a202c" strokeWidth="1.8" markerEnd="url(#arrowDark)" />
+          <path d="M 187 296 L 245 296 L 245 264" fill="none" stroke="#1a202c" strokeWidth="1.8" markerEnd="url(#arrowDark)" />
+          <path d="M 187 356 L 290 356 L 290 264" fill="none" stroke="#1a202c" strokeWidth="1.8" markerEnd="url(#arrowDark)" />
 
-            {/* 5 CONSOLE TABS */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.3vw' }}>
-              {consoleTabs.map((ct, idx) => {
-                const Icon = ct.icon;
-                const isTabActive = pipelineStep === 3 && idx === 0;
-                return (
-                  <div
-                    key={ct.label}
-                    style={{
-                      padding: '0.35vw 0.5vw',
-                      borderRadius: '6px',
-                      border: `1px solid ${isTabActive ? '#0284c7' : '#cbd5e1'}`,
-                      background: isTabActive ? '#0284c7' : '#ffffff',
-                      color: isTabActive ? '#ffffff' : '#1e293b',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                      transition: 'all 0.2s ease'
-                    }}
-                  >
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.4vw', fontSize: '0.78vw' }}>
-                      <Icon size={14} color={isTabActive ? '#ffffff' : '#0284c7'} />
-                      <strong style={{ color: isTabActive ? '#ffffff' : darkNavy }}>{ct.label}</strong>
-                    </div>
-                    {isTabActive && (
-                      <span style={{ fontSize: '0.6vw', background: 'rgba(255,255,255,0.25)', color: '#ffffff', padding: '1px 5px', borderRadius: '4px', fontFamily: 'monospace', fontWeight: 800 }}>
-                        ACTIF
-                      </span>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-          </div>
 
-          {/* DYNAMIC OPERATIONAL KPI PREVIEW */}
-          <div style={{ background: '#f0f9ff', border: '1.5px solid #bae6fd', borderRadius: '8px', padding: '0.4vw 0.55vw', marginTop: '0.4vw', display: 'flex', alignItems: 'center', gap: '0.4vw' }}>
-            <Activity size={14} color="#0369a1" />
-            <span style={{ fontSize: '0.75vw', color: '#0369a1', fontWeight: 800 }}>
-              14 Alertes DLP (100% analysées)
-            </span>
-          </div>
-        </motion.div>
+          {/* ========================================================================= */}
+          {/* 2. INTER-VM COMMUNICATION ARROW: HTTP POST /alert (Port 5000)             */}
+          {/* ========================================================================= */}
+          <line x1="355" y1="236" x2="500" y2="236" stroke="#0b66d5" strokeWidth="2.5" markerEnd="url(#arrowBlue)" />
+          
+          <rect x="375" y="208" width="105" height="30" rx="4" fill="#ffffff" stroke="#0b66d5" strokeWidth="1.5" />
+          <text x="427.5" y="222" fill="#00008f" fontSize="11" fontWeight="800" fontFamily="monospace" textAnchor="middle">
+            HTTP POST /alert
+          </text>
+          <text x="427.5" y="233" fill="#4a5568" fontSize="9.5" fontWeight="700" fontFamily="monospace" textAnchor="middle">
+            (Port 5000)
+          </text>
 
-        {/* CONNECTOR 3 -> 4 */}
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-          <ArrowRight size={24} strokeWidth={3.5} color={pipelineStep === 3 ? '#0284c7' : '#cbd5e1'} />
-        </div>
+          {/* Smooth Traveling Packet */}
+          <circle r="3.5" fill="#38bdf8">
+            <animateMotion dur="1.8s" repeatCount="indefinite" path="M 355,236 L 500,236" />
+          </circle>
 
-        {/* =================================================== */}
-        {/* COLUMN 4: SOC WAZUH (ANIMATED WHEN STEP 4)          */}
-        {/* =================================================== */}
-        <motion.div
-          animate={{
-            borderColor: pipelineStep === 4 ? '#059669' : slateBorder,
-            boxShadow: pipelineStep === 4 ? '0 0 16px rgba(5, 150, 105, 0.2)' : '0 2px 8px rgba(0,0,0,0.02)'
-          }}
-          transition={{ duration: 0.3 }}
-          style={{
-            background: pipelineStep === 4 ? '#ecfdf5' : '#f8fafc',
-            border: '1.5px solid #cbd5e1',
-            borderTop: '5px solid #059669',
-            borderRadius: '12px',
-            padding: '0.8vw',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'space-between'
-          }}
-        >
-          <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5vw', marginBottom: '0.5vw', paddingBottom: '0.4vw', borderBottom: '2px solid #e2e8f0' }}>
-              <Database size={20} color="#059669" />
-              <div>
-                <strong style={{ fontSize: '0.9vw', color: darkNavy, display: 'block', fontWeight: 900 }}>4. SOC WAZUH</strong>
-                <span style={{ fontSize: '0.7vw', color: '#059669', fontFamily: 'monospace', fontWeight: 800 }}>Centralisation Logs</span>
-              </div>
-            </div>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35vw', marginTop: '0.3vw' }}>
-              {/* LOG FILE STREAM */}
-              <div style={{ background: '#ffffff', padding: '0.4vw 0.55vw', borderRadius: '6px', border: '1px solid #cbd5e1', fontSize: '0.78vw', color: '#334155' }}>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '2px' }}>
-                  <strong style={{ color: '#059669', fontSize: '0.8vw' }}>Log Transmis :</strong>
-                  {pipelineStep === 4 && (
-                    <span style={{ fontSize: '0.6vw', color: '#059669', fontWeight: 900 }}>
-                      ● STREAMING
-                    </span>
-                  )}
-                </div>
-                <span><code>/var/log/dlp/dlp.json</code></span>
-              </div>
+          {/* ========================================================================= */}
+          {/* 3. RIGHT CONTAINER: SERVEUR DLP/SOC (UBUNTU LINUX)                         */}
+          {/* ========================================================================= */}
 
-              {/* SIEM CORRELATION */}
-              <div style={{ background: '#ffffff', padding: '0.4vw 0.55vw', borderRadius: '6px', border: '1px solid #cbd5e1', fontSize: '0.78vw', color: '#334155' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.4vw', marginBottom: '2px' }}>
-                  <ShieldCheck size={14} color="#059669" />
-                  <strong style={{ color: '#059669', fontSize: '0.8vw' }}>Corrélation SIEM</strong>
-                </div>
-                <span>Logs DLP poussés vers Wazuh SIEM</span>
-              </div>
-            </div>
-          </div>
+          {/* Outer Box */}
+          <rect
+            x="500" y="15" width="635" height="425" rx="6"
+            fill="#edf2f7" stroke="#2d3748" strokeWidth="2.5"
+          />
 
-          <div style={{ background: '#ecfdf5', border: '1.5px solid #a7f3d0', borderRadius: '8px', padding: '0.4vw 0.55vw', textAlign: 'center', marginTop: '0.4vw' }}>
-            <span style={{ fontSize: '0.75vw', color: '#065f46', fontWeight: 800, display: 'block' }}>
-              (Détaillé au Volet 4/4)
-            </span>
-          </div>
-        </motion.div>
+          {/* Top Title Bar */}
+          <rect x="500" y="15" width="635" height="38" rx="5" fill="#2d3748" />
+          <text x="817.5" y="39" fill="#ffffff" fontSize="14.5" fontWeight="700" textAnchor="middle" fontFamily="sans-serif">
+            Serveur DLP/SOC (Ubuntu Linux)
+          </text>
 
+          {/* Inner Subheader Box: Dossier manager/ */}
+          <rect x="512" y="60" width="611" height="365" rx="3" fill="#f7fafc" stroke="#4a5568" strokeWidth="1.5" />
+          <text x="522" y="80" fill="#1a202c" fontSize="12" fontWeight="700" fontFamily="monospace">
+            Dossier : manager/ (Logique de Gouvernance)
+          </text>
+
+          {/* ------------------------------------------------------------------------- */}
+          {/* COLUMN 1 INSIDE MANAGER: manager.py & dlp_addon.py                        */}
+          {/* ------------------------------------------------------------------------- */}
+
+          {/* 1. manager.py (API Flask) */}
+          <rect x="528" y="208" width="130" height="56" rx="2" fill="#ffffff" stroke="#1a202c" strokeWidth="2.5" />
+          <text x="593" y="233" fill="#1a202c" fontSize="12.5" fontWeight="700" fontFamily="monospace" textAnchor="middle">
+            manager.py
+          </text>
+          <text x="593" y="249" fill="#059669" fontSize="10.5" fontWeight="700" fontFamily="monospace" textAnchor="middle">
+            (API Flask)
+          </text>
+
+          {/* 2. dlp_addon.py (mitmproxy) WITH DOUBLE BORDER */}
+          <rect x="523" y="315" width="140" height="56" rx="8" fill="none" stroke="#2b6cb0" strokeWidth="2" />
+          <rect x="528" y="320" width="130" height="46" rx="5" fill="#ffffff" stroke="#2b6cb0" strokeWidth="2" />
+          <text x="593" y="341" fill="#1a202c" fontSize="12" fontWeight="700" fontFamily="monospace" textAnchor="middle">
+            dlp_addon.py
+          </text>
+          <text x="593" y="355" fill="#2b6cb0" fontSize="10.5" fontWeight="700" fontFamily="monospace" textAnchor="middle">
+            (mitmproxy)
+          </text>
+
+          {/* Vertical Line Connecting manager.py to dlp_addon.py */}
+          <line x1="593" y1="264" x2="593" y2="315" stroke="#2b6cb0" strokeWidth="2" />
+
+
+          {/* ------------------------------------------------------------------------- */}
+          {/* COLUMN 2 INSIDE MANAGER: RECTANGLES FOR LOGS & CONSOLE DLP                */}
+          {/* ------------------------------------------------------------------------- */}
+
+          {/* 1. logs/dlp.json (RECTANGLE BOX) */}
+          <rect x="690" y="95" width="140" height="48" rx="4" fill="#ffffff" stroke="#1a202c" strokeWidth="2" />
+          <text x="760" y="123" fill="#1a202c" fontSize="12" fontWeight="700" fontFamily="monospace" textAnchor="middle">
+            logs/dlp.json
+          </text>
+
+          {/* 2. logs/labeled_files.json (RECTANGLE BOX) */}
+          <rect x="690" y="175" width="140" height="48" rx="4" fill="#ffffff" stroke="#1a202c" strokeWidth="2" />
+          <text x="760" y="196" fill="#1a202c" fontSize="10.5" fontWeight="700" fontFamily="monospace" textAnchor="middle">
+            logs/labeled_files
+          </text>
+          <text x="760" y="210" fill="#1a202c" fontSize="10.5" fontWeight="700" fontFamily="monospace" textAnchor="middle">
+            .json
+          </text>
+
+          {/* Lines from manager.py to Log Rectangles */}
+          <path d="M 658 226 L 675 226 L 675 119 L 690 119" fill="none" stroke="#1a202c" strokeWidth="1.8" markerEnd="url(#arrowDark)" />
+          <path d="M 658 246 L 675 246 L 675 199 L 690 199" fill="none" stroke="#1a202c" strokeWidth="1.8" markerEnd="url(#arrowDark)" />
+
+          {/* 3. CONSOLE DLP / DASHBOARD WEB NODE */}
+          <path d="M 658 256 L 675 256 L 675 310 L 690 310" fill="none" stroke="#0284c7" strokeWidth="2" strokeDasharray="5 4" markerEnd="url(#arrowCyan)" />
+          
+          <rect x="690" y="280" width="150" height="65" rx="6" fill="#f0f9ff" stroke="#0284c7" strokeWidth="2" />
+          <rect x="690" y="280" width="150" height="22" rx="5" fill="#0284c7" />
+          <text x="765" y="295" fill="#ffffff" fontSize="11" fontWeight="800" fontFamily="sans-serif" textAnchor="middle">
+            CONSOLE DLP (Web)
+          </text>
+          <text x="765" y="318" fill="#0f172a" fontSize="10" fontWeight="800" fontFamily="sans-serif" textAnchor="middle">
+            Dashboard SOC &amp; KPIs
+          </text>
+          <text x="765" y="333" fill="#0369a1" fontSize="9" fontWeight="700" fontFamily="monospace" textAnchor="middle">
+            GET /alerts, /stats
+          </text>
+
+
+          {/* ========================================================================= */}
+          {/* 4. SOC WAZUH NODE (INTEGRATED AS REQUESTED)                              */}
+          {/* ========================================================================= */}
+
+          {/* Line from logs/dlp.json to SOC WAZUH */}
+          <path d="M 830 119 L 868 119 L 868 150 L 878 150" fill="none" stroke="#059669" strokeWidth="2" markerEnd="url(#arrowGreen)" />
+          <text x="854" y="112" fill="#059669" fontSize="9.5" fontWeight="800" fontFamily="monospace">
+            send_to_wazuh()
+          </text>
+
+          {/* SOC WAZUH BOX CONTAINER */}
+          <g>
+            {/* Outer Box */}
+            <rect x="878" y="95" width="225" height="270" rx="8" fill="#ecfdf5" stroke="#059669" strokeWidth="2.5" />
+            
+            {/* Header */}
+            <rect x="878" y="95" width="225" height="32" rx="7" fill="#059669" />
+            <text x="990.5" y="116" fill="#ffffff" fontSize="13" fontWeight="900" fontFamily="sans-serif" textAnchor="middle" letterSpacing="0.02em">
+              4. SOC WAZUH
+            </text>
+
+            {/* Sub-header text */}
+            <text x="990.5" y="145" fill="#065f46" fontSize="11" fontWeight="800" fontFamily="sans-serif" textAnchor="middle">
+              Centralisation Logs &amp; SIEM
+            </text>
+
+            {/* Item 1: Log Transmis */}
+            <rect x="890" y="158" width="201" height="46" rx="5" fill="#ffffff" stroke="#a7f3d0" strokeWidth="1.5" />
+            <text x="900" y="175" fill="#059669" fontSize="10.5" fontWeight="800" fontFamily="sans-serif">
+              Log Transmis :
+            </text>
+            <text x="900" y="192" fill="#047857" fontSize="10" fontWeight="700" fontFamily="monospace">
+              /var/log/dlp/dlp.json
+            </text>
+
+            {/* Item 2: Corrélation SIEM */}
+            <rect x="890" y="214" width="201" height="46" rx="5" fill="#ffffff" stroke="#a7f3d0" strokeWidth="1.5" />
+            <text x="900" y="231" fill="#059669" fontSize="10.5" fontWeight="800" fontFamily="sans-serif">
+              Corrélation SIEM :
+            </text>
+            <text x="900" y="248" fill="#0f172a" fontSize="9.5" fontWeight="700" fontFamily="sans-serif">
+              Logs DLP poussés vers Wazuh SIEM
+            </text>
+
+            {/* Item 3: Active Response */}
+            <rect x="890" y="270" width="201" height="82" rx="5" fill="#ffffff" stroke="#a7f3d0" strokeWidth="1.5" />
+            <text x="900" y="287" fill="#059669" fontSize="10.5" fontWeight="800" fontFamily="sans-serif">
+              Active Response :
+            </text>
+            <text x="900" y="304" fill="#0f172a" fontSize="9.5" fontWeight="700" fontFamily="sans-serif">
+              • Isolation réseau sous &lt;1.5s
+            </text>
+            <text x="900" y="320" fill="#0f172a" fontSize="9.5" fontWeight="700" fontFamily="sans-serif">
+              • Blocage du Reverse Shell
+            </text>
+            <text x="900" y="336" fill="#047857" fontSize="9" fontWeight="800" fontFamily="monospace">
+              • Socket Unix UDP /var/ossec/...
+            </text>
+          </g>
+
+        </svg>
       </div>
 
     </div>
   );
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

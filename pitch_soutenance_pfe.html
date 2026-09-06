@@ -3,1358 +3,1169 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-<title>Soutenance PFE — Architecture DLP Hybride avec Supervision SOC</title>
+<title>Soutenance PFE — Pitch & Guide de Répétition</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --bg-primary:#0A1626;
-    --bg-panel:#0F1F33;
-    --bg-panel-alt:#132A42;
-    --bg-card:#0D2036;
-    --accent-cyan:#4FD1C5;
-    --accent-cyan-dim:#2E7C74;
-    --accent-amber:#E8A34E;
-    --accent-red:#E2604F;
-    --text-primary:#EAF1F8;
-    --text-secondary:#A9BDD4;
-    --text-muted:#6E8AA6;
-    --border:#1D3A56;
-    --border-soft:#16293F;
-    --radius:10px;
-    --font-display:'Space Grotesk', sans-serif;
-    --font-body:'IBM Plex Sans', sans-serif;
-    --font-mono:'IBM Plex Mono', monospace;
-  }
-
-  *{box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent;}
-
-  html{scroll-behavior:smooth; -webkit-text-size-adjust:100%;}
-
-  body{
-    background:
-      radial-gradient(ellipse at top right, rgba(79,209,197,0.06), transparent 55%),
-      radial-gradient(ellipse at bottom left, rgba(232,163,78,0.05), transparent 50%),
-      var(--bg-primary);
-    color:var(--text-primary);
-    font-family:var(--font-body);
-    line-height:1.55;
-    min-height:100vh;
-    padding-bottom:50px;
-  }
-
-  a{color:inherit; text-decoration:none;}
-
-  /* ===== CONSOLE BAR (Sticky & Responsive for Mobile) ===== */
-  .console-bar{
-    position:sticky;
-    top:0;
-    z-index:50;
-    background:rgba(10,22,38,0.95);
-    backdrop-filter:blur(12px);
-    -webkit-backdrop-filter:blur(12px);
-    border-bottom:1px solid var(--border);
-    padding:10px 14px;
-    display:flex;
-    flex-direction:column;
-    gap:8px;
-  }
-
-  @media (min-width: 640px){
-    .console-bar{
-      flex-direction:row;
-      align-items:center;
-      justify-content:space-between;
-      padding:12px 24px;
-      gap:16px;
-    }
-  }
-
-  .console-top-row{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    width:100%;
-  }
-
-  @media (min-width: 640px){
-    .console-top-row{
-      width:auto;
-      gap:14px;
-    }
-  }
-
-  .console-id{
-    display:flex;
-    align-items:center;
-    gap:8px;
-    font-family:var(--font-mono);
-    font-size:12px;
-    color:var(--text-muted);
-    letter-spacing:0.04em;
-    font-weight:600;
-  }
-
-  .console-id .dot{
-    width:8px;height:8px;border-radius:50%;
-    background:var(--accent-cyan);
-    box-shadow:0 0 8px var(--accent-cyan);
-    animation:pulse 2.4s ease-in-out infinite;
-    flex-shrink:0;
-  }
-
-  @keyframes pulse{
-    0%,100%{opacity:1;}
-    50%{opacity:0.35;}
-  }
-
-  .progress-label{
-    font-family:var(--font-mono);
-    font-size:11.5px;
-    color:var(--accent-cyan);
-    font-weight:600;
+  :root {
+    --bg-main: #0B0F17;
+    --bg-surface: #121824;
+    --bg-card: #161F30;
+    --bg-card-active: #1C2940;
+    --accent: #00E5FF;
+    --accent-dim: rgba(0, 229, 255, 0.12);
+    --accent-amber: #F59E0B;
+    --accent-red: #EF4444;
+    --text-main: #F1F5F9;
+    --text-sub: #94A3B8;
+    --text-muted: #64748B;
+    --border: #1E293B;
+    --border-active: rgba(0, 229, 255, 0.4);
+    --font-body: 'Inter', system-ui, sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+  body {
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    font-family: var(--font-body);
+    line-height: 1.6;
+    padding-bottom: 60px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ===== HEADER BAR (Ultra-sleek single row) ===== */
+  .top-bar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(11, 15, 23, 0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 10px 20px;
+  }
+
+  .top-bar-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .brand-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .pulse-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 8px var(--accent);
+  }
+
+  .slide-count-badge {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--accent);
+    background: var(--accent-dim);
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: 600;
+  }
+
+  .progress-mini {
+    width: 100px;
+    height: 4px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .progress-mini-fill {
+    height: 100%;
+    background: var(--accent);
+    width: 0%;
+    transition: width 0.3s ease;
+  }
+
+  .controls-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .timer-display {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--accent);
+    background: rgba(0,0,0,0.3);
+    padding: 4px 10px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
   }
 
-  .progress-bar-container{
-    width:100%;
-    height:4px;
-    background:var(--border-soft);
-    border-radius:2px;
-    overflow:hidden;
+  .btn {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 600;
+    background: var(--bg-card);
+    color: var(--text-main);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 6px 12px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    user-select: none;
+  }
+
+  .btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .btn-accent {
+    background: var(--accent-dim);
+    border-color: rgba(0, 229, 255, 0.3);
+    color: var(--accent);
   }
-
-  @media (min-width: 640px){
-    .progress-bar-container{
-      width:140px;
-    }
-  }
-
-  .progress-bar-fill{
-    height:100%;
-    background:var(--accent-cyan);
-    width:0%;
-    transition:width 0.3s ease;
-  }
-
-  .console-controls{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:10px;
-    width:100%;
-  }
-
-  @media (min-width: 640px){
-    .console-controls{
-      width:auto;
-      gap:16px;
-    }
-  }
-
-  .timer-block{
-    display:flex;
-    align-items:baseline;
-    gap:6px;
-    font-family:var(--font-mono);
-  }
-
-  .timer-value{
-    font-size:20px;
-    font-weight:700;
-    color:var(--accent-cyan);
-    font-variant-numeric:tabular-nums;
-  }
-
-  .timer-target{
-    font-size:11px;
-    color:var(--text-muted);
-  }
-
-  .btn-group{
-    display:flex;
-    align-items:center;
-    gap:8px;
-  }
-
-  .console-btn{
-    font-family:var(--font-mono);
-    font-size:12px;
-    font-weight:600;
-    letter-spacing:0.02em;
-    background:var(--bg-panel-alt);
-    color:var(--text-primary);
-    border:1px solid var(--border);
-    border-radius:6px;
-    padding:6px 12px;
-    min-height:36px;
-    cursor:pointer;
-    transition:all 0.15s ease;
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    touch-action:manipulation;
-  }
-
-  .console-btn:hover, .console-btn:active{
-    border-color:var(--accent-cyan);
-    color:var(--accent-cyan);
-  }
-
-  .console-btn.reset:hover, .console-btn.reset:active{
-    border-color:var(--accent-red);
-    color:var(--accent-red);
-  }
-
-  /* ===== HERO SECTION ===== */
-  .hero{
-    padding:24px 16px 20px;
-    max-width:960px;
-    margin:0 auto;
-    border-bottom:1px solid var(--border-soft);
-  }
-
-  @media (min-width: 640px){
-    .hero{
-      padding:36px 24px 28px;
-    }
-  }
-
-  .hero-eyebrow{
-    font-family:var(--font-mono);
-    font-size:11px;
-    letter-spacing:0.1em;
-    text-transform:uppercase;
-    color:var(--accent-amber);
-    margin-bottom:8px;
-    font-weight:600;
-  }
-
-  .hero h1{
-    font-family:var(--font-display);
-    font-weight:700;
-    font-size:clamp(20px, 5vw, 34px);
-    line-height:1.2;
-    letter-spacing:-0.01em;
-  }
-
-  .hero .accent{color:var(--accent-cyan);}
-
-  .hero-meta{
-    display:grid;
-    grid-template-columns:1fr;
-    gap:10px;
-    margin-top:16px;
-    padding-top:14px;
-    border-top:1px solid var(--border-soft);
-  }
-
-  @media (min-width: 540px){
-    .hero-meta{
-      grid-template-columns:repeat(3, 1fr);
-      gap:14px;
-    }
-  }
-
-  .hero-meta-item{
-    font-family:var(--font-mono);
-  }
-
-  .hero-meta-item .label{
-    color:var(--text-muted);
-    display:block;
-    margin-bottom:2px;
-    letter-spacing:0.04em;
-    text-transform:uppercase;
-    font-size:10px;
-  }
-
-  .hero-meta-item .value{
-    color:var(--text-primary);
-    font-size:12.5px;
-    font-weight:500;
-  }
-
-  /* ===== SECTION NAV (Horizontal Touch Scroll) ===== */
-  .section-nav{
-    position:sticky;
-    top:92px;
-    z-index:40;
-    background:rgba(10,22,38,0.92);
-    backdrop-filter:blur(10px);
-    -webkit-backdrop-filter:blur(10px);
-    border-bottom:1px solid var(--border-soft);
-    padding:8px 16px;
-    display:flex;
-    gap:8px;
-    overflow-x:auto;
-    -webkit-overflow-scrolling:touch;
-    scrollbar-width:none;
-    max-width:960px;
-    margin:0 auto;
+
+  .btn-accent:hover {
+    background: var(--accent);
+    color: var(--bg-main);
+  }
+
+  /* ===== PAGE HEADER ===== */
+  .header-content {
+    max-width: 900px;
+    margin: 24px auto 16px;
+    padding: 0 20px;
+  }
+
+  .header-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--accent-amber);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 600;
+    margin-bottom: 6px;
   }
 
-  @media (min-width: 640px){
-    .section-nav{
-      top:63px;
-      padding:10px 24px;
-    }
+  .header-content h1 {
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
   }
 
-  .section-nav::-webkit-scrollbar{
-    display:none;
-  }
-
-  .section-nav a{
-    font-family:var(--font-mono);
-    font-size:11.5px;
-    font-weight:500;
-    color:var(--text-muted);
-    padding:6px 12px;
-    white-space:nowrap;
-    border-radius:20px;
-    background:var(--bg-card);
-    border:1px solid var(--border-soft);
-    transition:all 0.15s ease;
-    flex-shrink:0;
-  }
-
-  .section-nav a.active{
-    color:var(--bg-primary);
-    background:var(--accent-cyan);
-    border-color:var(--accent-cyan);
-    font-weight:600;
-  }
-
-  .section-nav a.amber-nav.active{
-    background:var(--accent-amber);
-    border-color:var(--accent-amber);
-    color:var(--bg-primary);
-  }
+  .header-content h1 span { color: var(--accent); }
 
-  /* ===== MAIN CONTENT ===== */
-  main{
-    max-width:960px;
-    margin:0 auto;
-    padding:0 14px;
-  }
-
-  @media (min-width: 640px){
-    main{
-      padding:0 24px;
-    }
-  }
-
-  .phase{
-    padding-top:32px;
-  }
-
-  .phase-header{
-    display:flex;
-    align-items:baseline;
-    gap:10px;
-    margin-bottom:4px;
-  }
+  .nav-tabs {
+    max-width: 900px;
+    margin: 16px auto 24px;
+    padding: 0 20px;
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .nav-tabs::-webkit-scrollbar { display: none; }
+
+  .nav-tab {
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    color: var(--text-sub);
+    padding: 6px 14px;
+    border-radius: 20px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    white-space: nowrap;
+    text-decoration: none;
+    transition: all 0.15s ease;
+  }
 
-  .phase-num{
-    font-family:var(--font-mono);
-    font-size:12px;
-    color:var(--accent-amber);
-    font-weight:600;
+  .nav-tab:hover { color: var(--text-main); border-color: var(--text-sub); }
+
+  .nav-tab.active {
+    background: var(--accent);
+    color: var(--bg-main);
+    border-color: var(--accent);
+    font-weight: 600;
   }
-
-  .phase-header h2{
-    font-family:var(--font-display);
-    font-size:19px;
-    font-weight:700;
+
+  .nav-tab.amber.active {
+    background: var(--accent-amber);
+    border-color: var(--accent-amber);
+    color: var(--bg-main);
   }
 
-  .phase-sub{
-    font-size:13px;
-    color:var(--text-secondary);
-    margin-bottom:16px;
+  /* ===== MAIN CONTENT CARDS ===== */
+  main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 20px;
   }
 
-  /* ===== SLIDE CARDS (Phone Optimised) ===== */
-  .slide-card{
-    background:var(--bg-card);
-    border:1px solid var(--border-soft);
-    border-radius:var(--radius);
-    margin-bottom:10px;
-    overflow:hidden;
-    transition:border-color 0.2s ease, background 0.2s ease;
+  .section-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-sub);
+    margin: 32px 0 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
   }
 
-  .slide-card.checked{
-    border-color:var(--accent-cyan-dim);
-    background:rgba(13, 32, 54, 0.6);
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
   }
 
-  .slide-head{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    padding:12px 14px;
-    cursor:pointer;
-    user-select:none;
-    -webkit-user-select:none;
-    touch-action:manipulation;
-    min-height:50px;
+  .slide-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 12px;
+    overflow: hidden;
+    transition: all 0.2s ease;
   }
 
-  .slide-check-wrapper{
-    padding:8px 4px 8px 0;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    cursor:pointer;
+  .slide-card.shadowing-active {
+    border-color: var(--border-active);
+    background: var(--bg-card-active);
+    box-shadow: 0 0 20px rgba(0, 229, 255, 0.15);
   }
 
-  .slide-check{
-    width:22px;height:22px;
-    border-radius:5px;
-    border:1.5px solid var(--border);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    flex-shrink:0;
-    transition:all 0.15s ease;
-    font-size:13px;
-    font-weight:bold;
-    color:transparent;
-    background:var(--bg-primary);
+  .slide-card.checked {
+    opacity: 0.65;
   }
 
-  .slide-card.checked .slide-check{
-    background:var(--accent-cyan);
-    border-color:var(--accent-cyan);
-    color:var(--bg-primary);
+  .slide-head {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 18px;
+    cursor: pointer;
+    user-select: none;
   }
 
-  .slide-number{
-    font-family:var(--font-mono);
-    font-size:12px;
-    color:var(--text-muted);
-    min-width:20px;
-    font-weight:600;
+  .slide-check-btn {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    border: 1.5px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 12px;
+    color: transparent;
+    transition: all 0.15s ease;
+    flex-shrink: 0;
   }
 
-  .slide-title-block{
-    flex:1;
-    min-width:0;
+  .slide-card.checked .slide-check-btn {
+    background: #10B981;
+    border-color: #10B981;
+    color: #FFF;
   }
 
-  .slide-title{
-    font-family:var(--font-display);
-    font-weight:600;
-    font-size:14.5px;
-    line-height:1.3;
-    color:var(--text-primary);
+  .slide-num {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+    min-width: 24px;
   }
 
-  .slide-duration{
-    font-family:var(--font-mono);
-    font-size:10.5px;
-    font-weight:600;
-    color:var(--accent-amber);
-    background:rgba(232,163,78,0.12);
-    border:1px solid rgba(232,163,78,0.25);
-    border-radius:5px;
-    padding:3px 7px;
-    flex-shrink:0;
-    white-space:nowrap;
+  .slide-card.shadowing-active .slide-num {
+    color: var(--accent);
   }
 
-  .slide-chevron{
-    font-family:var(--font-mono);
-    color:var(--text-muted);
-    font-size:15px;
-    transition:transform 0.2s ease;
-    flex-shrink:0;
-    width:16px;
-    text-align:center;
+  .slide-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-main);
+    flex: 1;
   }
 
-  .slide-card.open .slide-chevron{
-    transform:rotate(90deg);
+  .slide-duration {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--accent-amber);
+    background: rgba(245, 158, 11, 0.1);
+    padding: 3px 8px;
+    border-radius: 4px;
+    flex-shrink: 0;
   }
 
-  .slide-body{
-    display:none;
-    padding:12px 14px 16px;
-    border-top:1px dashed var(--border-soft);
+  .slide-chevron {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    color: var(--text-muted);
+    transition: transform 0.2s ease;
   }
 
-  .slide-card.open .slide-body{
-    display:block;
+  .slide-card.open .slide-chevron {
+    transform: rotate(90deg);
+    color: var(--accent);
   }
 
-  .volet{
-    margin-top:10px;
-    padding:10px 12px;
-    background:var(--bg-primary);
-    border-radius:6px;
-    border:1px solid var(--border-soft);
+  .slide-body {
+    display: none;
+    padding: 16px 18px 20px;
+    border-top: 1px solid var(--border);
+    background: rgba(11, 15, 23, 0.4);
   }
 
-  .volet-tag{
-    font-family:var(--font-mono);
-    font-size:10.5px;
-    font-weight:600;
-    color:var(--accent-cyan);
-    letter-spacing:0.03em;
-    text-transform:uppercase;
-    margin-bottom:4px;
-    display:block;
+  .slide-card.open .slide-body {
+    display: block;
   }
 
-  .speech{
-    font-size:14px;
-    line-height:1.6;
-    color:var(--text-secondary);
-    border-left:3px solid var(--border);
-    padding-left:12px;
-    margin-top:6px;
-    white-space:pre-line;
+  /* Keywords pill container */
+  .keywords-line {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
   }
 
-  .speech strong{
-    color:var(--text-primary);
-    font-weight:600;
+  .keyword-tag {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--accent);
+    background: var(--accent-dim);
+    padding: 3px 9px;
+    border-radius: 12px;
+    font-weight: 500;
   }
 
-  /* Keyword banner */
-  .keyword-banner{
-    margin-top:12px;
-    padding-top:10px;
-    border-top:1px dashed var(--border-soft);
-    display:flex;
-    align-items:center;
-    gap:6px;
-    flex-wrap:wrap;
+  .keyword-tag.amber {
+    color: var(--accent-amber);
+    background: rgba(245, 158, 11, 0.12);
   }
 
-  .keyword-banner-label{
-    font-family:var(--font-mono);
-    font-size:10px;
-    color:var(--text-muted);
-    text-transform:uppercase;
-    letter-spacing:0.05em;
-    width:100%;
-    margin-bottom:2px;
+  .keyword-tag.red {
+    color: var(--accent-red);
+    background: rgba(239, 68, 68, 0.12);
   }
 
-  @media (min-width: 480px){
-    .keyword-banner-label{
-      width:auto;
-      margin-bottom:0;
-      margin-right:2px;
-    }
+  .speech-text {
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--text-main);
+    white-space: pre-line;
   }
 
-  .keyword-pill{
-    font-family:var(--font-mono);
-    font-size:10.5px;
-    color:var(--bg-primary);
-    background:var(--accent-cyan);
-    font-weight:600;
-    border-radius:12px;
-    padding:3px 9px;
-    white-space:nowrap;
+  .speech-text strong {
+    color: var(--accent);
+    font-weight: 600;
   }
 
-  .keyword-pill.amber{
-    background:var(--accent-amber);
+  .volet-block {
+    margin-top: 12px;
+    padding-top: 10px;
+    border-top: 1px dashed var(--border);
   }
 
-  /* ===== FOOTER ===== */
-  footer{
-    max-width:960px;
-    margin:40px auto 0;
-    padding:20px 16px;
-    border-top:1px solid var(--border-soft);
-    text-align:center;
+  .volet-header {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--accent-amber);
+    margin-bottom: 4px;
+    text-transform: uppercase;
   }
 
-  footer p{
-    font-family:var(--font-mono);
-    font-size:11px;
-    color:var(--text-muted);
-    line-height:1.6;
+  footer {
+    max-width: 900px;
+    margin: 40px auto 0;
+    padding: 20px;
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    color: var(--text-muted);
+    border-top: 1px solid var(--border);
   }
 
-  /* ===== PRINT ===== */
-  @media print{
-    body{background:#fff; color:#111;}
-    .console-bar, .section-nav{position:static; background:none; backdrop-filter:none; border:none;}
-    .slide-body{display:block !important;}
-    .slide-chevron{display:none;}
-    .slide-card{break-inside:avoid; border:1px solid #ccc; background:#fff;}
-    .speech{color:#222; border-left-color:#999;}
-    .keyword-pill{background:#eee; color:#111; border:1px solid #999;}
+  @media print {
+    .top-bar, .nav-tabs { display: none; }
+    .slide-body { display: block !important; }
+    .slide-card { break-inside: avoid; border: 1px solid #CCC; background: #FFF; color: #000; }
   }
 </style>
 </head>
 <body>
 
-<div class="console-bar">
-  <div class="console-top-row">
-    <div class="console-id">
-      <span class="dot"></span>
-      RÉPÉTITION PFE
+<!-- TOP BAR (CLEAN & COMPACT) -->
+<div class="top-bar">
+  <div class="top-bar-inner">
+    <div class="brand-group">
+      <span class="pulse-dot"></span>
+      PITCH PFE
+      <span class="slide-count-badge" id="slideBadge">Slide 01 / 16</span>
     </div>
-    <span class="progress-label" id="progressLabel">0 / 16 slides</span>
-  </div>
 
-  <div class="progress-bar-container">
-    <div class="progress-bar-fill" id="progressBarFill"></div>
-  </div>
-
-  <div class="console-controls">
-    <div class="timer-block">
-      <span class="timer-value" id="timerValue">00:00</span>
-      <span class="timer-target">/ 14:10</span>
+    <div class="progress-mini">
+      <div class="progress-mini-fill" id="progressFill"></div>
     </div>
-    <div class="btn-group">
-      <button class="console-btn" id="timerToggle">▶ Démarrer</button>
-      <button class="console-btn reset" id="timerReset">↻ Reset</button>
+
+    <div class="controls-group">
+      <span class="timer-display" id="timerValue">00:00</span>
+      <button class="btn btn-accent" id="btnPrev">◄ Préc.</button>
+      <button class="btn btn-accent" id="btnNext">Suiv. ►</button>
+      <button class="btn" id="timerToggle">▶ Démarrer</button>
+      <button class="btn" id="timerReset">↻</button>
     </div>
   </div>
 </div>
 
-<section class="hero">
-  <div class="hero-eyebrow">Guide de Soutenance PFE — EMSI / AXA GO</div>
-  <h1>Architecture DLP Hybride <span class="accent">avec Supervision SOC</span></h1>
-  <div class="hero-meta">
-    <div class="hero-meta-item">
-      <span class="label">Établissement</span>
-      <span class="value">EMSI — Ingénieur IR</span>
-    </div>
-    <div class="hero-meta-item">
-      <span class="label">Structure d'accueil</span>
-      <span class="value">AXA Group Operations</span>
-    </div>
-    <div class="hero-meta-item">
-      <span class="label">Format</span>
-      <span class="value">16 Slides · Cible 14m10s</span>
-    </div>
-  </div>
-</section>
+<!-- PAGE HEADER -->
+<div class="header-content">
+  <div class="header-eyebrow">EMSI & AXA GROUP OPERATIONS</div>
+  <h1>Guide de Soutenance PFE — <span>DLP Hybride & SOC</span></h1>
+</div>
 
-<nav class="section-nav" id="sectionNav">
-  <a href="#section-1" class="active">01 — Intro &amp; Contexte</a>
-  <a href="#section-2">02 — Problématique</a>
-  <a href="#section-3">03 — Architecture</a>
-  <a href="#section-4">04 — Conclusion</a>
-  <a href="#section-5" class="amber-nav">05 — Grillades 🔥</a>
-</nav>
+<!-- NAV TABS -->
+<div class="nav-tabs">
+  <a href="#sec-1" class="nav-tab active">01. Contexte</a>
+  <a href="#sec-2" class="nav-tab">02. Problématique</a>
+  <a href="#sec-3" class="nav-tab">03. Architecture & Démo</a>
+  <a href="#sec-4" class="nav-tab">04. Conclusion</a>
+  <a href="#sec-5" class="nav-tab amber">05. Questions Pièges 🔥</a>
+</div>
 
 <main>
 
   <!-- SECTION 1 -->
-  <section class="phase" id="section-1">
-    <div class="phase-header">
-      <span class="phase-num">Section 01</span>
-      <h2>Introduction et Contexte</h2>
-    </div>
-    <p class="phase-sub">Poser le cadre : l'établissement, l'entreprise d'accueil, et le concept DLP dans son ensemble.</p>
+  <div id="sec-1">
+    <div class="section-title">01 — Introduction & Contexte</div>
 
-    <article class="slide-card" data-duration="30">
+    <!-- Slide 01 -->
+    <article class="slide-card shadowing-active open" data-index="0">
       <div class="slide-head">
-        <div class="slide-check-wrapper"><span class="slide-check"></span></div>
-        <span class="slide-number">01</span>
-        <div class="slide-title-block"><span class="slide-title">Page de Garde et Présentation</span></div>
+        <div class="slide-check-btn">✓</div>
+        <span class="slide-num">01</span>
+        <div class="slide-title">Page de Garde & Présentation</div>
         <span class="slide-duration">30 s</span>
         <span class="slide-chevron">›</span>
       </div>
       <div class="slide-body">
-        <div class="speech">Monsieur le Président, Mesdames et Messieurs les membres du jury, chers encadrants, bonjour.
-C'est un grand honneur de vous présenter les travaux de mon Projet de Fin d'Études mené au sein d'AXA Group Operations, pour l'obtention du Diplôme d'Ingénieur en Informatique et Réseaux de l'EMSI.
-Le sujet s'intitule : <strong>Conception et Mise en Œuvre d'une Architecture DLP Hybride avec Supervision SOC.</strong></div>
-        <div class="keyword-banner">
-          <span class="keyword-banner-label">Mots-clés</span>
-          <span class="keyword-pill">AXA GO</span>
-          <span class="keyword-pill">EMSI</span>
-          <span class="keyword-pill">DLP Hybride</span>
-          <span class="keyword-pill">Supervision SOC</span>
+        <div class="keywords-line">
+          <span class="keyword-tag">AXA GBS</span>
+          <span class="keyword-tag">EMSI Ingénieur IR</span>
+          <span class="keyword-tag">DLP Hybride</span>
+          <span class="keyword-tag">Supervision SOC</span>
         </div>
+        <div class="speech-text">Bonjour à tous,
+J'ai l'honneur de vous présenter mon Projet de Fin d'Études chez AXA GBS.
+Le sujet porte sur la <strong>Conception et la mise en œuvre d'une Solution DLP Hybride avec Supervision SOC.</strong></div>
       </div>
     </article>
 
-    <article class="slide-card" data-duration="20">
+    <!-- Slide 02 -->
+    <article class="slide-card" data-index="1">
       <div class="slide-head">
-        <div class="slide-check-wrapper"><span class="slide-check"></span></div>
-        <span class="slide-number">02</span>
-        <div class="slide-title-block"><span class="slide-title">Sommaire</span></div>
+        <div class="slide-check-btn">✓</div>
+        <span class="slide-num">02</span>
+        <div class="slide-title">Sommaire</div>
         <span class="slide-duration">20 s</span>
         <span class="slide-chevron">›</span>
       </div>
       <div class="slide-body">
-        <div class="speech">Notre présentation est articulée en 6 étapes : du Contexte et de la Problématique chez AXA, à la Méthodologie Agile, puis la Conception approfondie, la Réalisation technique avec Démo Live, pour finir par les Perspectives.</div>
-        <div class="keyword-banner">
-          <span class="keyword-banner-label">Mots-clés</span>
-          <span class="keyword-pill">6 Étapes</span>
-          <span class="keyword-pill">Du Besoin au Concret</span>
-          <span class="keyword-pill">Démonstration Live</span>
+        <div class="keywords-line">
+          <span class="keyword-tag">6 Étapes Clés</span>
+          <span class="keyword-tag">Du Besoin au Concret</span>
+          <span class="keyword-tag">Démonstration Live</span>
         </div>
+        <div class="speech-text">Notre présentation est articulée en <strong>6 étapes majeures</strong>.</div>
       </div>
     </article>
 
-    <article class="slide-card" data-duration="40">
+    <!-- Slide 03 -->
+    <article class="slide-card" data-index="2">
       <div class="slide-head">
-        <div class="slide-check-wrapper"><span class="slide-check"></span></div>
-        <span class="slide-number">03</span>
-        <div class="slide-title-block"><span class="slide-title">Contexte Général AXA GO</span></div>
+        <div class="slide-check-btn">✓</div>
+        <span class="slide-num">03</span>
+        <div class="slide-title">Contexte Général AXA GBS</div>
         <span class="slide-duration">40 s</span>
         <span class="slide-chevron">›</span>
       </div>
       <div class="slide-body">
-        <div class="speech">J'ai effectué ce PFE au sein d'AXA Group Operations (AXA GBS), la filiale globale qui centralise l'IT et la sécurité du groupe pour plus de 150 000 collaborateurs dans 50+ pays.
-J'ai rejoint l'équipe Data Protection, dont la mission est de garantir la confidentialité absolue des données stratégiques face aux risques de fuites.</div>
-        <div class="keyword-banner">
-          <span class="keyword-banner-label">Mots-clés</span>
-          <span class="keyword-pill">AXA GBS</span>
-          <span class="keyword-pill">Hub #1 Mondial</span>
-          <span class="keyword-pill">150k+ Collaborateurs</span>
-          <span class="keyword-pill">50+ Pays</span>
-          <span class="keyword-pill">Pôle Data Protection</span>
+        <div class="keywords-line">
+          <span class="keyword-tag">AXA GBS</span>
+          <span class="keyword-tag">150 000+ Collaborateurs</span>
+          <span class="keyword-tag">+50 Pays</span>
+          <span class="keyword-tag">Data Protection</span>
         </div>
+        <div class="speech-text">AXA GBS est la filiale globale qui centralise l'IT et la sécurité du groupe pour plus de <strong>150 000 collaborateurs dans +50 pays</strong>.
+J'ai rejoint l'équipe Data Protection avec la mission de <strong>garantir la confidentialité des données face aux risques de fuite.</strong></div>
       </div>
     </article>
 
-    <article class="slide-card" data-duration="40">
+    <!-- Slide 04 -->
+    <article class="slide-card" data-index="3">
       <div class="slide-head">
-        <div class="slide-check-wrapper"><span class="slide-check"></span></div>
-        <span class="slide-number">04</span>
-        <div class="slide-title-block"><span class="slide-title">Cadre Conceptuel DLP</span></div>
+        <div class="slide-check-btn">✓</div>
+        <span class="slide-num">04</span>
+        <div class="slide-title">Cadre Conceptuel DLP</div>
         <span class="slide-duration">40 s</span>
         <span class="slide-chevron">›</span>
       </div>
       <div class="slide-body">
-        <div class="speech">Le DLP (Data Loss Prevention) est un système de protection continue fonctionnant selon une boucle en 4 temps :
-1. Surveiller les flux de données temps réel,
-2. Détecter et classifier le contenu sensible,
-3. Répondre immédiatement par du blocage ou des alertes,
-4. Analyser les événements pour affiner les politiques.</div>
-        <div class="keyword-banner">
-          <span class="keyword-banner-label">Mots-clés</span>
-          <span class="keyword-pill">Cycle Continu</span>
-          <span class="keyword-pill">Surveiller les Flux</span>
-          <span class="keyword-pill">Détection Contenu</span>
-          <span class="keyword-pill">Réponse Automatique</span>
-          <span class="keyword-pill">Analyse &amp; Audit</span>
+        <div class="keywords-line">
+          <span class="keyword-tag">Boucle Continue</span>
+          <span class="keyword-tag">1. Surveiller</span>
+          <span class="keyword-tag">2. Classifier</span>
+          <span class="keyword-tag">3. Réagir</span>
+          <span class="keyword-tag">4. Analyser</span>
         </div>
+        <div class="speech-text">Le DLP (Data Loss Prevention) est un système de protection continue qui fonctionne selon une <strong>boucle en 4 étapes</strong> :
+1. <strong>Surveiller</strong> les flux en temps réel,
+2. <strong>Détecter et classifier</strong> le contenu sensible,
+3. <strong>Réagir immédiatement</strong> (BLOCAGE OU ALERTE),
+4. <strong>Analyser les événements</strong> pour améliorer les règles.</div>
       </div>
     </article>
 
-    <article class="slide-card" data-duration="35">
+    <!-- Slide 05 -->
+    <article class="slide-card" data-index="4">
       <div class="slide-head">
-        <div class="slide-check-wrapper"><span class="slide-check"></span></div>
-        <span class="slide-number">05</span>
-        <div class="slide-title-block"><span class="slide-title">Les 4 Piliers de Protection DLP</span></div>
+        <div class="slide-check-btn">✓</div>
+        <span class="slide-num">05</span>
+        <div class="slide-title">Les 4 Piliers de Protection DLP</div>
         <span class="slide-duration">35 s</span>
         <span class="slide-chevron">›</span>
       </div>
       <div class="slide-body">
-        <div class="speech">Pour éliminer tout angle mort, la protection couvre 4 piliers indissociables :
-— Le Cloud (SharePoint, OneDrive),
-— Les Données (classification et Sensitivity Labels),
-— Le Réseau (trafic web et messagerie Exchange),
-— Et les Devices (contrôle des endpoints Windows et supports USB).</div>
-        <div class="keyword-banner">
-          <span class="keyword-banner-label">Mots-clés</span>
-          <span class="keyword-pill">Couverture 360°</span>
-          <span class="keyword-pill">Cloud (SharePoint)</span>
-          <span class="keyword-pill">Données (Labels)</span>
-          <span class="keyword-pill">Réseau (Web/Mail)</span>
-          <span class="keyword-pill">Devices (USB)</span>
+        <div class="keywords-line">
+          <span class="keyword-tag">Couverture 360°</span>
+          <span class="keyword-tag">Cloud</span>
+          <span class="keyword-tag">Donnée</span>
+          <span class="keyword-tag">Réseau</span>
+          <span class="keyword-tag">Devices</span>
         </div>
+        <div class="speech-text">Pour tout couvrir, la protection s'appuie sur <strong>4 piliers</strong> :
+1. <strong>Cloud</strong> (SharePoint, OneDrive),
+2. <strong>Donnée</strong> (Classification & Sensitivity Label),
+3. <strong>Réseau</strong> (Trafic web, Messagerie Exchange),
+4. <strong>Devices</strong> (Contrôle des endpoints et support USB).</div>
       </div>
     </article>
-  </section>
+  </div>
 
   <!-- SECTION 2 -->
-  <section class="phase" id="section-2">
-    <div class="phase-header">
-      <span class="phase-num">Section 02</span>
-      <h2>Problématique et Objectifs</h2>
-    </div>
-    <p class="phase-sub">Les verrous identifiés, les objectifs fixés pour les lever, et l'organisation du projet.</p>
+  <div id="sec-2">
+    <div class="section-title">02 — Problématique & Objectifs</div>
 
-    <article class="slide-card" data-duration="50">
+    <!-- Slide 06 -->
+    <article class="slide-card" data-index="5">
       <div class="slide-head">
-        <div class="slide-check-wrapper"><span class="slide-check"></span></div>
-        <span class="slide-number">06</span>
-        <div class="slide-title-block"><span class="slide-title">Problématique et Défis Opérationnels</span></div>
+        <div class="slide-check-btn">✓</div>
+        <span class="slide-num">06</span>
+        <div class="slide-title">Problématique & Défis Opérationnels</div>
         <span class="slide-duration">50 s</span>
         <span class="slide-chevron">›</span>
       </div>
       <div class="slide-body">
-        <div class="speech">Notre étude de l'existant a révélé quatre verrous majeurs :
-1. Impact Financier : le coût extrêmement élevé des licences propriétaires du marché.
-2. Souveraineté &amp; Code : l'absence d'alternatives open-source robustes et adaptées aux grands groupes.
-3. Opérations DLP : la surcharge des équipes due au triage manuel de milliers de fausses alertes.
-4. Gouvernance DLP : les conflits et redondances entre règles de conformité.
-La question centrale a donc été : Comment offrir une protection DLP puissante, intelligente et économique sans paralyser la gestion des alertes DLP ?</div>
-        <div class="keyword-banner">
-          <span class="keyword-banner-label">Mots-clés</span>
-          <span class="keyword-pill">Coût Licences Élevé</span>
-          <span class="keyword-pill">Manque d'Open-Source</span>
-          <span class="keyword-pill">Surcharge Opérations DLP</span>
-          <span class="keyword-pill">Conflits de Règles</span>
+        <div class="keywords-line">
+          <span class="keyword-tag amber">1. Coût Élevé</span>
+          <span class="keyword-tag amber">2. Manque Open-Source</span>
+          <span class="keyword-tag amber">3. Traitement Manuel</span>
+          <span class="keyword-tag amber">4. Redondance Règles</span>
         </div>
+        <div class="speech-text">Nous avons identifié <strong>4 verrous majeurs</strong> :
+1. <strong>Coût élevé</strong> des solutions DLP.
+2. <strong>Manque d'open-source</strong> adapté aux petites entités AXA.
+3. <strong>Traitement manuel</strong> des alertes.
+4. <strong>Redondance des règles DLP</strong> sans tracker.</div>
       </div>
     </article>
 
-    <article class="slide-card" data-duration="40">
+    <!-- Slide 07 -->
+    <article class="slide-card" data-index="6">
       <div class="slide-head">
-        <div class="slide-check-wrapper"><span class="slide-check"></span></div>
-        <span class="slide-number">07</span>
-        <div class="slide-title-block"><span class="slide-title">Objectifs du Projet</span></div>
+        <div class="slide-check-btn">✓</div>
+        <span class="slide-num">07</span>
+        <div class="slide-title">Objectifs du Projet</div>
         <span class="slide-duration">40 s</span>
         <span class="slide-chevron">›</span>
       </div>
       <div class="slide-body">
-        <div class="speech">Pour lever ces verrous, nous avons fixé 4 objectifs opérationnels :
-1. Concevoir une architecture DLP hybride et flexible réduisant fortement les coûts.
-2. Optimiser la gestion des règles en éliminant les redondances.
-3. Automatiser le monitoring et le triage des alertes pour le SOC.
-4. Faciliter la validation des SIT (Sensitive Information Types) avant leur déploiement.</div>
-        <div class="keyword-banner">
-          <span class="keyword-banner-label">Mots-clés</span>
-          <span class="keyword-pill">Architecture Hybride</span>
-          <span class="keyword-pill">Réduction des Coûts</span>
-          <span class="keyword-pill">Automatisation SOC</span>
-          <span class="keyword-pill">Validation SIT</span>
+        <div class="keywords-line">
+          <span class="keyword-tag">1. Architecture Flexible</span>
+          <span class="keyword-tag">2. Gestion des Règles</span>
+          <span class="keyword-tag">3. Automation Monitoring</span>
+          <span class="keyword-tag">4. Validation SIT</span>
         </div>
+        <div class="speech-text">Pour lever ces verrous, voici les <strong>4 objectifs opérationnels</strong> :
+1. <strong>Concevoir une architecture DLP flexible</strong> réduisant fortement les coûts.
+2. <strong>Optimiser la gestion des règles</strong> en éliminant les redondances.
+3. <strong>Automatiser le monitoring et le triage des alertes</strong> pour le DLP.
+4. <strong>Faciliter la validation des SIT</strong> (Sensitive Information Types) avant leur déploiement.</div>
       </div>
     </article>
 
-    <article class="slide-card" data-duration="45">
+    <!-- Slide 08 -->
+    <article class="slide-card" data-index="7">
       <div class="slide-head">
-        <div class="slide-check-wrapper"><span class="slide-check"></span></div>
-        <span class="slide-number">08</span>
-        <div class="slide-title-block"><span class="slide-title">Méthodologie et Organisation</span></div>
+        <div class="slide-check-btn">✓</div>
+        <span class="slide-num">08</span>
+        <div class="slide-title">Méthodologie Agile / Scrum</div>
         <span class="slide-duration">45 s</span>
         <span class="slide-chevron">›</span>
       </div>
       <div class="slide-body">
-        <div class="speech">Nous avons appliqué une méthodologie Agile / Scrum découpée en 5 Sprints de 2 à 3 semaines.
-Chaque Sprint a produit un livrable concret : du montage du lab virtuel aux plateformes logicielles.
-Résultats : 4 VMs, 5 canaux surveillés, 2 scénarios d'attaque réelle et 3 plateformes logicielles développées.</div>
-        <div class="keyword-banner">
-          <span class="keyword-banner-label">Mots-clés</span>
-          <span class="keyword-pill">Agile / Scrum (5 Sprints)</span>
-          <span class="keyword-pill">4 VMs Virtualisées</span>
-          <span class="keyword-pill">5 Canaux</span>
-          <span class="keyword-pill">2 Scénarios Pentest</span>
-          <span class="keyword-pill">3 Plateformes Ops</span>
+        <div class="keywords-line">
+          <span class="keyword-tag">Agile / Scrum (5 Sprints)</span>
+          <span class="keyword-tag">4 VMs</span>
+          <span class="keyword-tag">5 Canaux</span>
+          <span class="keyword-tag">2 Pentests</span>
+          <span class="keyword-tag">3 Plateformes</span>
         </div>
+        <div class="speech-text">Projet mené selon la <strong>méthodologie Agile / Scrum en 5 Sprints</strong>.
+Résultats opérationnels obtenus :
+— <strong>4 Machines Virtuelles</strong> interconnectées.
+— <strong>5 canaux</strong> d'exfiltration surveillés.
+— <strong>2 scénarios d'attaque réelle</strong> testés depuis Kali Linux.
+— <strong>3 plateformes logicielles sur-mesure</strong> développées.</div>
       </div>
     </article>
-  </section>
+  </div>
 
   <!-- SECTION 3 -->
-  <section class="phase" id="section-3">
-    <div class="phase-header">
-      <span class="phase-num">Section 03</span>
-      <h2>Conception Technique et Architecture</h2>
-    </div>
-    <p class="phase-sub">Le cœur technique : laboratoire, plateformes, stack, benchmark IA et démonstration live.</p>
+  <div id="sec-3">
+    <div class="section-title">03 — Architecture & Démo</div>
 
-    <article class="slide-card" data-duration="120">
+    <!-- Slide 09 -->
+    <article class="slide-card" data-index="8">
       <div class="slide-head">
-        <div class="slide-check-wrapper"><span class="slide-check"></span></div>
-        <span class="slide-number">09</span>
-        <div class="slide-title-block"><span class="slide-title">Analyse et Conception du Laboratoire DLP</span></div>
-        <span class="slide-duration">2 min</span>
+        <div class="slide-check-btn">✓</div>
+        <span class="slide-num">09</span>
+        <div class="slide-title">Architecture du Laboratoire DLP (5 Volets)</div>
+        <span class="slide-duration">2 min 30 s</span>
         <span class="slide-chevron">›</span>
       </div>
       <div class="slide-body">
-        <div class="volet">
-          <span class="volet-tag">Volet 1 / 4 — Infrastructure &amp; Réseau Virtualisé (4 VMs)</span>
-          <div class="speech">Sur ce premier volet, nous avons conçu un laboratoire réseau étanche et virtualisé sous VMware (192.168.100.0/24) composé de 4 machines virtuelles spécialisées : le SOC Server central (.10), les endpoints Windows AXA-AMS (.20) et AXA-GO (.30), et la machine de validation offensive Kali Linux (.50).</div>
+        <div class="keywords-line">
+          <span class="keyword-tag">4 VMs (192.168.100.0/24)</span>
+          <span class="keyword-tag">5 Vecteurs de Détection</span>
+          <span class="keyword-tag">DLP Manager REST</span>
+          <span class="keyword-tag">Pentest Metasploit</span>
+          <span class="keyword-tag">Active Response Wazuh (<1.5s)</span>
         </div>
-        <div class="volet">
-          <span class="volet-tag">Volet 2 / 4 — DLP Manager &amp; Micro-Agents Python (Vue &amp; Diagramme de Séquence)</span>
-          <div class="speech">Le deuxième volet détaille l'architecture modulaire de nos sondes et du serveur central. L'interactivité permet de basculer entre la vue des composants (sondes Watchdog/WMI &amp; serveur Flask) et le diagramme de séquence en 6 étapes : de l'action utilisateur sur l'endpoint jusqu'à l'ingestion SOC et l'escalade automatique vers le responsable N+1 (Gouvernance D+1).</div>
+
+        <div class="volet-block">
+          <div class="volet-header">Volet 1/5 — Infrastructure &amp; Réseau Virtualisé (4 VMs)</div>
+          <div class="speech-text">Laboratoire étanche sous VMware composé de 4 machines interconnectées sur un subnet dédié <code>192.168.100.0/24</code> : Ubuntu Server central (<code>.10</code>), Endpoints Windows 11 AMS (<code>.20</code>) et GO (<code>.30</code>), et la VM d'attaque Kali Linux (<code>.50</code>).</div>
         </div>
-        <div class="volet">
-          <span class="volet-tag">Volet 3 / 4 — Conception de la Validation Offensive (Pentest)</span>
-          <div class="speech">Le troisième volet modélise notre démarche d'attaque réelle depuis Kali Linux (Metasploit Multi-Handler), simulant l'exfiltration de fichiers secrets.</div>
+
+        <div class="volet-block" style="border-left: 3px solid var(--accent); background: rgba(0, 229, 255, 0.05); padding: 12px 14px; border-radius: 6px; margin: 12px 0;">
+          <div class="volet-header" style="color: var(--accent); font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
+            <span>🧠 VOLET 2/5 — DLP MANAGER &amp; MICRO-AGENTS PYTHON (CERVEAU DU PROJET)</span>
+            <span style="font-size: 10px; background: var(--accent); color: var(--bg-main); padding: 2px 7px; border-radius: 4px; font-weight: 800;">CŒUR ARCHITECTURAL</span>
+          </div>
+          <div class="keywords-line" style="margin-bottom: 8px;">
+            <span class="keyword-tag">Micro-agents Python</span>
+            <span class="keyword-tag">API REST Flask</span>
+            <span class="keyword-tag">rules.json</span>
+            <span class="keyword-tag amber">3 Décisions : ALLOW / ALERT / BLOCK (403)</span>
+            <span class="keyword-tag">Escalade N+1</span>
+          </div>
+          <div class="speech-text" style="font-size: 14.5px;">
+« Ce Volet 2 constitue le <strong>cerveau central</strong> de notre architecture, découpé en <strong>4 temps clés</strong> :
+
+1. <strong>Capture sur l'Endpoint</strong> : Les sondes locales interceptent les actions utilisateur en arrière-plan.
+2. <strong>Transport HTTP POST ➔ Serveur Central Flask</strong> : Envoi de payloads JSON normalisés vers l'API REST Flask sur le port 5000.
+3. <strong>Analyse Matrice <code>rules.json</code> &amp; 3 Décisions Temps Réel</strong> :
+   • <strong>ALLOW (200)</strong> : transfert légitime autorisé.
+   • <strong>ALERT (200)</strong> : transfert autorisé + journalisation d'alerte pour le SOC.
+   • <strong>BLOCK (HTTP 403)</strong> : exfiltration bloquée + <strong>envoi automatique d'un mail d'escalade au responsable N+1 (gouvernance D+1)</strong>.
+4. <strong>Journalisation SOC</strong> : Écriture dans <code>/var/log/dlp/dlp.json</code> pour alimenter le SIEM Wazuh. »
+          </div>
         </div>
-        <div class="volet">
-          <span class="volet-tag">Volet 4 / 4 — Supervision SOC Wazuh &amp; Active Response</span>
-          <div class="speech">Enfin, le quatrième volet illustre la boucle SOC : les événements DLP sont transmis à Wazuh, déclenchant automatiquement un script d'Active Response pour isoler la machine du réseau.</div>
+
+        <div class="volet-block">
+          <div class="volet-header">Volet 3/5 — Les 5 Vecteurs de Détection (Agent Endpoint)</div>
+          <div class="speech-text">Couverture 360° du poste de travail pour intercepter tous les vecteurs de fuite :
+1. <strong>Fichiers système</strong> (<code>file_scanner.py</code> via Watchdog API),
+2. <strong>Médias amovibles &amp; USB</strong> (<code>usb_monitor.py</code> via WMI et psutil),
+3. <strong>Presse-papiers / Copier-Coller</strong> (<code>clipboard_monitor.py</code> via pyperclip),
+4. <strong>Messagerie SMTP</strong> (<code>email_monitor.py</code> via Swaks),
+5. <strong>Flux Web HTTP/HTTPS</strong> (<code>dlp_addon.py</code> via proxy mitmproxy).</div>
         </div>
-        <div class="keyword-banner">
-          <span class="keyword-banner-label">Mots-clés</span>
-          <span class="keyword-pill">Virtualisation 4 VMs</span>
-          <span class="keyword-pill">Micro-agents Python REST</span>
-          <span class="keyword-pill">Hook Watchdog/WMI</span>
-          <span class="keyword-pill">Pentest Metasploit</span>
-          <span class="keyword-pill">SOC Wazuh Active Response</span>
+
+        <div class="volet-block">
+          <div class="volet-header">Volet 4/5 — Conception de la Validation Offensive (Pentest)</div>
+          <div class="speech-text">Simulation d'attaques réelles depuis Kali Linux (Metasploit Multi-Handler, Reverse Shell TCP et exfiltration SCP/SSH) pour éprouver la capacité de détection du DLP et tester l'étanchéité de notre réseau.</div>
+        </div>
+
+        <div class="volet-block">
+          <div class="volet-header">Volet 5/5 — Supervision SOC Wazuh &amp; Active Response (Apport du SIEM)</div>
+          <div class="speech-text">Centralisation et corrélation des logs JSON. <strong>Apport du SIEM</strong> : Le DLP qualifie la fuite de données, <strong>Wazuh</strong> la corréle avec l'activité système profonde (Sysmon, PowerShell) pour transformer une alerte isolée en un incident complet et déclencher l'<strong>Active Response (isolation réseau automatique en moins de 1.5s)</strong>.</div>
         </div>
       </div>
     </article>
 
-    <article class="slide-card" data-duration="90">
+    <!-- Slide 10 -->
+    <article class="slide-card" data-index="9">
       <div class="slide-head">
-        <div class="slide-check-wrapper"><span class="slide-check"></span></div>
-        <span class="slide-number">10</span>
-        <div class="slide-title-block"><span class="slide-title">Conception des Plateformes Opérationnelles</span></div>
-        <span class="slide-duration">1 min 30 s</span>
+        <div class="slide-check-btn">✓</div>
+        <span class="slide-num">10</span>
+        <div class="slide-title">Les 3 Plateformes Opérationnelles</div>
+        <span class="slide-duration">1 min 40 s</span>
         <span class="slide-chevron">›</span>
       </div>
       <div class="slide-body">
-        <div class="volet">
-          <span class="volet-tag">Volet 1 / 3 — LabelGuard Platform (Autolabeling IA)</span>
-          <div class="speech">LabelGuard extrait le texte des documents et applique automatiquement les métadonnées et Sensitivity Labels appropriés via notre moteur IA local.</div>
+        <div class="keywords-line">
+          <span class="keyword-tag">LabelGuard (Autolabeling IA)</span>
+          <span class="keyword-tag">DLP Monitoring Tool</span>
+          <span class="keyword-tag">OneTrust Tracker (RGPD)</span>
         </div>
-        <div class="volet">
-          <span class="volet-tag">Volet 2 / 3 — DLP Monitoring Tool (Supervision &amp; Ingestion)</span>
-          <div class="speech">Console centrale pour visualiser en temps réel les journaux d'événements DLP, tester les nouvelles règles SIT et détecter les conflits de politiques.</div>
+        <div class="volet-block">
+          <div class="volet-header">VOLET 1/3 — LabelGuard Platform (Classificateur &amp; Autolabeling IA)</div>
+          <div class="speech-text">Plateforme de génération automatique de jeux de données de test et d'autolabeling. Permet de définir les données synthétiques (IBAN, cartes bancaires), de paramétrer les seuils de confidentialité (Confidentiel, Secret) et de produire instantanément des fichiers Word, Excel, PPTX et texte prêts pour la recette DLP.</div>
         </div>
-        <div class="volet">
-          <span class="volet-tag">Volet 3 / 3 — OneTrust Tracker (Cartographie &amp; RGPD)</span>
-          <div class="speech">Outil dédié à la cartographie des données personnelles (PII) et aux rapports de conformité RGPD.</div>
+        <div class="volet-block">
+          <div class="volet-header">VOLET 2/3 — DLP Monitoring Tool (Supervision &amp; Ingestion Logs)</div>
+          <div class="speech-text">Console centrale de supervision opérationnelle. Permet la visualisation en temps réel des logs d'incidents DLP, l'analyse de cohérence des règles Purview/Exchange et la détection automatique des conflits de politiques.</div>
         </div>
-        <div class="keyword-banner">
-          <span class="keyword-banner-label">Mots-clés</span>
-          <span class="keyword-pill">LabelGuard (Autolabeling IA)</span>
-          <span class="keyword-pill">DLP Monitoring Tool</span>
-          <span class="keyword-pill">Analyse Conflits Règles</span>
-          <span class="keyword-pill">OneTrust Tracker (RGPD)</span>
+        <div class="volet-block">
+          <div class="volet-header">VOLET 3/3 — OneTrust Tracker (Cartographie &amp; Conformité RGPD avec IA Locale)</div>
+          <div class="speech-text">Outil de cartographie des données personnelles PII et d'audit de conformité RGPD. Intègre un moteur d'IA locale (<strong>Ollama / LLM</strong>) pour le matching sémantique des règles avec gouvernance <strong>Human-in-the-Loop</strong> (arbitrage obligatoire par le RSI et traçabilité Audit Trail).</div>
         </div>
       </div>
     </article>
 
-    <article class="slide-card" data-duration="60">
+    <!-- Slide 11 -->
+    <article class="slide-card" data-index="10">
       <div class="slide-head">
-        <div class="slide-check-wrapper"><span class="slide-check"></span></div>
-        <span class="slide-number">11</span>
-        <div class="slide-title-block"><span class="slide-title">Environnement Technique et Technologies</span></div>
+        <div class="slide-check-btn">✓</div>
+        <span class="slide-num">11</span>
+        <div class="slide-title">Environnement Technique & Technologies</div>
         <span class="slide-duration">1 min</span>
         <span class="slide-chevron">›</span>
       </div>
       <div class="slide-body">
-        <div class="speech">Stack technique à 3 niveaux :
-1. Endpoint : Python, Watchdog (fichiers temps réel) et pywin32/WMI (contrôle USB).
-2. Backend : Flask/Express (API REST), Pandas (analytics logs) et Mitmproxy (proxy HTTPS).
-3. Consoles &amp; IA : React 18 / TypeScript, et Ollama pour l'exécution 100% locale de LLMs.</div>
-        <div class="keyword-banner">
-          <span class="keyword-banner-label">Mots-clés</span>
-          <span class="keyword-pill">Endpoint: Python / Watchdog / WMI</span>
-          <span class="keyword-pill">Backend: Flask / Mitmproxy</span>
-          <span class="keyword-pill">Consoles: React 18 / TS</span>
-          <span class="keyword-pill">IA Locale: Ollama Qwen 2.5</span>
+        <div class="keywords-line">
+          <span class="keyword-tag">Endpoint: Python / Watchdog / WMI</span>
+          <span class="keyword-tag">Backend: Flask / Mitmproxy</span>
+          <span class="keyword-tag">Consoles: React 18 / TS</span>
+          <span class="keyword-tag">IA: Ollama Qwen 2.5</span>
         </div>
+        <div class="speech-text">Stack technique organisée en <strong>3 niveaux</strong> :
+1. <strong>Endpoint</strong> : Python, Watchdog (fichiers temps réel) et pywin32/WMI (contrôle USB).
+2. <strong>Backend</strong> : Flask/Express (API REST), Pandas (analytics logs) et Mitmproxy (proxy HTTPS).
+3. <strong>Consoles & IA</strong> : React 18 / TypeScript, et Ollama pour l'exécution IA 100% locale.</div>
       </div>
     </article>
 
-    <article class="slide-card" data-duration="75">
+    <!-- Slide 12 -->
+    <article class="slide-card" data-index="11">
       <div class="slide-head">
-        <div class="slide-check-wrapper"><span class="slide-check"></span></div>
-        <span class="slide-number">12</span>
-        <div class="slide-title-block"><span class="slide-title">Benchmark Moteurs IA</span></div>
+        <div class="slide-check-btn">✓</div>
+        <span class="slide-num">12</span>
+        <div class="slide-title">Benchmark Moteurs IA</div>
         <span class="slide-duration">1 min 15 s</span>
         <span class="slide-chevron">›</span>
       </div>
       <div class="slide-body">
-        <div class="speech">Benchmark IA selon 5 critères :
-— Cloud Publics (Gemini/OpenAI) : rejetés (risques de fuite de données et coûts token).
-— Ollama Local avec Qwen 2.5 (7B) : retenu pour le Lab (0€, 100% offline).
-— AXA SecureGPT : cible pour la production.
-Le déploiement d'Ollama Qwen 2.5 en Lab valide le PoC à zéro coût avant la migration vers AXA SecureGPT.</div>
-        <div class="keyword-banner">
-          <span class="keyword-banner-label">Mots-clés</span>
-          <span class="keyword-pill">Rejet Cloud Public (Fuites)</span>
-          <span class="keyword-pill">Ollama Qwen 2.5 (0€ Offline)</span>
-          <span class="keyword-pill">Validation PoC en Lab</span>
-          <span class="keyword-pill">Cible Prod: AXA SecureGPT</span>
+        <div class="keywords-line">
+          <span class="keyword-tag red">Rejet Cloud Public (Fuites)</span>
+          <span class="keyword-tag">Ollama Qwen 2.5 (0€ Offline Lab)</span>
+          <span class="keyword-tag amber">Cible Prod: AXA SecureGPT</span>
         </div>
+        <div class="speech-text">Benchmark IA selon 5 critères :
+— <strong>Cloud Publics (Gemini/OpenAI)</strong> : REJETÉS pour risques de fuite de données et coûts token.
+— <strong>Ollama Local avec Qwen 2.5 (7B)</strong> : RETENU pour le Lab (0€, 100% autonome).
+— <strong>AXA SecureGPT</strong> : cible pour le déploiement en production.
+<strong>Validation PoC à 0€ en Lab avant migration vers AXA SecureGPT.</strong></div>
       </div>
     </article>
 
-    <article class="slide-card" data-duration="105">
+    <!-- Slide 13 -->
+    <article class="slide-card" data-index="12">
       <div class="slide-head">
-        <div class="slide-check-wrapper"><span class="slide-check"></span></div>
-        <span class="slide-number">13</span>
-        <div class="slide-title-block"><span class="slide-title">Validation Expérimentale et Démo Live</span></div>
+        <div class="slide-check-btn">✓</div>
+        <span class="slide-num">13</span>
+        <div class="slide-title">Démonstration Live & Scénario Pentest</div>
         <span class="slide-duration">1 min 45 s</span>
         <span class="slide-chevron">›</span>
       </div>
       <div class="slide-body">
-        <div class="speech">Démonstration d'un scénario d'exfiltration réelle :
-1. Intrusion Metasploit depuis Kali →
-2. Autolabeling LabelGuard →
-3. Interception multicanale (USB, Web, Mail) →
-4. Active Response Wazuh d'isolation réseau du poste.</div>
-        <div class="keyword-banner">
-          <span class="keyword-banner-label">Mots-clés</span>
-          <span class="keyword-pill">Simulation Attaque Kali</span>
-          <span class="keyword-pill">Marquage &amp; Blocage Instantané</span>
-          <span class="keyword-pill">Active Response Wazuh</span>
+        <div class="keywords-line">
+          <span class="keyword-tag">1. Intrusion Kali Metasploit</span>
+          <span class="keyword-tag">2. Autolabeling LabelGuard</span>
+          <span class="keyword-tag">3. Interception Multicanale</span>
+          <span class="keyword-tag">4. Isolation Wazuh (<1.5s)</span>
         </div>
+        <div class="speech-text">Démonstration d'un scénario d'exfiltration réelle :
+1. <strong>Intrusion Metasploit</strong> initialisée depuis Kali Linux.
+2. <strong>Autolabeling immédiat</strong> des fichiers sensibles par LabelGuard.
+3. <strong>Interception multicanale</strong> (USB, Web, Email).
+4. <strong>Active Response Wazuh</strong> isolant le poste compromis en moins de 1.5 seconde.</div>
       </div>
     </article>
-  </section>
+  </div>
 
   <!-- SECTION 4 -->
-  <section class="phase" id="section-4">
-    <div class="phase-header">
-      <span class="phase-num">Section 04</span>
-      <h2>Conclusion et Perspectives</h2>
-    </div>
-    <p class="phase-sub">Bilan, alignement stratégique, axes d'évolution et clôture.</p>
+  <div id="sec-4">
+    <div class="section-title">04 — Conclusion & Perspectives</div>
 
-    <article class="slide-card" data-duration="35">
+    <!-- Slide 14 -->
+    <article class="slide-card" data-index="13">
       <div class="slide-head">
-        <div class="slide-check-wrapper"><span class="slide-check"></span></div>
-        <span class="slide-number">14</span>
-        <div class="slide-title-block"><span class="slide-title">Conclusion et Alignement Zero Trust</span></div>
+        <div class="slide-check-btn">✓</div>
+        <span class="slide-num">14</span>
+        <div class="slide-title">Conclusion & Zero Trust</div>
         <span class="slide-duration">35 s</span>
         <span class="slide-chevron">›</span>
       </div>
       <div class="slide-body">
-        <div class="speech">Architecture DLP hybride, souveraine et économe validée. Alignée à 100% sur la philosophie Zero Trust : ne jamais faire confiance, toujours vérifier.</div>
-        <div class="keyword-banner">
-          <span class="keyword-banner-label">Mots-clés</span>
-          <span class="keyword-pill">Architecture DLP Hybride</span>
-          <span class="keyword-pill">Philosophie Zero Trust</span>
-          <span class="keyword-pill">Souveraineté &amp; Efficience</span>
+        <div class="keywords-line">
+          <span class="keyword-tag">DLP Hybride Validé</span>
+          <span class="keyword-tag">Philosophie Zero Trust</span>
+          <span class="keyword-tag">Souveraineté & Économie</span>
         </div>
+        <div class="speech-text">Architecture DLP hybride, souveraine et économe validée.
+Alignée à 100% sur la philosophie <strong>Zero Trust : « Ne jamais faire confiance, toujours vérifier ».</strong></div>
       </div>
     </article>
 
-    <article class="slide-card" data-duration="40">
+    <!-- Slide 15 -->
+    <article class="slide-card" data-index="14">
       <div class="slide-head">
-        <div class="slide-check-wrapper"><span class="slide-check"></span></div>
-        <span class="slide-number">15</span>
-        <div class="slide-title-block"><span class="slide-title">Perspectives d'Évolution</span></div>
+        <div class="slide-check-btn">✓</div>
+        <span class="slide-num">15</span>
+        <div class="slide-title">Perspectives d'Évolution</div>
         <span class="slide-duration">40 s</span>
         <span class="slide-chevron">›</span>
       </div>
       <div class="slide-body">
-        <div class="speech">Trois axes futurs : DLP au niveau Proxy (Skyhigh), Analyse Comportementale (UEBA), et Console DLP Unifiée.</div>
-        <div class="keyword-banner">
-          <span class="keyword-banner-label">Mots-clés</span>
-          <span class="keyword-pill">DLP Proxy (Skyhigh)</span>
-          <span class="keyword-pill">Analyse Comportementale (UEBA)</span>
-          <span class="keyword-pill">Console Unifiée DLP</span>
+        <div class="keywords-line">
+          <span class="keyword-tag">1. DLP Proxy Skyhigh</span>
+          <span class="keyword-tag">2. UEBA Comportemental</span>
+          <span class="keyword-tag">3. Console Unifiée DLP</span>
         </div>
+        <div class="speech-text">Trois axes d'évolution futurs :
+1. Intégration DLP au niveau Proxy avec Skyhigh Security.
+2. Analyse Comportementale Avancée (UEBA).
+3. Console DLP Unifiée pour l'ensemble des filiales AXA.</div>
       </div>
     </article>
 
-    <article class="slide-card" data-duration="25">
+    <!-- Slide 16 -->
+    <article class="slide-card" data-index="15">
       <div class="slide-head">
-        <div class="slide-check-wrapper"><span class="slide-check"></span></div>
-        <span class="slide-number">16</span>
-        <div class="slide-title-block"><span class="slide-title">Remerciements et Échange</span></div>
+        <div class="slide-check-btn">✓</div>
+        <span class="slide-num">16</span>
+        <div class="slide-title">Remerciements & Clôture</div>
         <span class="slide-duration">25 s</span>
         <span class="slide-chevron">›</span>
       </div>
       <div class="slide-body">
-        <div class="speech">Merci aux membres du jury, à Mme Zineb MACHROUH, M. Soufiane RSIOUI et Mme Oumaima FARAJI.
-﴿ هَٰذَا مِنْ فَضْلِ رَبِّي ﴾
-Je suis à votre disposition pour vos questions.</div>
-        <div class="keyword-banner">
-          <span class="keyword-banner-label">Mots-clés</span>
-          <span class="keyword-pill amber">Remerciements EMSI &amp; AXA GO</span>
-          <span class="keyword-pill amber">﴿ هَٰذَا مِنْ فَضْلِ رَبِّي ﴾</span>
-          <span class="keyword-pill amber">Session Questions / Réponses</span>
+        <div class="keywords-line">
+          <span class="keyword-tag amber">Remerciements EMSI & AXA GO</span>
+          <span class="keyword-tag amber">﴿ هَٰذَا مِنْ فَضْلِ رَبِّي ﴾</span>
+          <span class="keyword-tag amber">Questions / Réponses</span>
         </div>
+        <div class="speech-text">Merci aux membres du jury, à Mme Zineb MACHROUH, M. Soufiane RSIOUI et Mme Oumaima FARAJI.
+﴿ هَٰذَا مِنْ فَضْلِ رَبِّي ﴾
+<strong>Je suis à votre disposition pour vos questions.</strong></div>
       </div>
     </article>
-  </section>
+  </div>
 
   <!-- SECTION 5 -->
-  <section class="phase" id="section-5">
-    <div class="phase-header">
-      <span class="phase-num">Section 05</span>
-      <h2 style="color: var(--accent-amber);">Anticipation des Questions Pièges ("Grillades") 🔥</h2>
-    </div>
-    <p class="phase-sub">Les 5 questions techniques et stratégiques redoutées par le jury senior, avec les réponses d'ingénieur béton.</p>
+  <div id="sec-5">
+    <div class="section-title" style="color: var(--accent-amber);">05 — Questions Pièges ("Grillades") 🔥</div>
 
-    <article class="slide-card" data-duration="Q&amp;A">
+    <!-- Q1 -->
+    <article class="slide-card" data-index="16">
       <div class="slide-head">
-        <div class="slide-check-wrapper"><span class="slide-check"></span></div>
-        <span class="slide-number">Q1</span>
-        <div class="slide-title-block"><span class="slide-title">Scalabilité &amp; Montée en Charge (Flask &amp; dlp.json)</span></div>
-        <span class="slide-duration" style="background: rgba(226,96,79,0.15); border-color: var(--accent-red); color: var(--accent-red);">Question Piège</span>
+        <div class="slide-check-btn">✓</div>
+        <span class="slide-num" style="color: var(--accent-red);">Q1</span>
+        <div class="slide-title">Scalabilité & Montée en Charge (Flask & JSON)</div>
+        <span class="slide-duration" style="color: var(--accent-red); background: rgba(239,68,68,0.1);">Question Piège</span>
         <span class="slide-chevron">›</span>
       </div>
       <div class="slide-body">
-        <div class="volet">
-          <span class="volet-tag" style="color: var(--accent-red);">Question du Jury :</span>
-          <div class="speech" style="border-left-color: var(--accent-red);">« Votre DLP Manager s'appuie sur Flask et des logs JSON (dlp.json). Si 1 000 agents envoient 50 alertes/seconde, comment gérez-vous la montée en charge ? »</div>
+        <div class="keywords-line">
+          <span class="keyword-tag red">Question Jury: Montée en charge Flask/JSON</span>
+          <span class="keyword-tag">PoC Lab ➔ Kafka / RabbitMQ</span>
+          <span class="keyword-tag">Gunicorn WSGI Multi-Workers</span>
+          <span class="keyword-tag">Incrustation Directe Wazuh Indexer</span>
         </div>
-        <div class="volet">
-          <span class="volet-tag" style="color: var(--accent-cyan);">Réponse Strategique d'Ingénieur :</span>
-          <div class="speech" style="border-left-color: var(--accent-cyan);">« L'architecture Flask/File JSON présentée constitue notre prototype de laboratoire (Proof of Concept). 
-Pour un passage en production à l'échelle du groupe AXA (150 000+ postes), le serveur évoluera vers :
-1. Une file de messages asynchrone découplée (RabbitMQ ou Apache Kafka),
-2. Un serveur WSGI industriel multi-workers (Gunicorn / uWSGI avec Reverse Proxy Nginx),
-3. Une ingestion directe des événements dans l'indexeur Elasticsearch / Wazuh Indexer sans passer par un fichier JSON plat local. »</div>
-        </div>
-        <div class="keyword-banner">
-          <span class="keyword-banner-label">Mots-clés</span>
-          <span class="keyword-pill">Architecture PoC Lab</span>
-          <span class="keyword-pill">RabbitMQ / Kafka</span>
-          <span class="keyword-pill">Gunicorn Multi-Workers</span>
-          <span class="keyword-pill">Wazuh Indexer / ES</span>
-        </div>
+        <div class="speech-text"><strong>Réponse d'Ingénieur :</strong>
+« L'architecture Flask/JSON constitue notre <strong>Prototype de Laboratoire (PoC)</strong>. 
+Pour la production à l'échelle d'AXA (150 000+ postes), le système évoluera vers :
+1. Une file de messages découpée (<strong>RabbitMQ / Apache Kafka</strong>).
+2. Un serveur WSGI industriel multi-workers (<strong>Gunicorn / Nginx</strong>).
+3. Une ingestion directe dans l'indexeur <strong>Wazuh Indexer / Elasticsearch</strong> sans fichier JSON plat. »</div>
       </div>
     </article>
 
-    <article class="slide-card" data-duration="Q&amp;A">
+    <!-- Q2 -->
+    <article class="slide-card" data-index="17">
       <div class="slide-head">
-        <div class="slide-check-wrapper"><span class="slide-check"></span></div>
-        <span class="slide-number">Q2</span>
-        <div class="slide-title-block"><span class="slide-title">Contournement par Chiffrement ou Archives Zip Mot de Passe</span></div>
-        <span class="slide-duration" style="background: rgba(226,96,79,0.15); border-color: var(--accent-red); color: var(--accent-red);">Question Piège</span>
+        <div class="slide-check-btn">✓</div>
+        <span class="slide-num" style="color: var(--accent-red);">Q2</span>
+        <div class="slide-title">Bypass par Chiffrement ou Archive Zip Mot de Passe</div>
+        <span class="slide-duration" style="color: var(--accent-red); background: rgba(239,68,68,0.1);">Question Piège</span>
         <span class="slide-chevron">›</span>
       </div>
       <div class="slide-body">
-        <div class="volet">
-          <span class="volet-tag" style="color: var(--accent-red);">Question du Jury :</span>
-          <div class="speech" style="border-left-color: var(--accent-red);">« Si un utilisateur modifie l'extension d'un fichier confidentiel (.pdf vers .dat) ou le compresse avec un mot de passe dans une archive .zip, votre agent Python le détecte-t-il ? »</div>
+        <div class="keywords-line">
+          <span class="keyword-tag red">Question Jury: Fichiers chiffrés / .zip avec MDP</span>
+          <span class="keyword-tag">Limites Inspection Contenu</span>
+          <span class="keyword-tag">Complémentarité Sysmon / EDR</span>
+          <span class="keyword-tag">Analyse Comportementale UEBA Wazuh</span>
         </div>
-        <div class="volet">
-          <span class="volet-tag" style="color: var(--accent-cyan);">Réponse Strategique d'Ingénieur :</span>
-          <div class="speech" style="border-left-color: var(--accent-cyan);">« Tout DLP basé sur l'inspection de contenu/regex a des limites face aux flux chiffrés sans clé.
-C'est précisément pour cette raison que notre architecture est hybride et intègre Sysmon &amp; Wazuh SOC !
-En complément de l'agent DLP :
-1. Sysmon détecte l'exécution d'outils de compression anormaux ou la création d'archives chiffrées (EID 11 / EID 1),
-2. L'analyse comportementale (UEBA) de Wazuh corrèle cette activité avec le trafic réseau et déclenche l'Active Response pour bloquer le poste ou isoler la session. »</div>
-        </div>
-        <div class="keyword-banner">
-          <span class="keyword-banner-label">Mots-clés</span>
-          <span class="keyword-pill">Limites Regex Contenu</span>
-          <span class="keyword-pill">Complémentarité EDR/Sysmon</span>
-          <span class="keyword-pill">Analyse UEBA Wazuh</span>
-          <span class="keyword-pill">Active Response Host</span>
-        </div>
+        <div class="speech-text"><strong>Réponse d'Ingénieur :</strong>
+« Tout DLP basé sur la regex/contenu a des limites sur les archives chiffrées. C'est pourquoi notre architecture est <strong>hybride avec Sysmon & Wazuh SOC</strong> :
+1. Sysmon détecte l'exécution d'outils de compression anormaux ou la création d'archives chiffrées (EID 11 / EID 1).
+2. L'analyse comportementale (UEBA) de Wazuh corrèle cette activité et active l'Active Response pour isoler le poste. »</div>
       </div>
     </article>
 
-    <article class="slide-card" data-duration="Q&amp;A">
+    <!-- Q3 -->
+    <article class="slide-card" data-index="18">
       <div class="slide-head">
-        <div class="slide-check-wrapper"><span class="slide-check"></span></div>
-        <span class="slide-number">Q3</span>
-        <div class="slide-title-block"><span class="slide-title">Inspection du Trafic HTTPS / Cloud Uploads (Dropbox, GDrive)</span></div>
-        <span class="slide-duration" style="background: rgba(226,96,79,0.15); border-color: var(--accent-red); color: var(--accent-red);">Question Piège</span>
+        <div class="slide-check-btn">✓</div>
+        <span class="slide-num" style="color: var(--accent-red);">Q3</span>
+        <div class="slide-title">Inspection Trafic HTTPS / Cloud Uploads (Dropbox)</div>
+        <span class="slide-duration" style="color: var(--accent-red); background: rgba(239,68,68,0.1);">Question Piège</span>
         <span class="slide-chevron">›</span>
       </div>
       <div class="slide-body">
-        <div class="volet">
-          <span class="volet-tag" style="color: var(--accent-red);">Question du Jury :</span>
-          <div class="speech" style="border-left-color: var(--accent-red);">« Comment inspectez-vous l'exfiltration de données vers Dropbox ou Google Drive sans casser le chiffrement SSL/TLS ? »</div>
+        <div class="keywords-line">
+          <span class="keyword-tag red">Question Jury: Exfiltration Web HTTPS</span>
+          <span class="keyword-tag">Mitmproxy Proxy Interception</span>
+          <span class="keyword-tag">Certificat Root CA Enterprise</span>
+          <span class="keyword-tag">Déploiement GPO</span>
         </div>
-        <div class="volet">
-          <span class="volet-tag" style="color: var(--accent-cyan);">Réponse Strategique d'Ingénieur :</span>
-          <div class="speech" style="border-left-color: var(--accent-cyan);">« Pour surveiller les flux web chiffrés (HTTPS/TLS), nous avons déployé un proxy d'interception contrôlé appuyé sur mitmproxy.
-Dans un environnement d'entreprise comme AXA :
-1. Un certificat racine d'autorité de certification entreprise (Root CA) est déployé sur l'ensemble des endpoints via GPO,
-2. Le proxy ré-émet des certificats à la volée pour inspecter les requêtes HTTP POST en clair avant ré-encapsulation TLS vers le Cloud destinataire. »</div>
-        </div>
-        <div class="keyword-banner">
-          <span class="keyword-banner-label">Mots-clés</span>
-          <span class="keyword-pill">Mitmproxy</span>
-          <span class="keyword-pill">Certificat Root CA Enterprise</span>
-          <span class="keyword-pill">SSL/TLS Decryption</span>
-          <span class="keyword-pill">Déploiement GPO Windows</span>
-        </div>
+        <div class="speech-text"><strong>Réponse d'Ingénieur :</strong>
+« Pour surveiller les flux web chiffrés (HTTPS/TLS) :
+1. Un <strong>proxy d'interception contrôlé (Mitmproxy)</strong> est déployé.
+2. Un certificat racine d'entreprise (<strong>Root CA Enterprise</strong>) est déployé sur les postes via GPO.
+3. Le proxy déchiffre les requêtes HTTP POST en clair avant ré-encapsulation TLS vers le Cloud. »</div>
       </div>
     </article>
 
-    <article class="slide-card" data-duration="Q&amp;A">
+    <!-- Q4 -->
+    <article class="slide-card" data-index="19">
       <div class="slide-head">
-        <div class="slide-check-wrapper"><span class="slide-check"></span></div>
-        <span class="slide-number">Q4</span>
-        <div class="slide-title-block"><span class="slide-title">Confidentialité &amp; RGPD (Surveillance Presse-papiers)</span></div>
-        <span class="slide-duration" style="background: rgba(226,96,79,0.15); border-color: var(--accent-red); color: var(--accent-red);">Question Piège</span>
+        <div class="slide-check-btn">✓</div>
+        <span class="slide-num" style="color: var(--accent-red);">Q4</span>
+        <div class="slide-title">Confidentialité & RGPD (Presse-papiers)</div>
+        <span class="slide-duration" style="color: var(--accent-red); background: rgba(239,68,68,0.1);">Question Piège</span>
         <span class="slide-chevron">›</span>
       </div>
       <div class="slide-body">
-        <div class="volet">
-          <span class="volet-tag" style="color: var(--accent-red);">Question du Jury :</span>
-          <div class="speech" style="border-left-color: var(--accent-red);">« La surveillance continue du presse-papiers (pyperclip) ne viole-t-elle pas la vie privée et les données personnelles des collaborateurs (RGPD) ? »</div>
+        <div class="keywords-line">
+          <span class="keyword-tag red">Question Jury: Surveillance Presse-papiers & RGPD</span>
+          <span class="keyword-tag">Minimisation RGPD (Art. 5)</span>
+          <span class="keyword-tag">Analyse Volatile Locale</span>
+          <span class="keyword-tag">Regex Ciblées (IBAN/CB)</span>
         </div>
-        <div class="volet">
-          <span class="volet-tag" style="color: var(--accent-cyan);">Réponse Strategique d'Ingénieur :</span>
-          <div class="speech" style="border-left-color: var(--accent-cyan);">« Nous respectons strictly le principe de minimisation du RGPD (Article 5) :
-1. L'agent analyse le presse-papiers uniquement en mémoire volatile locale et filtre le contenu via des expressions régulières ciblées (IBAN, numéros de cartes bancaires),
-2. Aucun texte à caractère personnel non-sensible (messages privés, emails) n'est jamais stocké ni transmis au serveur central,
-3. Seules les empreintes et fragments d'alertes validées font l'objet d'un journal d'audit restreint à l'équipe SecOps. »</div>
-        </div>
-        <div class="keyword-banner">
-          <span class="keyword-banner-label">Mots-clés</span>
-          <span class="keyword-pill">Minimisation RGPD (Art. 5)</span>
-          <span class="keyword-pill">Analyse Volatile Locale</span>
-          <span class="keyword-pill">Regex Ciblées (IBAN/CB)</span>
-          <span class="keyword-pill">Aucun Stockage Privé</span>
-        </div>
+        <div class="speech-text"><strong>Réponse d'Ingénieur :</strong>
+« Nous respectons le <strong>principe de minimisation du RGPD (Article 5)</strong> :
+1. L'agent analyse le presse-papiers <strong>uniquement en mémoire volatile locale</strong> via des regex ciblées (IBAN, CB).
+2. Aucun texte personnel non-sensible n'est jamais stocké ni transmis au serveur.
+3. Seuls les événements d'alerte confirmés font l'objet d'un journal d'audit restreint SecOps. »</div>
+      </div>
       </div>
     </article>
 
-    <article class="slide-card" data-duration="Q&amp;A">
+    <!-- Q5 -->
+    <article class="slide-card" data-index="20">
       <div class="slide-head">
-        <div class="slide-check-wrapper"><span class="slide-check"></span></div>
-        <span class="slide-number">Q5</span>
-        <div class="slide-title-block"><span class="slide-title">Métriques de Performance &amp; Taux de Faux Positifs</span></div>
-        <span class="slide-duration" style="background: rgba(226,96,79,0.15); border-color: var(--accent-red); color: var(--accent-red);">Question Piège</span>
+        <div class="slide-check-btn">✓</div>
+        <span class="slide-num" style="color: var(--accent-red);">Q5</span>
+        <div class="slide-title">Performances & Impact RAM/CPU sur Endpoint</div>
+        <span class="slide-duration" style="color: var(--accent-red); background: rgba(239,68,68,0.1);">Question Piège</span>
         <span class="slide-chevron">›</span>
       </div>
       <div class="slide-body">
-        <div class="volet">
-          <span class="volet-tag" style="color: var(--accent-red);">Question du Jury :</span>
-          <div class="speech" style="border-left-color: var(--accent-red);">« Quel est le taux de faux positifs de votre système et quel est son impact CPU/RAM sur le poste de travail utilisateur ? »</div>
+        <div class="keywords-line">
+          <span class="keyword-tag red">Question Jury: Consommation ressources agent</span>
+          <span class="keyword-tag">RAM < 45 Mo</span>
+          <span class="keyword-tag">CPU < 2%</span>
+          <span class="keyword-tag">Latence Isolation < 1.5s</span>
         </div>
-        <div class="volet">
-          <span class="volet-tag" style="color: var(--accent-cyan);">Réponse Strategique d'Ingénieur :</span>
-          <div class="speech" style="border-left-color: var(--accent-cyan);">« Lors des tests de validation expérimentale en laboratoire sur 5 scénarios d'exfiltration documentés :
-1. Empreinte mémoire de l'agent Python : moins de 45 Mo de RAM,
-2. Consommation processeur : inférieure à 2% de CPU en tâche de fond (événements asynchrones pywin32/Watchdog),
-3. Temps de réaction de l'Active Response Wazuh : isolation réseau du poste initiée en moins de 1.5 seconde post-détection. »</div>
-        </div>
-        <div class="keyword-banner">
-          <span class="keyword-banner-label">Mots-clés</span>
-          <span class="keyword-pill">RAM Agent &lt; 45 Mo</span>
-          <span class="keyword-pill">CPU &lt; 2%</span>
-          <span class="keyword-pill">Latence Reaction &lt; 1.5s</span>
-          <span class="keyword-pill">5 Scénarios de Test</span>
-        </div>
+        <div class="speech-text"><strong>Réponse d'Ingénieur :</strong>
+« Lors des tests de validation expérimentale en laboratoire :
+1. Empreinte mémoire de l'agent Python : <strong>inférieure à 45 Mo de RAM</strong>.
+2. Consommation processeur : <strong>inférieure à 2% de CPU en tâche de fond</strong> (hooks pywin32/Watchdog).
+3. Temps de réaction de l'Active Response Wazuh : <strong>isolation du poste initiée en moins de 1.5 seconde post-détection</strong>. »</div>
       </div>
     </article>
-  </section>
+  </div>
 
 </main>
 
 <footer>
-  <p>Guide de répétition mobile PFE — Cochez chaque slide après l'avoir répétée.<br>Progression automatiquement enregistrée sur votre téléphone.</p>
+  Guide de Répétition Soutenance PFE — Flèches Clavier ◄ / ► pour naviguer entre slides.
 </footer>
 
 <script>
-(function(){
+(function() {
+  'use strict';
   var cards = Array.prototype.slice.call(document.querySelectorAll('.slide-card'));
-  var storageKey = 'pfe-pitch-progress-v2';
+  var storageKey = 'pfe-pitch-progress-v4';
   var state = {};
+
   try { state = JSON.parse(localStorage.getItem(storageKey)) || {}; } catch(e) { state = {}; }
 
-  var progressLabel = document.getElementById('progressLabel');
-  var progressBarFill = document.getElementById('progressBarFill');
+  var progressFill = document.getElementById('progressFill');
+  var slideBadge = document.getElementById('slideBadge');
+  var btnPrev = document.getElementById('btnPrev');
+  var btnNext = document.getElementById('btnNext');
 
-  // Count target slides (only numeric numbered slides, e.g. 01..16)
-  var totalSlidesCount = cards.filter(function(card){
-    var num = card.querySelector('.slide-number');
-    return num && !num.textContent.trim().startsWith('Q');
-  }).length;
+  var activeIndex = 0;
+  var mainSlidesCount = 16;
 
-  function updateProgress(){
-    var doneCount = 0;
-    cards.forEach(function(card, i){
-      var isDone = !!state[i];
-      var num = card.querySelector('.slide-number');
-      if(isDone && num && !num.textContent.trim().startsWith('Q')) doneCount++;
-    });
-    
-    progressLabel.textContent = doneCount + ' / ' + totalSlidesCount + ' slides';
-    var pct = Math.round((doneCount / totalSlidesCount) * 100);
-    progressBarFill.style.width = pct + '%';
+  function updateProgress() {
+    var count = 0;
+    for (var i = 0; i < mainSlidesCount; i++) {
+      if (state[i]) count++;
+    }
+    var pct = Math.round((count / mainSlidesCount) * 100);
+    progressFill.style.width = pct + '%';
   }
 
-  cards.forEach(function(card, i){
-    var head = card.querySelector('.slide-head');
-    var checkWrapper = card.querySelector('.slide-check-wrapper');
-    var check = card.querySelector('.slide-check');
+  function setActive(index, scroll) {
+    if (index < 0) index = 0;
+    if (index >= cards.length) index = cards.length - 1;
+    activeIndex = index;
 
-    if(state[i]){
-      card.classList.add('checked');
-      if(check) check.textContent = '✓';
-    }
-
-    if(checkWrapper){
-      checkWrapper.addEventListener('click', function(e){
-        e.stopPropagation();
-        state[i] = !state[i];
-        card.classList.toggle('checked', !!state[i]);
-        if(check) check.textContent = state[i] ? '✓' : '';
-        localStorage.setItem(storageKey, JSON.stringify(state));
-        updateProgress();
-      });
-    }
-
-    head.addEventListener('click', function(e){
-      card.classList.toggle('open');
+    cards.forEach(function(card, i) {
+      if (i === index) {
+        card.classList.add('shadowing-active');
+        card.classList.add('open');
+      } else {
+        card.classList.remove('shadowing-active');
+      }
     });
+
+    var card = cards[index];
+    var num = card.querySelector('.slide-num').textContent.trim();
+    slideBadge.textContent = 'Slide ' + num + ' / ' + cards.length;
+
+    if (scroll) {
+      card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }
+
+  cards.forEach(function(card, i) {
+    var head = card.querySelector('.slide-head');
+    var checkBtn = card.querySelector('.slide-check-btn');
+
+    if (state[i]) card.classList.add('checked');
+
+    checkBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      state[i] = !state[i];
+      card.classList.toggle('checked', !!state[i]);
+      localStorage.setItem(storageKey, JSON.stringify(state));
+      updateProgress();
+    });
+
+    head.addEventListener('click', function() {
+      if (activeIndex !== i) {
+        setActive(i, false);
+      } else {
+        card.classList.toggle('open');
+      }
+    });
+  });
+
+  btnPrev.addEventListener('click', function() { setActive(activeIndex - 1, true); });
+  btnNext.addEventListener('click', function() { setActive(activeIndex + 1, true); });
+
+  document.addEventListener('keydown', function(e) {
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+    if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+      e.preventDefault();
+      setActive(activeIndex + 1, true);
+    } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+      e.preventDefault();
+      setActive(activeIndex - 1, true);
+    } else if (e.key === 'Enter') {
+      var card = cards[activeIndex];
+      state[activeIndex] = !state[activeIndex];
+      card.classList.toggle('checked', !!state[activeIndex]);
+      localStorage.setItem(storageKey, JSON.stringify(state));
+      updateProgress();
+    }
   });
 
   updateProgress();
+  setActive(0, false);
 
-  // Rehearsal timer
+  // Timer logic
   var timerValue = document.getElementById('timerValue');
   var timerToggle = document.getElementById('timerToggle');
   var timerReset = document.getElementById('timerReset');
-  var elapsed = 0;
-  var running = false;
-  var intervalId = null;
+  var elapsed = 0, running = false, intervalId = null;
 
-  function formatTime(sec){
-    var m = Math.floor(sec / 60);
-    var s = sec % 60;
-    return (m < 10 ? '0' : '') + m + ':' + (s < 10 ? '0' : '') + s;
+  function fmtTime(s) {
+    var m = Math.floor(s / 60), sec = s % 60;
+    return (m < 10 ? '0' : '') + m + ':' + (sec < 10 ? '0' : '') + sec;
   }
 
-  function tick(){
-    elapsed++;
-    timerValue.textContent = formatTime(elapsed);
-  }
-
-  timerToggle.addEventListener('click', function(){
+  timerToggle.addEventListener('click', function() {
     running = !running;
-    if(running){
-      intervalId = setInterval(tick, 1000);
+    if (running) {
+      intervalId = setInterval(function() { elapsed++; timerValue.textContent = fmtTime(elapsed); }, 1000);
       timerToggle.textContent = '⏸ Pause';
     } else {
       clearInterval(intervalId);
-      timerToggle.textContent = '▶ Reprendre';
+      timerToggle.textContent = '▶ Démarrer';
     }
   });
 
-  timerReset.addEventListener('click', function(){
+  timerReset.addEventListener('click', function() {
     clearInterval(intervalId);
-    running = false;
-    elapsed = 0;
+    running = false; elapsed = 0;
     timerValue.textContent = '00:00';
     timerToggle.textContent = '▶ Démarrer';
   });
 
-  // Section nav active state on scroll
-  var navLinks = Array.prototype.slice.call(document.querySelectorAll('.section-nav a'));
-  var sections = navLinks.map(function(link){
-    return document.querySelector(link.getAttribute('href'));
+  // Nav tabs highlight on scroll
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('.nav-tab'));
+  var targets = tabs.map(function(t) { return document.querySelector(t.getAttribute('href')); });
+
+  window.addEventListener('scroll', function() {
+    var pos = window.scrollY + 100;
+    var activeIdx = 0;
+    targets.forEach(function(target, idx) {
+      if (target && target.offsetTop <= pos) activeIdx = idx;
+    });
+    tabs.forEach(function(t, idx) {
+      t.classList.toggle('active', idx === activeIdx);
+    });
   });
-
-  function updateNav(){
-    var scrollPos = window.scrollY + 130;
-    var activeIndex = 0;
-    sections.forEach(function(sec, i){
-      if(sec && sec.offsetTop <= scrollPos) activeIndex = i;
-    });
-    navLinks.forEach(function(link, i){
-      var isActive = (i === activeIndex);
-      link.classList.toggle('active', isActive);
-      if (isActive) {
-        link.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-      }
-    });
-  }
-
-  window.addEventListener('scroll', updateNav);
-  updateNav();
 })();
 </script>
-
 </body>
 </html>

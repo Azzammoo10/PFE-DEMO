@@ -123,6 +123,7 @@ export default function PlatformsSlide({ n, total }: SlideProps) {
       title={subStep === 1 ? "Conception des Plateformes Opérationnelles" : ""}
       n={n}
       total={total}
+      subStep={subStep}
       dense
       keywords={['LabelGuard (Autolabeling IA)', 'DLP Monitoring Tool', 'Analyse Conflits Règles', 'OneTrust Tracker (RGPD)']}
     >
@@ -134,26 +135,26 @@ export default function PlatformsSlide({ n, total }: SlideProps) {
           alignItems: 'center',
           justifyContent: 'flex-start',
           width: '100%',
-          marginBottom: '0.4vw',
+          marginBottom: '0.2vw',
           zIndex: 20
         }}>
           {/* Active Sub-step Badge / Subtitle Banner */}
           <div style={{
             display: 'flex',
             alignItems: 'center',
-            gap: '0.6vw',
+            gap: '0.5vw',
             background: '#ffffff',
-            border: '2px solid #00008f',
-            borderRadius: '24px',
-            padding: '0.45vw 1.2vw',
-            fontSize: '1.05vw',
+            border: '1.5px solid #00008f',
+            borderRadius: '20px',
+            padding: '0.25vw 0.85vw',
+            fontSize: '0.88vw',
             fontWeight: 900,
             color: '#0f172a',
-            boxShadow: '0 4px 14px rgba(0, 0, 143, 0.12)'
+            boxShadow: '0 2px 10px rgba(0, 0, 143, 0.1)'
           }}>
-            {subStep === 1 && <Tag style={{ width: '1.2vw', height: '1.2vw', color: '#00008f' }} />}
-            {subStep === 2 && <Activity style={{ width: '1.2vw', height: '1.2vw', color: '#0b66d5' }} />}
-            {subStep === 3 && <ShieldCheck style={{ width: '1.2vw', height: '1.2vw', color: '#059669' }} />}
+            {subStep === 1 && <Tag style={{ width: '1vw', height: '1vw', color: '#00008f' }} />}
+            {subStep === 2 && <Activity style={{ width: '1vw', height: '1vw', color: '#0b66d5' }} />}
+            {subStep === 3 && <ShieldCheck style={{ width: '1vw', height: '1vw', color: '#059669' }} />}
             <span style={{ color: subStep === 1 ? '#00008f' : (subStep === 2 ? '#0b66d5' : '#059669') }}>
               {getSubTitle()}
             </span>
